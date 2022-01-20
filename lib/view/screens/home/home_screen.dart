@@ -1,22 +1,24 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/auth.dart';
+import 'package:samudra_bilash_hotel/controller/auth_controller.dart';
 import 'package:samudra_bilash_hotel/controller/paging_controller.dart';
 import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
-import 'package:samudra_bilash_hotel/data/database_helper.dart';
 import 'package:samudra_bilash_hotel/view/screens/dashboard/dashboard.dart';
 import 'package:samudra_bilash_hotel/view/screens/floor/floor.dart';
+
+import 'package:samudra_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:samudra_bilash_hotel/view/screens/revenue/revenue.dart';
 
 class HomeScreen extends StatelessWidget {
   PagingController pageController = Get.put(PagingController());
   SearchroomController searchController = Get.put(SearchroomController());
+  final controller = Get.put(AuthController());
 
-  @override
   @override
   Widget build(BuildContext context) {
     Get.find<PagingController>().changePage('dashboard');
-    // TODO: implement build
     return new Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -144,15 +146,23 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.logout),
               title: const Text('Log Out'),
-              /*  onTap: () async {
-                var db = new DatabaseHelper();
-              await  db.deleteUsers();
-               var isLoggedIn = await db.isLoggedIn();
-               if(!isLoggedIn){
-                   Navigator.of(context).pushReplacementNamed("/login");
-               }
-              
-              }, */
+              onTap: () async {
+                //  var db = new DatabaseHelper();
+                //   await db.deleteUsers();
+                //   var isLoggedIn = await db.isLoggedIn();
+                //   if (!isLoggedIn) {
+                //     Get.to(LoginPage());
+                //   }
+                bool success = await controller.logout();
+                if (success) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                      (route) => false);
+                }
+              },
             ),
           ],
         ),

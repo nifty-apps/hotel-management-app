@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps, non_constant_identifier_names
+
 import 'package:get/get.dart';
 import 'package:samudra_bilash_hotel/data/rest_ds.dart';
 
@@ -62,6 +64,35 @@ class SearchroomController extends GetxController implements GetxService {
         forthFloor.add(allRooms[i]);
       }
     }
+    update();
+  }
+
+  List<Data> available_room = [];
+
+  Future availableRooms(String startDate, String endDate) async {
+    print('enter the method of contorller----------');
+    Response response = await RestDatasource.searchRooms(startDate, endDate);
+    print(response.status.code);
+    print(response.body);
+    // ignore: unrelated_type_equality_checks
+    if (response.status.code == 200) {
+      available_room = [];
+      print(
+          'response.body dfsfaasdffaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaseeeeeeeeeeeeeeeeeeeeeeeeee');
+      print("available room in hotel : ${response.body} ");
+
+      available_room.addAll(Rooms.fromJson(response.body).data);
+      // allRooms.forEach(
+      //   (element) {
+      //     print("${element.roomNo} - ${element.isBooked}");
+      //   },
+      // );
+      print("available_rooms in this hotel : ${available_room}");
+    } else {
+      print('no data found');
+    }
+    print("all available rooms: ${available_room} ");
+
     update();
   }
 }

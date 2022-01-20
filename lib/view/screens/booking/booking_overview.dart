@@ -1,8 +1,12 @@
+// ignore_for_file: unnecessary_statements
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:samudra_bilash_hotel/controller/booking_controller.dart';
 import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
 import 'package:samudra_bilash_hotel/model/rooms_model.dart';
+import 'package:samudra_bilash_hotel/view/screens/dashboard/dashboard.dart';
+import 'package:samudra_bilash_hotel/view/screens/home/home_screen.dart';
 
 class BookingOverView extends StatefulWidget {
   final Data room;
@@ -14,6 +18,8 @@ class BookingOverView extends StatefulWidget {
 
 class _BookingOverViewState extends State<BookingOverView> {
   String bookingStatus = '';
+  final pagecontroller = Get.put(PageController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,15 +166,15 @@ class _BookingOverViewState extends State<BookingOverView> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                child: Text(
-                                  'Advance pay: ${bookController.advanceRoomFare}',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                              // Container(
+                              //   child: Text(
+                              //     'Advance pay: ${bookController.advanceRoomFare}',
+                              //     style: TextStyle(
+                              //         color: Colors.black,
+                              //         fontSize: 16,
+                              //         fontWeight: FontWeight.bold),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -248,17 +254,33 @@ class _BookingOverViewState extends State<BookingOverView> {
                       : Container(
                           child: Center(
                             child: InkWell(
-                              onTap: () {
-                                Get.find<BookingController>()
-                                    .bookRoom()
-                                    .then((value) {
-                                  print(
-                                      "--------------------Loading------------------");
-                                  Get.find<SearchroomController>()
-                                      .getAllRooms();
-                                });
-                                Navigator.popUntil(
-                                    context, ModalRoute.withName("/home"));
+                              onTap: () async {
+                                Get.find<BookingController>().bookRoom().then(
+                                  (value) {
+                                    print(
+                                        "--------------------Loading------------------");
+                                    Get.find<SearchroomController>()
+                                        .getAllRooms();
+                                  },
+                                );
+                                Get.snackbar(
+                                  "Booking",
+                                  "Your booking confirm successful",
+                                );
+
+                                // GetBuilder<BookingController>(
+                                //   builder: (controller) {
+                                //     return Get.find().SnackBar(
+                                //         content:
+                                //             "Booking confirmed.Your Name ${controller.name}");
+                                //   },
+                                // );
+
+                                // Navigator.popUntil(
+                                //     context, ModalRoute.withName("/home"));
+                                //Get.to(Dashboard());
+
+                                Get.back();
                               },
                               child: Container(
                                 height: 40,

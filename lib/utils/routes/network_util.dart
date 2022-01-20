@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -38,7 +40,6 @@ class NetworkUtil {
       final String res = response.body;
       final int statusCode = response.statusCode;
 
-      // ignore: unnecessary_null_comparison
       if (statusCode < 200 || statusCode > 400 /* || json == null */) {
         throw new Exception("Error while fetching data");
       }
@@ -78,23 +79,26 @@ class NetworkUtil {
       "is_paid": _is_paid
     }; */
     http.Response _response = await http.post(
-        Uri.parse(AppConstants.BASE_URL + AppConstants.ROOM_BOOK),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: json.encode(body));
+      Uri.parse(AppConstants.BASE_URL + AppConstants.ROOM_BOOK),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(body),
+    );
     Response response = handleResponse(_response);
     print(response);
     print(response.body);
     return response;
   }
 
+//
   Future<Response> getData(
     String uri,
   ) async {
     print('ente the get data file----------');
+    print(AppConstants.BASE_URL + uri);
     try {
       print('entry to the try method');
       http.Response _response = await http.get(
@@ -104,7 +108,9 @@ class NetworkUtil {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-      ).timeout(Duration(seconds: timeoutInSeconds));
+      ).timeout(
+        Duration(seconds: timeoutInSeconds),
+      );
       Response response = handleResponse(_response);
       return response;
     } catch (e) {
@@ -125,7 +131,11 @@ class NetworkUtil {
     dynamic _body;
     try {
       _body = jsonDecode(response.body);
-    } catch (e) {}
+    } catch (e) {
+      print(
+        e.toString(),
+      );
+    }
     Response _response = Response(
       body: _body != null ? _body : response.body,
       bodyString: response.body.toString(),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:samudra_bilash_hotel/view/screens/floor/single_floor.dart';
 
 class Floors extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
@@ -19,7 +18,7 @@ class Floors extends StatelessWidget {
         SingleFloor(
           floorNumber: '3rd Floor',
         ),
-         SingleFloor(
+        SingleFloor(
           floorNumber: '4th Floor',
         ),
       ],

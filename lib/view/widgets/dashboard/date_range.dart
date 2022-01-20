@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:get/get.dart';
 import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -23,8 +21,12 @@ class _DateRangeState extends State<DateRange> {
     _endDate = DateFormat('yyyy-MM-dd')
         .format(today.add(Duration(days: 3)))
         .toString();
-    _controller.selectedRange =
-        PickerDateRange(today, today.add(Duration(days: 3)));
+    _controller.selectedRange = PickerDateRange(
+      today,
+      today.add(
+        Duration(days: 3),
+      ),
+    );
     super.initState();
   }
 
@@ -130,6 +132,6 @@ class _DateRangeState extends State<DateRange> {
           .toString();
     });
     Get.find<SearchroomController>().changeToSelectedDate(_startDate, _endDate);
-    print(_startDate+'-'+_endDate);
+    print(_startDate + '-' + _endDate);
   }
 }

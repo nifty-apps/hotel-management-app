@@ -1,14 +1,15 @@
 /// errors : [{"code":"l_name","message":"The last name field is required."},{"code":"password","message":"The password field is required."}]
 
+// ignore_for_file: unnecessary_null_comparison
+
 class ErrorResponse {
- late List<Errors> _errors;
+  late List<Errors> _errors;
 
   List<Errors> get errors => _errors;
 
-  ErrorResponse({
-      required List<Errors> errors}){
+  ErrorResponse({required List<Errors> errors}) {
     _errors = errors;
-}
+  }
 
   ErrorResponse.fromJson(dynamic json) {
     if (json["errors"] != null) {
@@ -26,25 +27,22 @@ class ErrorResponse {
     }
     return map;
   }
-
 }
 
 /// code : "l_name"
 /// message : "The last name field is required."
 
 class Errors {
-late  String _code;
-late  String _message;
+  late String _code;
+  late String _message;
 
   String get code => _code;
   String get message => _message;
 
-  Errors({
-      required String code, 
-      required String message}){
+  Errors({required String code, required String message}) {
     _code = code;
     _message = message;
-}
+  }
 
   Errors.fromJson(dynamic json) {
     _code = json["code"];
@@ -57,5 +55,4 @@ late  String _message;
     map["message"] = _message;
     return map;
   }
-
 }

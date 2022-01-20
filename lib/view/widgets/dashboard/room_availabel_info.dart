@@ -19,7 +19,6 @@ class _RoomAvailableInfoState extends State<RoomAvailableInfo> {
     ];
     List<String> roomsNo = ['4', '8', '10', '5', '12'];
     return Container(
-      
       height: 270,
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -27,7 +26,7 @@ class _RoomAvailableInfoState extends State<RoomAvailableInfo> {
       child: ListView.builder(
         itemCount: rooms.length,
         shrinkWrap: true,
-        physics:NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: Card(

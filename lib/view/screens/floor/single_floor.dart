@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/controller/paging_controller.dart';
 import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
 import 'package:samudra_bilash_hotel/model/rooms_model.dart';
 import 'package:samudra_bilash_hotel/view/screens/booking/booking.dart';
@@ -69,7 +68,6 @@ class _SingleFloorState extends State<SingleFloor> {
               } else {
                 currentFloor = sercController.forthFloor;
               }
-
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
