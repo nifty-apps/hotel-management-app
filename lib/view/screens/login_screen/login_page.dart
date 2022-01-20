@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/controller/auth_controller.dart';
-import 'package:samudra_bilash_hotel/view/screens/home/home_screen.dart';
+import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
+import 'package:somudro_bilash_hotel/view/screens/home/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: EdgeInsets.only(bottom: 10),
                         child: Text(
-                          "SAMUDRO BILASH",
+                          "SOMUDRO BILASH",
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/data/rest_ds.dart';
+import 'package:somudro_bilash_hotel/data/rest_ds.dart';
 
 class BookingController extends GetxController implements GetxService {
   String name = "Mohammad Ali";

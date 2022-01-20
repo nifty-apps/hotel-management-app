@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:samudra_bilash_hotel/view/screens/floor/single_floor.dart';
+import 'package:somudro_bilash_hotel/view/screens/floor/single_floor.dart';
 
 class Floors extends StatelessWidget {
   @override

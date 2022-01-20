@@ -1,12 +1,8 @@
-// ignore_for_file: unnecessary_statements
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/controller/booking_controller.dart';
-import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
-import 'package:samudra_bilash_hotel/model/rooms_model.dart';
-import 'package:samudra_bilash_hotel/view/screens/dashboard/dashboard.dart';
-import 'package:samudra_bilash_hotel/view/screens/home/home_screen.dart';
+import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 
 class BookingOverView extends StatefulWidget {
   final Data room;

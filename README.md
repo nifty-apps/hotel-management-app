@@ -1,4 +1,4 @@
-# samudra_bilash_hotel
+# somudro_bilash_hotel
 
 A new Flutter project.
 

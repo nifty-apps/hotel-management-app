@@ -1,11 +1,9 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/controller/paging_controller.dart';
-import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
-import 'package:samudra_bilash_hotel/view/screens/home/home_screen.dart';
-import 'package:samudra_bilash_hotel/view/screens/login_screen/login_page.dart';
+import 'package:somudro_bilash_hotel/controller/paging_controller.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/view/screens/home/home_screen.dart';
+import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

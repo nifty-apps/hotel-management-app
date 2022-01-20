@@ -3,10 +3,10 @@
 import 'dart:async';
 
 import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:samudra_bilash_hotel/model/login_response_model.dart';
-import 'package:samudra_bilash_hotel/model/user.dart';
-import 'package:samudra_bilash_hotel/util/app_constants.dart';
-import 'package:samudra_bilash_hotel/utils/routes/network_util.dart';
+import 'package:somudro_bilash_hotel/model/login_response_model.dart';
+import 'package:somudro_bilash_hotel/model/user.dart';
+import 'package:somudro_bilash_hotel/util/app_constants.dart';
+import 'package:somudro_bilash_hotel/utils/routes/network_util.dart';
 
 class RestDatasource {
   static NetworkUtil _netUtil = new NetworkUtil();

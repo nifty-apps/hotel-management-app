@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:samudra_bilash_hotel/controller/booking_controller.dart';
-import 'package:samudra_bilash_hotel/model/rooms_model.dart';
-import 'package:samudra_bilash_hotel/view/screens/booking/booking_overview.dart';
+import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
+import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 
 class BookingRoom extends StatefulWidget {
   final Data room;

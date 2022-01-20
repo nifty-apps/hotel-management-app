@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.samudra_bilash_hotel">
+    package="com.somudrobilash">
    <application
-        android:label="Samudra Bilash Hotel"
+        android:label="Somudra Bilash"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

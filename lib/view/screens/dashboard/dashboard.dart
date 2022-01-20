@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
-import 'package:samudra_bilash_hotel/view/screens/search_room/search_rooms.dart';
-import 'package:samudra_bilash_hotel/view/widgets/dashboard/date_range.dart';
-import 'package:samudra_bilash_hotel/view/widgets/dashboard/room_availabel_info.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/view/screens/search_room/search_rooms.dart';
+import 'package:somudro_bilash_hotel/view/widgets/dashboard/date_range.dart';
+import 'package:somudro_bilash_hotel/view/widgets/dashboard/room_availabel_info.dart';
 import 'package:get/get.dart';
 
 class Dashboard extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:samudra_bilash_hotel/view/screens/home/home_screen.dart';
-import 'package:samudra_bilash_hotel/view/screens/login_screen/login_page.dart';
+import 'package:somudro_bilash_hotel/view/screens/home/home_screen.dart';
+import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 
 @override
 // onAuthStateChanged(AuthState state) {

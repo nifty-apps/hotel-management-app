@@ -1,9 +1,9 @@
 // ignore_for_file: unnecessary_brace_in_string_interps, non_constant_identifier_names
 
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/data/rest_ds.dart';
+import 'package:somudro_bilash_hotel/data/rest_ds.dart';
 
-import 'package:samudra_bilash_hotel/model/rooms_model.dart';
+import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 import 'package:intl/intl.dart';
 
 class SearchroomController extends GetxController implements GetxService {

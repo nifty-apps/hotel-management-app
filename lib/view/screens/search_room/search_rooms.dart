@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:samudra_bilash_hotel/controller/booking_controller.dart';
-import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
-import 'package:samudra_bilash_hotel/view/screens/booking/booking.dart';
+import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/view/screens/booking/booking.dart';
 
 class SearchRoomsScreen extends StatefulWidget {
   const SearchRoomsScreen({Key? key}) : super(key: key);

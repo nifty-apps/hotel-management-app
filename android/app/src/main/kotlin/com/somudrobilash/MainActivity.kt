@@ -1,4 +1,4 @@
-package com.example.samudra_bilash_hotel
+package com.somudrobilash
 
 import io.flutter.embedding.android.FlutterActivity
 

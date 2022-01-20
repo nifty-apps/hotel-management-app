@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:samudra_bilash_hotel/controller/auth_controller.dart';
-import 'package:samudra_bilash_hotel/controller/paging_controller.dart';
-import 'package:samudra_bilash_hotel/controller/search_room_controller.dart';
-import 'package:samudra_bilash_hotel/view/screens/dashboard/dashboard.dart';
-import 'package:samudra_bilash_hotel/view/screens/floor/floor.dart';
+import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
+import 'package:somudro_bilash_hotel/controller/paging_controller.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/view/screens/dashboard/dashboard.dart';
+import 'package:somudro_bilash_hotel/view/screens/floor/floor.dart';
 
-import 'package:samudra_bilash_hotel/view/screens/login_screen/login_page.dart';
-import 'package:samudra_bilash_hotel/view/screens/revenue/revenue.dart';
+import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
+import 'package:somudro_bilash_hotel/view/screens/revenue/revenue.dart';
 
 class HomeScreen extends StatelessWidget {
   PagingController pageController = Get.put(PagingController());
