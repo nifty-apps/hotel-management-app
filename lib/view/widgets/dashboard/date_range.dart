@@ -34,14 +34,7 @@ class _DateRangeState extends State<DateRange> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        /*  Container(
-            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-            height: 50,
-            child: Text('StartRangeDate:' '$_startDate')),
-        Container(height: 50, child: Text('EndRangeDate:' '$_endDate')), */
         Container(
-          // height: 300,
-          // color:Colors.yellow,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: SfDateRangePicker(
@@ -53,75 +46,7 @@ class _DateRangeState extends State<DateRange> {
         )
       ],
     );
-    /* Container(
-      width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Text('From',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      _selectDate(context, 'from', fromSelectedDate);
-                    },
-                    child: Text(
-                        "${fromSelectedDate.day}/${fromSelectedDate.month}/${fromSelectedDate.year}"),
-                  ),
-                  // Text("${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: Text('To',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      _selectDate(context, 'to', toSelectedDate);
-                    },
-                    child: Text(
-                        "${toSelectedDate.day}/${toSelectedDate.month}/${toSelectedDate.year}"),
-                  ),
-                  // Text("${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ); */
   }
-
-  /* _selectDate(BuildContext context, String from, DateTime date) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: date,
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
-    );
-    if (selected != null && selected != date)
-      setState(() {
-        if (from == 'from') {
-          fromSelectedDate = selected;
-          Get.find<SearchroomController>().changeFromSelectedDate(selected);
-        } else {
-          toSelectedDate = selected;
-          Get.find<SearchroomController>().changeToSelectedDate(selected);
-        }
-        // selectedDate = selected;
-      });
-  } */
 
   void selectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -131,7 +56,6 @@ class _DateRangeState extends State<DateRange> {
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
     });
-    Get.find<SearchroomController>().changeToSelectedDate(_startDate, _endDate);
-    print(_startDate + '-' + _endDate);
+    Get.find<SearchRoomController>().changeToSelectedDate(_startDate, _endDate);
   }
 }

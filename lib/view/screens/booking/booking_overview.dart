@@ -4,55 +4,27 @@ import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
 import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
 import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 
-class BookingOverView extends StatefulWidget {
+class BookingOverview extends StatefulWidget {
   final Data room;
-  BookingOverView({required this.room});
+  BookingOverview({required this.room});
 
   @override
-  _BookingOverViewState createState() => _BookingOverViewState();
+  _BookingOverviewState createState() => _BookingOverviewState();
 }
 
-class _BookingOverViewState extends State<BookingOverView> {
+class _BookingOverviewState extends State<BookingOverview> {
   String bookingStatus = '';
-  final pagecontroller = Get.put(PageController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor:
-            widget.room.isBooked != 0 ? Colors.green : Colors.grey[300],
-        title: Container(
-          width: MediaQuery.of(context).size.width,
-          // color: Colors.red,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Text(
-                  widget.room.roomNo.toString(),
-                  style: TextStyle(
-                      color: widget.room.isBooked != 0
-                          ? Colors.white
-                          : Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                child: Text(
-                  widget.room.name,
-                  style: TextStyle(
-                      color: widget.room.isBooked != 0
-                          ? Colors.white
-                          : Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+        title: Text(
+          '${widget.room.roomNo} - ${widget.room.name}',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -253,29 +225,14 @@ class _BookingOverViewState extends State<BookingOverView> {
                               onTap: () async {
                                 Get.find<BookingController>().bookRoom().then(
                                   (value) {
-                                    print(
-                                        "--------------------Loading------------------");
-                                    Get.find<SearchroomController>()
+                                    Get.find<SearchRoomController>()
                                         .getAllRooms();
                                   },
                                 );
                                 Get.snackbar(
-                                  "Booking",
-                                  "Your booking confirm successful",
+                                  'Booking',
+                                  'Your booking confirm successful',
                                 );
-
-                                // GetBuilder<BookingController>(
-                                //   builder: (controller) {
-                                //     return Get.find().SnackBar(
-                                //         content:
-                                //             "Booking confirmed.Your Name ${controller.name}");
-                                //   },
-                                // );
-
-                                // Navigator.popUntil(
-                                //     context, ModalRoute.withName("/home"));
-                                //Get.to(Dashboard());
-
                                 Get.back();
                               },
                               child: Container(

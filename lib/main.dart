@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/paging_controller.dart';
-import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
-import 'package:somudro_bilash_hotel/view/screens/home/home_screen.dart';
+import 'package:somudro_bilash_hotel/helper/get_di.dart' as di;
+import 'package:somudro_bilash_hotel/view/screens/dashboard/dashboard_screen.dart';
 import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  Get.lazyPut(() => PagingController());
-  Get.lazyPut(() => SearchroomController());
+void main() async {
+  await di.init();
   runApp(MyApp());
 }
 
@@ -19,27 +17,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+      theme: ThemeData(primarySwatch: Colors.red),
       home: FutureBuilder(
         future: SharedPreferences.getInstance(),
         builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(
-                color: Colors.blueAccent,
-              ),
+              child: CircularProgressIndicator(),
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             final pref = snapshot.data;
             print(
-              pref!.getString("Token"),
+              pref!.getString('Token'),
             );
-            if (pref.getString("Token") == null) {
+            if (pref.getString('Token') == null) {
               return LoginPage();
             } else {
-              return HomeScreen();
+              return DashboardScreen();
             }
           }
           return Center(

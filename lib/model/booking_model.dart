@@ -24,15 +24,15 @@ class BookingForm {
   );
 
   BookingForm.map(dynamic obj) {
-    this._name = obj["name"];
-    this._phone = obj["phone"];
-    this._address = obj["address"];
-    this._room_id = obj["room_id"];
-    this._check_in_date = obj["check_in_date"];
-    this._check_out_date = obj["check_out_date"];
-    this._booking_status = obj["booking"];
-    this._paid_ammount = obj["paid_ammount"];
-    this._room_fare = obj["room_fare"];
+    this._name = obj['name'];
+    this._phone = obj['phone'];
+    this._address = obj['address'];
+    this._room_id = obj['room_id'];
+    this._check_in_date = obj['check_in_date'];
+    this._check_out_date = obj['check_out_date'];
+    this._booking_status = obj['booking'];
+    this._paid_ammount = obj['paid_ammount'];
+    this._room_fare = obj['room_fare'];
   }
 
   String get name => _name;
@@ -47,16 +47,16 @@ class BookingForm {
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map["name"] = _name;
-    map["phone"] = _phone;
-    map["address"] = _address;
-    map["room_id"] = _room_id;
-    map["check_in_date"] = _check_in_date;
-    map["check_out_date"] = _check_out_date;
-    map["booking_status"] = _booking_status;
-    map["paid_ammount"] = _paid_ammount;
+    map['name'] = _name;
+    map['phone'] = _phone;
+    map['address'] = _address;
+    map['room_id'] = _room_id;
+    map['check_in_date'] = _check_in_date;
+    map['check_out_date'] = _check_out_date;
+    map['booking_status'] = _booking_status;
+    map['paid_ammount'] = _paid_ammount;
 
-    map["room_fare"] = _room_fare;
+    map['room_fare'] = _room_fare;
 
     return map;
   }

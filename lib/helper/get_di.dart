@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/paging_controller.dart';
+import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
+import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
+import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
 
-Future<String> init() async {
-  // Controller
-  Get.lazyPut(() => PagingController());
-
-  // Retrieving localized data
-  return 'hira';
+Future<void> init() async {
+  Get.lazyPut(() => SearchRoomController());
+  Get.lazyPut(() => AuthController());
+  Get.lazyPut(() => BookingController());
+  Get.lazyPut(() => RoomTypeController());
 }

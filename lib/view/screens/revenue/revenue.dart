@@ -8,16 +8,11 @@ class RevenuePage extends StatefulWidget {
 class _RevenuePageState extends State<RevenuePage> {
   @override
   Widget build(BuildContext context) {
-    String comma = "'";
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.blue,
         title: Center(
-          child: Text(
-            'Today' + comma + 's' + ' Revenue',
-            style: TextStyle(color: Colors.white),
-          ),
+          child: Text('Revenue'),
         ),
       ),
       body: Container(
@@ -31,9 +26,10 @@ class _RevenuePageState extends State<RevenuePage> {
                 child: Text(
                   'Total Revenue',
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
@@ -44,14 +40,13 @@ class _RevenuePageState extends State<RevenuePage> {
                 child: Text(
                   '32000 TAKA',
                   style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,),
+                    color: Colors.blueGrey,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
-            
-
           ],
         ),
       ),

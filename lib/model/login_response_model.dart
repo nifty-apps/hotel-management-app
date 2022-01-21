@@ -19,14 +19,14 @@ class ResponseLogin {
     required this.message,
   });
   factory ResponseLogin.fromJson(Map<String, dynamic> json) => ResponseLogin(
-        success: json["success"],
-        token: json["token"],
-        message: json["message"],
+        success: json['success'],
+        token: json['token'],
+        message: json['message'],
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "token": token,
-        "message": message,
+        'success': success,
+        'token': token,
+        'message': message,
       };
 }

@@ -1,4 +1,4 @@
-/// errors : [{"code":"l_name","message":"The last name field is required."},{"code":"password","message":"The password field is required."}]
+/// errors : [{'code':'l_name','message':'The last name field is required.'},{'code':'password','message':'The password field is required.'}]
 
 // ignore_for_file: unnecessary_null_comparison
 
@@ -12,9 +12,9 @@ class ErrorResponse {
   }
 
   ErrorResponse.fromJson(dynamic json) {
-    if (json["errors"] != null) {
+    if (json['errors'] != null) {
       _errors = [];
-      json["errors"].forEach((v) {
+      json['errors'].forEach((v) {
         _errors.add(Errors.fromJson(v));
       });
     }
@@ -23,14 +23,14 @@ class ErrorResponse {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     if (_errors != null) {
-      map["errors"] = _errors.map((v) => v.toJson()).toList();
+      map['errors'] = _errors.map((v) => v.toJson()).toList();
     }
     return map;
   }
 }
 
-/// code : "l_name"
-/// message : "The last name field is required."
+/// code : 'l_name'
+/// message : 'The last name field is required.'
 
 class Errors {
   late String _code;
@@ -45,14 +45,14 @@ class Errors {
   }
 
   Errors.fromJson(dynamic json) {
-    _code = json["code"];
-    _message = json["message"];
+    _code = json['code'];
+    _message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["code"] = _code;
-    map["message"] = _message;
+    map['code'] = _code;
+    map['message'] = _message;
     return map;
   }
 }
