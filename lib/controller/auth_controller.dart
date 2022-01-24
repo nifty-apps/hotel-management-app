@@ -5,7 +5,10 @@ import 'package:somudro_bilash_hotel/util/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
+  bool isLoading = false;
   Future<bool> login(String email, password) async {
+    isLoading = true;
+    update();
     try {
       http.Response response = await http.post(
           Uri.parse(AppConstants.BASE_URL + AppConstants.LOGIN_URL),
@@ -21,6 +24,7 @@ class AuthController extends GetxController {
         final SharedPreferences preferences =
             await SharedPreferences.getInstance();
         preferences.setString('Token', data['token']);
+        isLoading = false;
         update();
         return true;
       } else {

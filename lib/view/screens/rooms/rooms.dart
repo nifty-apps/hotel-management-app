@@ -14,7 +14,7 @@ class _RoomsScreenState extends State<RoomsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -23,6 +23,9 @@ class _RoomsScreenState extends State<RoomsScreen> {
           bottom: TabBar(
             isScrollable: true,
             tabs: [
+              Tab(
+                text: 'All',
+              ),
               Tab(
                 text: 'Floor 1',
               ),
@@ -40,6 +43,27 @@ class _RoomsScreenState extends State<RoomsScreen> {
         ),
         body: TabBarView(
           children: [
+            GetBuilder<SearchRoomController>(
+              builder: (searchController) {
+                return GridView.builder(
+                  padding: EdgeInsets.all(20),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 4 / 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                  ),
+                  itemCount: searchController.availableRoom.length,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return RoomTile(
+                      room: searchController.availableRoom[index],
+                      fromDate: searchController.fromSelectedDate,
+                      toDate: searchController.toSelectedDate,
+                    );
+                  },
+                );
+              },
+            ),
             GetBuilder<SearchRoomController>(
               builder: (searchController) {
                 return GridView.builder(

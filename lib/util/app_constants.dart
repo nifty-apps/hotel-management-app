@@ -6,4 +6,5 @@ class AppConstants {
   static const TOTAL_ROOM = '/api/v1/admin/room/list';
   static const ROOM_BOOK = '/api/v1/admin/room/booking/store';
   static const SEARCH_ROOM = '/api/v1/admin/room/searching';
+  static const collectionsReport = "/api/v1/admin/report/collection";
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
+import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
 import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/view/screens/changePassword/changePassword_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/revenue/revenue.dart';
 import 'package:somudro_bilash_hotel/view/widgets/dashboard/date_range.dart';
@@ -21,13 +24,15 @@ class DashboardScreen extends StatelessWidget {
             onSelected: (value) async {
               switch (value) {
                 case 0:
+                  Get.to(() => ChangePassPage());
                   break;
                 case 1:
+                  Get.find<ReportController>().getReports();
                   Get.to(() => RevenuePage());
+
                   break;
                 case 2:
-                  bool success = await Get.find<AuthController>().logout();
-                  if (success) Get.offAll(LoginPage());
+                  logoutDialog(context);
               }
             },
             icon: Icon(Icons.more_vert),
@@ -114,8 +119,10 @@ class DashboardScreen extends StatelessWidget {
                 child: GetBuilder<RoomTypeController>(builder: (controller) {
                   return controller.isLoading
                       ? Center(
-                          // heightFactor: 5.0,
-                          child: CircularProgressIndicator(),
+                          child: SpinKitThreeBounce(
+                            size: 30.0,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         )
                       : ListView.builder(
                           shrinkWrap: true,
@@ -135,6 +142,34 @@ class DashboardScreen extends StatelessWidget {
             SizedBox(height: 10.0),
           ],
         ),
+      ),
+    );
+  }
+
+  logoutDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Are you sure?',
+          style: TextStyle(fontSize: 18),
+        ),
+        content: Text('Do you want to logout?',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text('Cancel')),
+          TextButton(
+              onPressed: () async {
+                bool success = await Get.find<AuthController>().logout();
+                if (success) Get.offAll(LoginPage());
+                Get.snackbar('Logout', 'Logout successfuly!');
+              },
+              child: Text('Ok'))
+        ],
       ),
     );
   }
