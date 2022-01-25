@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
+import 'package:somudro_bilash_hotel/controller/payment_update_controller.dart';
 import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
 import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
@@ -316,10 +317,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ElevatedButton(
                       style:
                           ElevatedButton.styleFrom(minimumSize: Size(200, 35)),
-                      onPressed: () {
+                      onPressed: () async {
                         if (formkey.currentState!.validate()) {
+                          await Get.find<PaymentUpdateController>().isLoading
+                              ? Center(
+                                  child: SpinKitThreeBounce(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 30,
+                                  ),
+                                )
+                              : Get.find<PaymentUpdateController>()
+                                  .paymentUpdate(
+                                      idController.text, amountController.text);
                           Get.offAll(() => DashboardScreen());
-                          Get.snackbar('Update', 'Payment updated successfuly');
                         }
                       },
                       child: Text('Update'))

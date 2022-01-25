@@ -8,4 +8,6 @@ class AppConstants {
   static const SEARCH_ROOM = '/api/v1/admin/room/searching';
   static const collectionsReport = "/api/v1/admin/report/collection";
   static const transaction = '/api/v1/admin/report/transaction';
+  static const paymentUpdate =
+      '/api/v1/admin/room/booking/update/payment_and_status';
 }
