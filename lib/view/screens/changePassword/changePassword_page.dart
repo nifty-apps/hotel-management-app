@@ -24,6 +24,20 @@ class _ChangePassPageState extends State<ChangePassPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -92,7 +106,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                           child: TextFormField(
                             controller: newPassController,
                             obscureText: hidePassword,
-                            // onSaved: (val) => _password = val!,
+                            textInputAction: TextInputAction.next,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter your new password';
@@ -135,6 +149,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                           child: TextFormField(
                             controller: confirmPassController,
                             obscureText: hidePassword,
+                            textInputAction: TextInputAction.next,
                             // onSaved: (val) => _password = val!,
                             validator: (value) {
                               if (value!.isEmpty) {

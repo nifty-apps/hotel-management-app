@@ -4,6 +4,7 @@ import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
 import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
 import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/controller/transactionController.dart';
 
 Future<void> init() async {
   Get.lazyPut(() => SearchRoomController());
@@ -11,4 +12,5 @@ Future<void> init() async {
   Get.lazyPut(() => BookingController());
   Get.lazyPut(() => RoomTypeController());
   Get.lazyPut(() => ReportController());
+  Get.lazyPut(() => TransactionController());
 }
