@@ -230,8 +230,8 @@ class _BookingOverviewState extends State<BookingOverview> {
                                   },
                                 );
                                 Get.snackbar(
-                                  'Booking',
-                                  'Your booking confirm successful',
+                                  'Success',
+                                  'Room successfully booked',
                                 );
                                 Get.back();
                               },

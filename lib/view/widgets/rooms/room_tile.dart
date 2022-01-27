@@ -13,8 +13,8 @@ class RoomTile extends StatelessWidget {
   }) : super(key: key);
 
   final Data room;
-  final String fromDate;
-  final String toDate;
+  final DateTime fromDate;
+  final DateTime toDate;
 
   @override
   Widget build(BuildContext context) {

@@ -22,7 +22,6 @@ class PaymentUpdateController extends GetxController {
           'paid_amount': amount
         });
     if (response.statusCode == 200) {
-      var result = response.body;
       Get.snackbar('Update', 'Payment updated successfuly');
     } else {
       Get.snackbar(

@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/data/rest_ds.dart';
 
 class BookingController extends GetxController implements GetxService {
-  String name = 'Mohammad Ali';
+  late String name;
   int phone = 01826078348;
   String address = 'Pearabag Moghbazar';
   int roomId = 12;
-  String checkInDate = '2021-12-16';
-  String checkOutDate = '2021-12-24';
+  late DateTime checkInDate;
+  late DateTime checkOutDate;
   String checkInTime = '10:00';
   String checkOutTime = '04:00';
   String bookingStatus = 'booked';
@@ -20,8 +21,8 @@ class BookingController extends GetxController implements GetxService {
       phone,
       address,
       roomId,
-      checkInDate,
-      checkOutDate,
+      DateFormat('yyyy-MM-dd').format(checkInDate),
+      DateFormat('yyyy-MM-dd').format(checkOutDate),
       bookingStatus,
       roomFare,
       paidAmount,

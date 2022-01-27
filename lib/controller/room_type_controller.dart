@@ -1,32 +1,31 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:somudro_bilash_hotel/data/rest_ds.dart';
+import 'package:somudro_bilash_hotel/model/room_type_model.dart';
 
 class RoomTypeController extends GetxController implements GetxService {
   RoomTypeController() {
-    getInfo();
+    getInfo(DateTime.now(), DateTime.now());
   }
 
   bool isLoading = false;
 
-  Map<String, int> roomInfo = {
-    'All': 50,
-    'Honeymoon Suite': 20,
-    'Family Suite': 7,
-    'Three Bed': 1,
-    'Couple Bed': 9,
-    'Twin Couple Bed(AC)': 10,
-  };
+  List<RoomType> roomTypes = [];
 
-  Future getInfo() async {
+  Future getInfo(DateTime startDate, DateTime endDate) async {
     isLoading = true;
     update();
-    await Future.delayed(Duration(seconds: 3));
-    // Response response = await RestDatasource.searchRooms(startDate, endDate);
-    // print('Available rooms response body: ${response.body}');
-    // if (response.status.code == 200) {
-    //   availableRoom = [];
-    //   availableRoom.addAll(Rooms.fromJson(response.body).data);
-    // }
-    // roomInfo = jsonDecode(response.body);
+    Response response = await RestDatasource.getRoomTypeInfo(
+      DateFormat('yyyy-MM-dd').format(startDate),
+      DateFormat('yyyy-MM-dd').format(endDate),
+    );
+    print('Available rooms response body: ${response.body}');
+    if (response.status.code == 200) {
+      roomTypes.clear();
+      response.body['data'].forEach((element) {
+        roomTypes.add(RoomType.fromMap(element));
+      });
+    }
     isLoading = false;
     update();
   }

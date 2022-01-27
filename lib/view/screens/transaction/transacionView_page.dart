@@ -19,7 +19,6 @@ class TransactionView extends StatelessWidget {
         leading: IconButton(
             onPressed: () {
               Get.offAll(() => DashboardScreen());
-              ;
             },
             icon: Icon(Icons.arrow_back)),
         // centerTitle: true,

@@ -7,11 +7,18 @@ import 'package:somudro_bilash_hotel/utils/routes/network_util.dart';
 class RestDatasource {
   static NetworkUtil _netUtil = new NetworkUtil();
 
+ static Future<Response> getRoomTypeInfo(String startDate, String endDate) async {
+    return await _netUtil.getData(
+      '${AppConstants.roomTypeInfo}?check_in_date=$startDate&check_out_date=$endDate',
+    );
+  }
+  
   static Future<Response> getAllRooms() async {
     return await _netUtil.getData(
       AppConstants.TOTAL_ROOM,
     );
   }
+  
 
   static Future<Response> searchRooms(String startDate, String endDate) async {
     return await _netUtil.getData(

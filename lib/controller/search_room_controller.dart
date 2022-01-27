@@ -4,27 +4,24 @@ import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 import 'package:intl/intl.dart';
 
 class SearchRoomController extends GetxController implements GetxService {
-  String fromSelectedDate =
-      DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
-  String toSelectedDate =
-      DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+  DateTime fromSelectedDate = DateTime.now();
+  DateTime toSelectedDate = DateTime.now();
   List<Data> allRooms = [];
   List<Data> availableRoom = [];
+
+  Map<String, List> rooms = {
+    'Floor 1': [
+      // Rooms
+    ],
+    'Floor 2': [
+      // Rooms
+    ],
+  };
+
   List<Data> firstFloor = [];
   List<Data> secondFloor = [];
   List<Data> thirdFloor = [];
   List<Data> forthFloor = [];
-
-  void changeFromSelectedDate(String date) {
-    fromSelectedDate = date;
-    update();
-  }
-
-  void changeToSelectedDate(String from, String to) {
-    toSelectedDate = to;
-    fromSelectedDate = from;
-    update();
-  }
 
   Future getAllRooms() async {
     Response response = await RestDatasource.getAllRooms();
@@ -51,8 +48,11 @@ class SearchRoomController extends GetxController implements GetxService {
     update();
   }
 
-  Future availableRooms(String startDate, String endDate) async {
-    Response response = await RestDatasource.searchRooms(startDate, endDate);
+  Future availableRooms(DateTime startDate, DateTime endDate) async {
+    Response response = await RestDatasource.searchRooms(
+      DateFormat('yyyy-MM-dd').format(startDate),
+      DateFormat('yyyy-MM-dd').format(endDate),
+    );
     print('Available rooms response body: ${response.body}');
     if (response.status.code == 200) {
       availableRoom = [];

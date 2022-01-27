@@ -11,8 +11,8 @@ import 'package:somudro_bilash_hotel/view/screens/changePassword/changePassword_
 import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/revenue/revenue.dart';
 import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_page.dart';
-import 'package:somudro_bilash_hotel/view/widgets/dashboard/date_range.dart';
 import 'package:somudro_bilash_hotel/view/widgets/dashboard/room_type_info_tile.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -22,146 +22,153 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final TextEditingController idController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
+  final DateRangePickerController _controller = DateRangePickerController();
 
   final formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    Get.find<SearchRoomController>().getAllRooms();
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          elevation: 0,
-          title: Text('Dashboard'),
-          actions: [
-            PopupMenuButton(
-              onSelected: (value) async {
-                switch (value) {
-                  case 0:
-                    Get.to(() => ChangePassPage());
-                    break;
-                  case 1:
-                    Get.find<ReportController>().getReports();
-                    Get.to(() => RevenuePage());
-                    break;
-                  case 2:
-                    transactionDialog(context);
-                    break;
-                  case 3:
-                    updatePayment(context);
-                    break;
-                  case 4:
-                    logoutDialog(context);
-                }
-              },
-              icon: Icon(Icons.more_vert),
-              itemBuilder: (BuildContext context) => [
-                PopupMenuItem(
-                  value: 0,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.lock,
-                        color: Colors.grey.shade700,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text('Change Password'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 1,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.attach_money,
-                        color: Colors.grey.shade700,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text('Revenue'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 2,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.payment_sharp,
-                        color: Colors.grey.shade700,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text('Transaction history'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 3,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.update_sharp,
-                        color: Colors.grey.shade700,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text('Update Payment'),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 4,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: Colors.grey.shade700,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text('Logout'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        body: Container(
-          margin: EdgeInsets.only(top: 20.0, left: 20, right: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Column(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        elevation: 0,
+        title: Text('Dashboard'),
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) async {
+              switch (value) {
+                case 0:
+                  Get.to(() => ChangePassPage());
+                  break;
+                case 1:
+                  Get.find<ReportController>().getReports();
+                  Get.to(() => RevenuePage());
+                  break;
+                case 2:
+                  transactionDialog(context);
+                  break;
+                case 3:
+                  updatePayment(context);
+                  break;
+                case 4:
+                  logoutDialog(context);
+              }
+            },
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: 0,
+                child: Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: Text(
-                          'Select Date',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18),
-                        ),
-                      ),
+                    Icon(
+                      Icons.lock,
+                      color: Colors.grey.shade700,
                     ),
-                    DateRange(),
+                    SizedBox(width: 10.0),
+                    Text('Change Password'),
                   ],
                 ),
               ),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  await Get.find<RoomTypeController>().getInfo();
-                },
-                icon: Icon(Icons.search),
-                label: Text('Search'),
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.attach_money,
+                      color: Colors.grey.shade700,
+                    ),
+                    SizedBox(width: 10.0),
+                    Text('Revenue'),
+                  ],
+                ),
               ),
-              SizedBox(height: 10.0),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                  child: GetBuilder<RoomTypeController>(builder: (controller) {
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.payment_sharp,
+                      color: Colors.grey.shade700,
+                    ),
+                    SizedBox(width: 10.0),
+                    Text('Transaction history'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 3,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.update_sharp,
+                      color: Colors.grey.shade700,
+                    ),
+                    SizedBox(width: 10.0),
+                    Text('Update Payment'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 4,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      color: Colors.grey.shade700,
+                    ),
+                    SizedBox(width: 10.0),
+                    Text('Logout'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      body: Container(
+        margin: EdgeInsets.only(top: 20.0, left: 20, right: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                'Select Date',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            SfDateRangePicker(
+              controller: _controller,
+              selectionMode: DateRangePickerSelectionMode.range,
+              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                Get.find<SearchRoomController>().fromSelectedDate =
+                    args.value.startDate;
+                Get.find<SearchRoomController>().toSelectedDate =
+                    args.value.endDate ?? args.value.startDate;
+              },
+              allowViewNavigation: false,
+            ),
+            ElevatedButton.icon(
+              onPressed: () async {
+                print(Get.find<SearchRoomController>().fromSelectedDate);
+                print(Get.find<SearchRoomController>().toSelectedDate);
+                await Get.find<RoomTypeController>().getInfo(
+                  Get.find<SearchRoomController>().fromSelectedDate,
+                  Get.find<SearchRoomController>().toSelectedDate,
+                );
+              },
+              icon: Icon(Icons.search),
+              label: Text('Search'),
+            ),
+            SizedBox(height: 10.0),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: GetBuilder<RoomTypeController>(
+                  builder: (controller) {
                     return controller.isLoading
                         ? Center(
                             child: SpinKitThreeBounce(
@@ -171,23 +178,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           )
                         : ListView.builder(
                             shrinkWrap: true,
-                            itemCount: controller.roomInfo.length,
+                            itemCount: controller.roomTypes.length,
                             itemBuilder: (BuildContext context, int index) {
                               return RoomTypeInfoTile(
-                                roomType:
-                                    controller.roomInfo.keys.elementAt(index),
-                                roomAvailable:
-                                    controller.roomInfo.values.elementAt(index),
+                                roomType: controller.roomTypes[index],
                               );
                             },
                           );
-                  }),
+                  },
                 ),
               ),
-              SizedBox(height: 10.0),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   logoutDialog(BuildContext context) {
@@ -319,7 +324,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ElevatedButton.styleFrom(minimumSize: Size(200, 35)),
                       onPressed: () async {
                         if (formkey.currentState!.validate()) {
-                          await Get.find<PaymentUpdateController>().isLoading
+                          Get.find<PaymentUpdateController>().isLoading
                               ? Center(
                                   child: SpinKitThreeBounce(
                                     color: Theme.of(context).primaryColor,

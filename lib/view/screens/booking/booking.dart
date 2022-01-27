@@ -6,8 +6,8 @@ import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 
 class BookingRoom extends StatefulWidget {
   final Data room;
-  final String fromDate;
-  final String toDate;
+  final DateTime fromDate;
+  final DateTime toDate;
 
   BookingRoom({
     required this.room,
