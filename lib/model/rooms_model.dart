@@ -1,117 +1,178 @@
-// To parse this JSON data, do
-//
-//     final rooms = roomsFromJson(jsonString);
-
 import 'dart:convert';
 
-Rooms roomsFromJson(String str) => Rooms.fromJson(json.decode(str));
-
-String roomsToJson(Rooms data) => json.encode(data.toJson());
-
-class Rooms {
-  Rooms({
-    required this.success,
-    required this.data,
-  });
-
-  bool success;
-  List<Data> data;
-
-  factory Rooms.fromJson(Map<String, dynamic> json) => Rooms(
-        success: json['success'],
-        data: List<Data>.from(json['data'].map((x) => Data.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'success': success,
-        'data': List<dynamic>.from(data.map((x) => x.toJson())),
-      };
-}
-
-class Data {
-  Data({
+class Room {
+  int id;
+  String name;
+  int roomNo;
+  int isBooked;
+  int haveAc;
+  int? floorId;
+  int? roomTypeId;
+  int? sizeId;
+  int? numOfBed;
+  int? numOfBathroom;
+  int? numOfLight;
+  int? numOfFan;
+  int? haveFridge;
+  int? haveBelcony;
+  int? haveAlmary;
+  int? haveShoebox;
+  int? status;
+  Room({
     required this.id,
-    required this.floorId,
-    required this.roomTypeId,
-    this.sizeId,
     required this.name,
     required this.roomNo,
+    required this.isBooked,
+    required this.haveAc,
+    this.floorId,
+    this.roomTypeId,
+    this.sizeId,
     this.numOfBed,
     this.numOfBathroom,
     this.numOfLight,
     this.numOfFan,
-    required this.haveAc,
     this.haveFridge,
     this.haveBelcony,
     this.haveAlmary,
     this.haveShoebox,
-    required this.isBooked,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
+    this.status,
   });
 
-  int id;
-  int floorId;
-  int roomTypeId;
-  dynamic sizeId;
-  String name;
-  int roomNo;
-  dynamic numOfBed;
-  dynamic numOfBathroom;
-  dynamic numOfLight;
-  dynamic numOfFan;
-  int haveAc;
-  dynamic haveFridge;
-  dynamic haveBelcony;
-  dynamic haveAlmary;
-  dynamic haveShoebox;
-  int isBooked;
-  int status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  Room copyWith({
+    int? id,
+    String? name,
+    int? roomNo,
+    int? isBooked,
+    int? haveAc,
+    int? floorId,
+    int? roomTypeId,
+    int? sizeId,
+    int? numOfBed,
+    int? numOfBathroom,
+    int? numOfLight,
+    int? numOfFan,
+    int? haveFridge,
+    int? haveBelcony,
+    int? haveAlmary,
+    int? haveShoebox,
+    int? status,
+  }) {
+    return Room(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      roomNo: roomNo ?? this.roomNo,
+      isBooked: isBooked ?? this.isBooked,
+      haveAc: haveAc ?? this.haveAc,
+      floorId: floorId ?? this.floorId,
+      roomTypeId: roomTypeId ?? this.roomTypeId,
+      sizeId: sizeId ?? this.sizeId,
+      numOfBed: numOfBed ?? this.numOfBed,
+      numOfBathroom: numOfBathroom ?? this.numOfBathroom,
+      numOfLight: numOfLight ?? this.numOfLight,
+      numOfFan: numOfFan ?? this.numOfFan,
+      haveFridge: haveFridge ?? this.haveFridge,
+      haveBelcony: haveBelcony ?? this.haveBelcony,
+      haveAlmary: haveAlmary ?? this.haveAlmary,
+      haveShoebox: haveShoebox ?? this.haveShoebox,
+      status: status ?? this.status,
+    );
+  }
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json['id'],
-        floorId: json['floor_id'],
-        roomTypeId: json['room_type_id'],
-        sizeId: json['size_id'],
-        name: json['name'],
-        roomNo: json['room_no'],
-        numOfBed: json['num_of_bed'],
-        numOfBathroom: json['num_of_bathroom'],
-        numOfLight: json['num_of_light'],
-        numOfFan: json['num_of_fan'],
-        haveAc: json['have_ac'],
-        haveFridge: json['have_fridge'],
-        haveBelcony: json['have_belcony'],
-        haveAlmary: json['have_almary'],
-        haveShoebox: json['have_shoebox'],
-        isBooked: json['is_booked'],
-        status: json['status'],
-        createdAt: DateTime.parse(json['created_at']),
-        updatedAt: DateTime.parse(json['updated_at']),
-      );
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'roomNo': roomNo,
+      'isBooked': isBooked,
+      'haveAc': haveAc,
+      'floorId': floorId,
+      'roomTypeId': roomTypeId,
+      'sizeId': sizeId,
+      'numOfBed': numOfBed,
+      'numOfBathroom': numOfBathroom,
+      'numOfLight': numOfLight,
+      'numOfFan': numOfFan,
+      'haveFridge': haveFridge,
+      'haveBelcony': haveBelcony,
+      'haveAlmary': haveAlmary,
+      'haveShoebox': haveShoebox,
+      'status': status,
+    };
+  }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'floor_id': floorId,
-        'room_type_id': roomTypeId,
-        'size_id': sizeId,
-        'name': name,
-        'room_no': roomNo,
-        'num_of_bed': numOfBed,
-        'num_of_bathroom': numOfBathroom,
-        'num_of_light': numOfLight,
-        'num_of_fan': numOfFan,
-        'have_ac': haveAc,
-        'have_fridge': haveFridge,
-        'have_belcony': haveBelcony,
-        'have_almary': haveAlmary,
-        'have_shoebox': haveShoebox,
-        'is_booked': isBooked,
-        'status': status,
-        'created_at': createdAt.toIso8601String(),
-        'updated_at': updatedAt.toIso8601String(),
-      };
+  factory Room.fromMap(Map<String, dynamic> map) {
+    return Room(
+      id: map['id']?.toInt() ?? 0,
+      name: map['name'] ?? '',
+      roomNo: map['roomNo']?.toInt() ?? 0,
+      isBooked: map['isBooked']?.toInt() ?? 0,
+      haveAc: map['haveAc']?.toInt() ?? 0,
+      floorId: map['floorId']?.toInt(),
+      roomTypeId: map['roomTypeId']?.toInt(),
+      sizeId: map['sizeId']?.toInt(),
+      numOfBed: map['numOfBed']?.toInt(),
+      numOfBathroom: map['numOfBathroom']?.toInt(),
+      numOfLight: map['numOfLight']?.toInt(),
+      numOfFan: map['numOfFan']?.toInt(),
+      haveFridge: map['haveFridge']?.toInt(),
+      haveBelcony: map['haveBelcony']?.toInt(),
+      haveAlmary: map['haveAlmary']?.toInt(),
+      haveShoebox: map['haveShoebox']?.toInt(),
+      status: map['status']?.toInt(),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Room.fromJson(String source) => Room.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Room(id: $id, name: $name, roomNo: $roomNo, isBooked: $isBooked, haveAc: $haveAc, floorId: $floorId, roomTypeId: $roomTypeId, sizeId: $sizeId, numOfBed: $numOfBed, numOfBathroom: $numOfBathroom, numOfLight: $numOfLight, numOfFan: $numOfFan, haveFridge: $haveFridge, haveBelcony: $haveBelcony, haveAlmary: $haveAlmary, haveShoebox: $haveShoebox, status: $status)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Room &&
+        other.id == id &&
+        other.name == name &&
+        other.roomNo == roomNo &&
+        other.isBooked == isBooked &&
+        other.haveAc == haveAc &&
+        other.floorId == floorId &&
+        other.roomTypeId == roomTypeId &&
+        other.sizeId == sizeId &&
+        other.numOfBed == numOfBed &&
+        other.numOfBathroom == numOfBathroom &&
+        other.numOfLight == numOfLight &&
+        other.numOfFan == numOfFan &&
+        other.haveFridge == haveFridge &&
+        other.haveBelcony == haveBelcony &&
+        other.haveAlmary == haveAlmary &&
+        other.haveShoebox == haveShoebox &&
+        other.status == status;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        roomNo.hashCode ^
+        isBooked.hashCode ^
+        haveAc.hashCode ^
+        floorId.hashCode ^
+        roomTypeId.hashCode ^
+        sizeId.hashCode ^
+        numOfBed.hashCode ^
+        numOfBathroom.hashCode ^
+        numOfLight.hashCode ^
+        numOfFan.hashCode ^
+        haveFridge.hashCode ^
+        haveBelcony.hashCode ^
+        haveAlmary.hashCode ^
+        haveShoebox.hashCode ^
+        status.hashCode;
+  }
 }

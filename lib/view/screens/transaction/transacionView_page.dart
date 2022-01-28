@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/controller/transactionController.dart';
-import 'package:somudro_bilash_hotel/view/screens/dashboard/dashboard_screen.dart';
 
 class TransactionView extends StatelessWidget {
   TransactionView({Key? key}) : super(key: key);
@@ -16,12 +15,6 @@ class TransactionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Get.offAll(() => DashboardScreen());
-            },
-            icon: Icon(Icons.arrow_back)),
-        // centerTitle: true,
         title: Text('Transactions'),
       ),
       body: GetBuilder<TransactionController>(

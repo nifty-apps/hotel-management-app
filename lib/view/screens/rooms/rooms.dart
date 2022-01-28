@@ -40,12 +40,12 @@ class RoomsScreen extends StatelessWidget {
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 5,
                         ),
-                        itemCount: searchController.availableRoom.length,
+                        itemCount: searchController.roomsByFloor[e]!.length,
                         itemBuilder: (BuildContext ctx, index) {
                           return RoomTile(
-                            room: searchController.availableRoom[index],
-                            fromDate: searchController.fromSelectedDate,
-                            toDate: searchController.toSelectedDate,
+                            room: searchController.roomsByFloor[e]![index],
+                            fromDate: searchController.fromDate,
+                            toDate: searchController.toDate,
                           );
                         },
                       );

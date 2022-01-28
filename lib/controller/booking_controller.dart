@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/data/rest_ds.dart';
+import 'package:somudro_bilash_hotel/model/booking_model.dart';
 
 class BookingController extends GetxController implements GetxService {
   late String name;
@@ -29,5 +30,13 @@ class BookingController extends GetxController implements GetxService {
     );
     print(response.body);
     return true;
+  }
+
+  Future<List<Booking>> getBookingDetails(int roomId) async {
+    Response response = await RestDatasource.getBookingDetails(roomId);
+    List<Booking> bookings = (response.body['data'] as List)
+        .map((el) => Booking.fromMap(el))
+        .toList();
+    return bookings;
   }
 }

@@ -1,63 +1,91 @@
-// ignore_for_file: non_constant_identifier_names
+import 'dart:convert';
 
-class BookingForm {
-  late String _name;
-  late String _phone;
-  late String _address;
-  late int _room_id;
-  late String _check_in_date;
-  late String _check_out_date;
-  late String _booking_status;
-  late int _paid_ammount;
-  late int _room_fare;
+class Booking {
+  final int bookingId;
+  final String customerName;
+  final String customerPhone;
+  final String bookingStatus;
+  final String fromDate;
+  final String toDate;
+  Booking({
+    required this.bookingId,
+    required this.customerName,
+    required this.customerPhone,
+    required this.bookingStatus,
+    required this.fromDate,
+    required this.toDate,
+  });
 
-  BookingForm(
-    this._name,
-    this._phone,
-    this._address,
-    this._room_id,
-    this._check_in_date,
-    this._check_out_date,
-    this._booking_status,
-    this._paid_ammount,
-    this._room_fare,
-  );
-
-  BookingForm.map(dynamic obj) {
-    this._name = obj['name'];
-    this._phone = obj['phone'];
-    this._address = obj['address'];
-    this._room_id = obj['room_id'];
-    this._check_in_date = obj['check_in_date'];
-    this._check_out_date = obj['check_out_date'];
-    this._booking_status = obj['booking'];
-    this._paid_ammount = obj['paid_ammount'];
-    this._room_fare = obj['room_fare'];
+  Booking copyWith({
+    int? bookingId,
+    String? customerName,
+    String? customerPhone,
+    String? bookingStatus,
+    String? fromDate,
+    String? toDate,
+  }) {
+    return Booking(
+      bookingId: bookingId ?? this.bookingId,
+      customerName: customerName ?? this.customerName,
+      customerPhone: customerPhone ?? this.customerPhone,
+      bookingStatus: bookingStatus ?? this.bookingStatus,
+      fromDate: fromDate ?? this.fromDate,
+      toDate: toDate ?? this.toDate,
+    );
   }
 
-  String get name => _name;
-  String get phone => _phone;
-  String get address => _address;
-  int get roomId => _room_id;
-  String get checkInDate => _check_in_date;
-  String get checkOutDate => _check_out_date;
-  String get bookingStatus => _booking_status;
-  int get paidAmmount => _paid_ammount;
-  int get roomFare => _room_fare;
-
   Map<String, dynamic> toMap() {
-    var map = new Map<String, dynamic>();
-    map['name'] = _name;
-    map['phone'] = _phone;
-    map['address'] = _address;
-    map['room_id'] = _room_id;
-    map['check_in_date'] = _check_in_date;
-    map['check_out_date'] = _check_out_date;
-    map['booking_status'] = _booking_status;
-    map['paid_ammount'] = _paid_ammount;
+    return {
+      'bookingId': bookingId,
+      'customerName': customerName,
+      'customerPhone': customerPhone,
+      'bookingStatus': bookingStatus,
+      'fromDate': fromDate,
+      'toDate': toDate,
+    };
+  }
 
-    map['room_fare'] = _room_fare;
+  factory Booking.fromMap(Map<String, dynamic> map) {
+    return Booking(
+      bookingId: map['bookingId']?.toInt() ?? 0,
+      customerName: map['customerName'] ?? '',
+      customerPhone: map['customerPhone'] ?? '',
+      bookingStatus: map['bookingStatus'] ?? '',
+      fromDate: map['fromDate'] ?? '',
+      toDate: map['toDate'] ?? '',
+    );
+  }
 
-    return map;
+  String toJson() => json.encode(toMap());
+
+  factory Booking.fromJson(String source) =>
+      Booking.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Booking(bookingId: $bookingId, customerName: $customerName, customerPhone: $customerPhone, bookingStatus: $bookingStatus, fromDate: $fromDate, toDate: $toDate)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Booking &&
+        other.bookingId == bookingId &&
+        other.customerName == customerName &&
+        other.customerPhone == customerPhone &&
+        other.bookingStatus == bookingStatus &&
+        other.fromDate == fromDate &&
+        other.toDate == toDate;
+  }
+
+  @override
+  int get hashCode {
+    return bookingId.hashCode ^
+        customerName.hashCode ^
+        customerPhone.hashCode ^
+        bookingStatus.hashCode ^
+        fromDate.hashCode ^
+        toDate.hashCode;
   }
 }

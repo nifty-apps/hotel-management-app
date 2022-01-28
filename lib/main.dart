@@ -27,10 +27,7 @@ class MyApp extends StatelessWidget {
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             final pref = snapshot.data;
-            print(
-              pref!.getString('Token'),
-            );
-            if (pref.getString('Token') == null) {
+            if (pref!.getString('Token') == null) {
               return LoginPage();
             } else {
               return DashboardScreen();

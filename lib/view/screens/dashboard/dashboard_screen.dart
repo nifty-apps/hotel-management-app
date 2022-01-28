@@ -144,20 +144,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
               controller: _controller,
               selectionMode: DateRangePickerSelectionMode.range,
               onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                Get.find<SearchRoomController>().fromSelectedDate =
+                Get.find<SearchRoomController>().fromDate =
                     args.value.startDate;
-                Get.find<SearchRoomController>().toSelectedDate =
+                Get.find<SearchRoomController>().toDate =
                     args.value.endDate ?? args.value.startDate;
               },
               allowViewNavigation: false,
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                print(Get.find<SearchRoomController>().fromSelectedDate);
-                print(Get.find<SearchRoomController>().toSelectedDate);
+                print(Get.find<SearchRoomController>().fromDate);
+                print(Get.find<SearchRoomController>().toDate);
                 await Get.find<RoomTypeController>().getInfo(
-                  Get.find<SearchRoomController>().fromSelectedDate,
-                  Get.find<SearchRoomController>().toSelectedDate,
+                  Get.find<SearchRoomController>().fromDate,
+                  Get.find<SearchRoomController>().toDate,
                 );
               },
               icon: Icon(Icons.search),
@@ -256,12 +256,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              minimumSize: Size(200, 35)),
+                            minimumSize: Size(200, 35),
+                          ),
                           onPressed: () async {
                             if (formkey.currentState!.validate()) {
-                              Get.find<TransactionController>()
-                                  .getTransactions(idController.text);
+                              Get.find<TransactionController>().getTransactions(
+                                int.parse(idController.text),
+                              );
                               idController.clear();
+                              Get.back();
                               Get.to(() => TransactionView());
                             }
                           },

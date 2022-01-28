@@ -5,7 +5,7 @@ import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
 import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 
 class BookingRoom extends StatefulWidget {
-  final Data room;
+  final Room room;
   final DateTime fromDate;
   final DateTime toDate;
 
@@ -238,10 +238,9 @@ class _BookingRoomState extends State<BookingRoom> {
                         if (formKey.currentState!.validate()) {
                           if (await bookingController.bookRoom()) {
                             Get.find<SearchRoomController>().availableRooms(
-                                Get.find<SearchRoomController>()
-                                    .fromSelectedDate,
-                                Get.find<SearchRoomController>()
-                                    .toSelectedDate);
+                              Get.find<SearchRoomController>().fromDate,
+                              Get.find<SearchRoomController>().toDate,
+                            );
                             Navigator.pop(context);
                             Get.snackbar(
                               'Success',

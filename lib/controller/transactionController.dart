@@ -10,14 +10,14 @@ class TransactionController extends GetxController implements GetxService {
   final client = http.Client();
   List<Transaction> allTransaction = [];
   bool isLoading = false;
-  Future<String> getTransactions(String id) async {
+  Future<String> getTransactions(int id) async {
     isLoading = true;
     update();
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString("Token");
     http.Response response = await client.get(
       Uri.parse(AppConstants.BASE_URL + AppConstants.transaction).replace(
-        queryParameters: {'booking_id': id},
+        queryParameters: {'booking_id': id.toString()},
       ),
       headers: {
         'Authorization': 'Bearer $token',

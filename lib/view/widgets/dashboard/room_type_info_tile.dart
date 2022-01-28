@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
 import 'package:somudro_bilash_hotel/model/room_type_model.dart';
 import 'package:somudro_bilash_hotel/view/screens/rooms/rooms.dart';
 
@@ -17,7 +18,9 @@ class RoomTypeInfoTile extends StatelessWidget {
       elevation: 2,
       color: Colors.white,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
+          Get.find<SearchRoomController>().roomTypeId = roomType.id;
+          await Get.find<SearchRoomController>().getRooms();
           Get.to(
             () => RoomsScreen(roomType: roomType),
           );
