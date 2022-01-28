@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
 import 'package:somudro_bilash_hotel/controller/transactionController.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
@@ -10,8 +11,12 @@ import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_pag
 class BookingOverview extends StatelessWidget {
   final Room room;
 
-  const BookingOverview({Key? key,  required this.room}) : super(key: key);
+  BookingOverview({Key? key, required this.room}) : super(key: key);
 
+  final keyStyle = TextStyle(
+      fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black54);
+  final valueStyle = TextStyle(
+      fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black87);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +36,18 @@ class BookingOverview extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<Booking> bookings = snapshot.data;
             return ListView.builder(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
               itemCount: bookings.length,
               itemBuilder: (context, index) {
                 return Card(
-                  elevation: 3.0,
+                  color: Colors.white60,
+                  elevation: 2.0,
                   child: Stack(
                     children: [
                       Positioned(
-                        top: 0,
-                        right: 0,
+                        top: 8,
+                        right: 8,
                         child: Icon(Icons.edit),
                       ),
                       InkWell(
@@ -49,22 +57,117 @@ class BookingOverview extends StatelessWidget {
                           );
                           Get.to(() => TransactionView());
                         },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Booking ID: ${bookings[index].bookingId.toString()}',
-                                ),
-                              ],
-                            ),
-                            Text(bookings[index].bookingStatus),
-                            Text(bookings[index].customerName),
-                            Text(bookings[index].customerPhone),
-                            Text(bookings[index].fromDate),
-                            Text(bookings[index].toDate),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.00),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'Booking ID: ',
+                                    style: keyStyle,
+                                  ),
+                                  Text(
+                                    bookings[index].bookingId.toString(),
+                                    style: valueStyle,
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                height: 4.0,
+                              ),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'Booking Status: ',
+                                    style: keyStyle,
+                                  ),
+                                  Text(
+                                    bookings[index].bookingStatus.toString(),
+                                    style: valueStyle,
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                height: 4.0,
+                              ),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'Customer Name: ',
+                                    style: keyStyle,
+                                  ),
+                                  Text(
+                                    bookings[index].customerName.toString(),
+                                    style: valueStyle,
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                height: 4.0,
+                              ),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'Phone Number: ',
+                                    style: keyStyle,
+                                  ),
+                                  Text(
+                                    bookings[index].customerPhone.toString(),
+                                    style: valueStyle,
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                height: 4.0,
+                              ),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'From Date: ',
+                                    style: keyStyle,
+                                  ),
+                                  Text(
+                                    DateFormat(DateFormat.ABBR_MONTH_DAY)
+                                        .add_jm()
+                                        .format(
+                                          DateTime.parse(
+                                            bookings[index].fromDate.toString(),
+                                          ),
+                                        ),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                height: 4.0,
+                              ),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'To Date: ',
+                                    style: keyStyle,
+                                  ),
+                                  Text(
+                                      DateFormat(DateFormat.ABBR_MONTH_DAY)
+                                          .add_jm()
+                                          .format(
+                                            DateTime.parse(
+                                              bookings[index].toDate.toString(),
+                                            ),
+                                          ),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black87)),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
