@@ -5,7 +5,7 @@ import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
 import 'package:somudro_bilash_hotel/controller/payment_update_controller.dart';
 import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
-import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/controller/room_controller.dart';
 import 'package:somudro_bilash_hotel/controller/transactionController.dart';
 import 'package:somudro_bilash_hotel/view/screens/changePassword/changePassword_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
@@ -144,20 +144,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               controller: _controller,
               selectionMode: DateRangePickerSelectionMode.range,
               onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                Get.find<SearchRoomController>().fromDate =
-                    args.value.startDate;
-                Get.find<SearchRoomController>().toDate =
+                Get.find<RoomController>().fromDate = args.value.startDate;
+                Get.find<RoomController>().toDate =
                     args.value.endDate ?? args.value.startDate;
               },
               allowViewNavigation: false,
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                print(Get.find<SearchRoomController>().fromDate);
-                print(Get.find<SearchRoomController>().toDate);
+                print(Get.find<RoomController>().fromDate);
+                print(Get.find<RoomController>().toDate);
                 await Get.find<RoomTypeController>().getInfo(
-                  Get.find<SearchRoomController>().fromDate,
-                  Get.find<SearchRoomController>().toDate,
+                  Get.find<RoomController>().fromDate,
+                  Get.find<RoomController>().toDate,
                 );
               },
               icon: Icon(Icons.search),

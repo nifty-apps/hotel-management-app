@@ -12,4 +12,5 @@ class AppConstants {
   static const paymentUpdate = '/admin/room/booking/update/payment_and_status';
   static const getRooms = '/admin/room/type_wise/available';
   static const getBookingDetails = '/admin/room/single/booking/list';
+  static const bookingUpdte = '/admin/room/booking/update';
 }

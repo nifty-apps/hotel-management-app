@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class Booking {
-  final int bookingId;
-  final String customerName;
-  final String customerPhone;
-  final String bookingStatus;
-  final String fromDate;
-  final String toDate;
+  int bookingId;
+  String customerName;
+  String customerPhone;
+  String bookingStatus;
+  String fromDate;
+  String toDate;
   Booking({
     required this.bookingId,
     required this.customerName,

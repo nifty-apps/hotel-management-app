@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
-import 'package:somudro_bilash_hotel/controller/search_room_controller.dart';
+import 'package:somudro_bilash_hotel/controller/room_controller.dart';
 import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 
 class BookingRoom extends StatefulWidget {
@@ -237,10 +237,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           if (await bookingController.bookRoom()) {
-                            Get.find<SearchRoomController>().availableRooms(
-                              Get.find<SearchRoomController>().fromDate,
-                              Get.find<SearchRoomController>().toDate,
-                            );
+                            Get.find<RoomController>().getRooms();
                             Navigator.pop(context);
                             Get.snackbar(
                               'Success',
