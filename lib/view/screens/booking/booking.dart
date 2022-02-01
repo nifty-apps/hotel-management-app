@@ -105,7 +105,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         }
                       },
                       onChanged: (String text) {
-                        bookController.phone = int.parse(text);
+                        bookController.phone = text.trim();
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(

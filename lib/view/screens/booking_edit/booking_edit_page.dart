@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
 
 class BookingEditPage extends StatefulWidget {
@@ -55,7 +57,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                 height: 5,
               ),
               TextFormField(
-                initialValue: widget.booking.customerName,
+                initialValue: widget.booking.name,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please enter your name';
@@ -66,7 +68,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   hintText: 'Enter Customer Name',
                 ),
                 onChanged: (String name) {
-                  // widget.booking!.customerName = name;
+                  widget.booking.name = name;
                 },
               ),
               SizedBox(
@@ -81,7 +83,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
               ),
               const SizedBox(height: 5),
               TextFormField(
-                initialValue: '01795685256',
+                initialValue: widget.booking.phone.toString(),
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please enter your phone number';
@@ -93,7 +95,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   hintText: 'Enter Customer Phone Number',
                 ),
                 onChanged: (String number) {
-                  // widget.booking!.customerName = number;
+                  widget.booking.phone = number;
                 },
               ),
               SizedBox(
@@ -109,7 +111,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
               ),
               const SizedBox(height: 5),
               TextFormField(
-                initialValue: 'Dhaka',
+                initialValue: widget.booking.address,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please enter your address';
@@ -121,7 +123,9 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   border: OutlineInputBorder(),
                   hintText: 'Write customer address',
                 ),
-                onChanged: (String address) {},
+                onChanged: (String address) {
+                  widget.booking.address = address;
+                },
               ),
               SizedBox(
                 height: 20,
@@ -147,7 +151,9 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   border: OutlineInputBorder(),
                   hintText: 'Write total fare',
                 ),
-                onChanged: (String paidAmount) {},
+                onChanged: (String amount) {
+                  widget.booking.paidAmount = int.parse(amount);
+                },
               ),
               SizedBox(height: 5),
               Text(
@@ -171,7 +177,9 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   border: OutlineInputBorder(),
                   hintText: 'check in date',
                 ),
-                onChanged: (String paidAmount) {},
+                onChanged: (String checkInDate) {
+                  widget.booking.checkInDate = checkInDate;
+                },
               ),
               SizedBox(height: 5),
               Text(
@@ -195,7 +203,9 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   border: OutlineInputBorder(),
                   hintText: 'check out date',
                 ),
-                onChanged: (String paidAmount) {},
+                onChanged: (String checkOutDate) {
+                  widget.booking.checkOutDate = checkOutDate;
+                },
               ),
               SizedBox(
                 height: 10,
@@ -224,13 +234,33 @@ class _BookingEditPageState extends State<BookingEditPage> {
                 onChanged: (String? newValue) {
                   setState(() {
                     dropdownvalue = newValue!;
+                    setState(() {
+                      widget.booking.bookingStatus = newValue;
+                    });
                   });
                 },
               ),
               SizedBox(height: 10.0),
               TextButton(
                 onPressed: () async {
-                  if (formKey.currentState!.validate()) {}
+                  if (formKey.currentState!.validate()) {
+                    bool success = await Get.find<BookingController>()
+                        .updateBooking(widget.booking);
+                    if (success) {
+                      Get.back(closeOverlays: true);
+                      Get.snackbar(
+                        'Success',
+                        'Successfully Updated!',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      Get.snackbar(
+                        'Error',
+                        'Update unsuccessful',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
+                  }
                 },
                 child: Text(
                   'Update',

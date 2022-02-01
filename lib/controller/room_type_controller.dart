@@ -19,7 +19,6 @@ class RoomTypeController extends GetxController implements GetxService {
       DateFormat('yyyy-MM-dd').format(startDate),
       DateFormat('yyyy-MM-dd').format(endDate),
     );
-    print('Available rooms response body: ${response.body}');
     if (response.status.code == 200) {
       roomTypes.clear();
       response.body['data'].forEach((element) {

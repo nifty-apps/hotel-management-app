@@ -9,22 +9,30 @@ import 'package:somudro_bilash_hotel/model/rooms_model.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking_edit/booking_edit_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_page.dart';
 
-class BookingOverview extends StatelessWidget {
+class BookingOverview extends StatefulWidget {
   final Room room;
   BookingOverview({Key? key, required this.room}) : super(key: key);
+
+  @override
+  State<BookingOverview> createState() => _BookingOverviewState();
+}
+
+class _BookingOverviewState extends State<BookingOverview> {
   final keyStyle = TextStyle(
       fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black54);
+
   final valueStyle = TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w600,
       color: Colors.black.withOpacity(0.5));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          '${room.roomNo} - ${room.name}',
+          '${widget.room.roomNo} - ${widget.room.name}',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -32,7 +40,7 @@ class BookingOverview extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-        future: Get.find<BookingController>().getBookingDetails(room.id),
+        future: Get.find<BookingController>().getBookingDetails(widget.room.id),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<Booking> bookings = snapshot.data;
@@ -55,7 +63,7 @@ class BookingOverview extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         Get.find<TransactionController>().getTransactions(
-                          bookings[index].bookingId,
+                          bookings[index].id!,
                         );
                         Get.to(() => TransactionView());
                       },
@@ -71,12 +79,15 @@ class BookingOverview extends StatelessWidget {
                                 iconSize: 20.0,
                                 visualDensity: VisualDensity.compact,
                                 padding: EdgeInsets.zero,
-                                onPressed: () {
-                                  Get.to(
+                                onPressed: () async {
+                                  await Get.to(
                                     () => BookingEditPage(
-                                      booking: bookings[index],
+                                      booking: bookings[index].copyWith(
+                                        roomId: widget.room.id,
+                                      ),
                                     ),
                                   );
+                                  setState(() {});
                                 },
                                 icon: Icon(Icons.edit),
                               ),
@@ -91,7 +102,7 @@ class BookingOverview extends StatelessWidget {
                                       style: keyStyle,
                                     ),
                                     Text(
-                                      bookings[index].bookingId.toString(),
+                                      bookings[index].id.toString(),
                                       style: valueStyle,
                                     ),
                                   ],
@@ -104,7 +115,7 @@ class BookingOverview extends StatelessWidget {
                                       style: keyStyle,
                                     ),
                                     Text(
-                                      bookings[index].customerName.toString(),
+                                      bookings[index].name.toString(),
                                       style: valueStyle,
                                     ),
                                   ],
@@ -117,7 +128,7 @@ class BookingOverview extends StatelessWidget {
                                       style: keyStyle,
                                     ),
                                     Text(
-                                      bookings[index].customerPhone.toString(),
+                                      bookings[index].phone.toString(),
                                       style: valueStyle,
                                     ),
                                   ],
@@ -130,8 +141,7 @@ class BookingOverview extends StatelessWidget {
                                       style: keyStyle,
                                     ),
                                     Text(
-                                      // bookings[index].customerPhone.toString(),
-                                      'Address',
+                                      bookings[index].address,
                                       style: valueStyle,
                                     ),
                                   ],
@@ -176,7 +186,7 @@ class BookingOverview extends StatelessWidget {
                                           .format(
                                             DateTime.parse(
                                               bookings[index]
-                                                  .fromDate
+                                                  .checkInDate
                                                   .toString(),
                                             ),
                                           ),
@@ -199,7 +209,9 @@ class BookingOverview extends StatelessWidget {
                                           .add_jm()
                                           .format(
                                             DateTime.parse(
-                                              bookings[index].toDate.toString(),
+                                              bookings[index]
+                                                  .checkOutDate
+                                                  .toString(),
                                             ),
                                           ),
                                       style: TextStyle(

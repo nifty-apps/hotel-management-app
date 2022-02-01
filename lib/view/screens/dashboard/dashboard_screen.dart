@@ -7,7 +7,7 @@ import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_controller.dart';
 import 'package:somudro_bilash_hotel/controller/transactionController.dart';
-import 'package:somudro_bilash_hotel/view/screens/changePassword/changePassword_page.dart';
+import 'package:somudro_bilash_hotel/view/screens/admin_profile.dart/admin_profile_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/revenue/revenue.dart';
 import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_page.dart';
@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onSelected: (value) async {
               switch (value) {
                 case 0:
-                  Get.to(() => ChangePassPage());
+                  Get.to(() => AdminProfile());
                   break;
                 case 1:
                   Get.find<ReportController>().getReports();
@@ -61,11 +61,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.lock,
+                      Icons.person,
                       color: Colors.grey.shade700,
                     ),
                     SizedBox(width: 10.0),
-                    Text('Change Password'),
+                    Text('Profile'),
                   ],
                 ),
               ),
@@ -152,8 +152,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                print(Get.find<RoomController>().fromDate);
-                print(Get.find<RoomController>().toDate);
                 await Get.find<RoomTypeController>().getInfo(
                   Get.find<RoomController>().fromDate,
                   Get.find<RoomController>().toDate,
@@ -216,7 +214,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onPressed: () async {
                 bool success = await Get.find<AuthController>().logout();
                 if (success) Get.offAll(LoginPage());
-                Get.snackbar('Logout', 'Logout successfuly!');
+                Get.snackbar('Logout', 'Logout successfuly!',
+                    snackPosition: SnackPosition.BOTTOM);
               },
               child: Text('Ok'))
         ],

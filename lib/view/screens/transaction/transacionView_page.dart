@@ -96,7 +96,8 @@ class TransactionView extends StatelessWidget {
                   }
                   index--;
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 6.00),
                     child: Column(
                       children: [
                         Align(

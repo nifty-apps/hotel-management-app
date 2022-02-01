@@ -18,7 +18,6 @@ class ReportController extends GetxController {
     update();
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString("Token");
-    print("Aithorization token :$token");
     http.Response response = await client.get(
       Uri.parse(AppConstants.BASE_URL + AppConstants.collectionsReport),
       headers: {
@@ -29,10 +28,7 @@ class ReportController extends GetxController {
     );
     if (response.statusCode == 200) {
       var result = (jsonDecode(response.body));
-
       allReports = Reports.fromJson(result['report']);
-
-      print("All Reports : $allReports");
     }
     isLoading = false;
     update();

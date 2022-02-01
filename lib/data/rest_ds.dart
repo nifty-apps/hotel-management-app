@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:somudro_bilash_hotel/model/booking_model.dart';
 import 'package:somudro_bilash_hotel/util/app_constants.dart';
 import 'package:somudro_bilash_hotel/utils/routes/network_util.dart';
 
@@ -13,12 +14,6 @@ class RestDatasource {
       '${AppConstants.roomTypeInfo}?check_in_date=$startDate&check_out_date=$endDate',
     );
   }
-
-  // static Future<Response> getAllRooms() async {
-  //   return await _netUtil.getData(
-  //     AppConstants.TOTAL_ROOM,
-  //   );
-  // }
 
   static Future<Response> getRooms(
     int roomTypeId,
@@ -43,30 +38,8 @@ class RestDatasource {
   }
 
   // booking room process
-  static Future<Response> bookRoom(
-    String _name,
-    int _phone,
-    String _address,
-    int _roomId,
-    String _checkInDate,
-    String _checkOutDate,
-    String _bookingStatus,
-    int _roomFare,
-    int _paidAmount,
-  ) async {
-    final Map<String, dynamic> data = {
-      'name': _name,
-      'phone': _phone,
-      'address': _address,
-      'room_id': _roomId,
-      'check_in_date': _checkInDate,
-      'check_out_date': _checkOutDate,
-      'booking_status': _bookingStatus,
-      'paid_amount': _paidAmount,
-      'room_fare': _roomFare,
-    };
-    print('Booking data: $data');
-
+  static Future<Response> bookRoom(Booking booking) async {
+    final Map<String, dynamic> data = booking.toMap();
     Response response = await _netUtil.postData(
       AppConstants.ROOM_BOOK,
       body: jsonEncode(data),

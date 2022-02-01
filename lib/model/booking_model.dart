@@ -1,58 +1,82 @@
 import 'dart:convert';
 
 class Booking {
-  int bookingId;
-  String customerName;
-  String customerPhone;
+  int? id;
+  int? roomId;
+  String name;
+  String phone;
+  String address;
   String bookingStatus;
-  String fromDate;
-  String toDate;
+  int roomFare;
+  int paidAmount;
+  String checkInDate;
+  String checkOutDate;
   Booking({
-    required this.bookingId,
-    required this.customerName,
-    required this.customerPhone,
+    this.id,
+    this.roomId,
+    required this.name,
+    required this.phone,
+    required this.address,
     required this.bookingStatus,
-    required this.fromDate,
-    required this.toDate,
+    required this.roomFare,
+    required this.paidAmount,
+    required this.checkInDate,
+    required this.checkOutDate,
   });
 
   Booking copyWith({
-    int? bookingId,
-    String? customerName,
-    String? customerPhone,
+    int? id,
+    int? roomId,
+    String? name,
+    String? phone,
+    String? address,
     String? bookingStatus,
-    String? fromDate,
-    String? toDate,
+    int? roomFare,
+    int? paidAmount,
+    String? checkInDate,
+    String? checkOutDate,
   }) {
     return Booking(
-      bookingId: bookingId ?? this.bookingId,
-      customerName: customerName ?? this.customerName,
-      customerPhone: customerPhone ?? this.customerPhone,
+      id: id ?? this.id,
+      roomId: roomId ?? this.roomId,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      address: address ?? this.address,
       bookingStatus: bookingStatus ?? this.bookingStatus,
-      fromDate: fromDate ?? this.fromDate,
-      toDate: toDate ?? this.toDate,
+      roomFare: roomFare ?? this.roomFare,
+      paidAmount: paidAmount ?? this.paidAmount,
+      checkInDate: checkInDate ?? this.checkInDate,
+      checkOutDate: checkOutDate ?? this.checkOutDate,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'bookingId': bookingId,
-      'customerName': customerName,
-      'customerPhone': customerPhone,
-      'bookingStatus': bookingStatus,
-      'fromDate': fromDate,
-      'toDate': toDate,
+      'id': id,
+      'room_id': roomId,
+      'name': name,
+      'phone': phone,
+      'address': address,
+      'booking_status': bookingStatus,
+      'room_fare': roomFare,
+      'paid_amount': 0,
+      'check_in_date': checkInDate,
+      'check_out_date': checkOutDate,
     };
   }
 
   factory Booking.fromMap(Map<String, dynamic> map) {
     return Booking(
-      bookingId: map['bookingId']?.toInt() ?? 0,
-      customerName: map['customerName'] ?? '',
-      customerPhone: map['customerPhone'] ?? '',
-      bookingStatus: map['bookingStatus'] ?? '',
-      fromDate: map['fromDate'] ?? '',
-      toDate: map['toDate'] ?? '',
+      id: map['id']?.toInt(),
+      roomId: map['room_id']?.toInt() ?? 0,
+      name: map['name'] ?? '',
+      phone: map['phone'] ?? '',
+      address: map['address'] ?? '',
+      bookingStatus: map['booking_status'] ?? '',
+      roomFare: map['room_fare']?.toInt() ?? 0,
+      paidAmount: map['paid_amount']?.toInt() ?? 0,
+      checkInDate: map['check_in_date'] ?? '',
+      checkOutDate: map['check_out_date'] ?? '',
     );
   }
 
@@ -63,7 +87,7 @@ class Booking {
 
   @override
   String toString() {
-    return 'Booking(bookingId: $bookingId, customerName: $customerName, customerPhone: $customerPhone, bookingStatus: $bookingStatus, fromDate: $fromDate, toDate: $toDate)';
+    return 'Booking(id: $id, roomId: $roomId, name: $name, phone: $phone, address: $address, bookingStatus: $bookingStatus, roomFare: $roomFare, paidAmount: $paidAmount, checkInDate: $checkInDate, checkOutDate: $checkOutDate)';
   }
 
   @override
@@ -71,21 +95,29 @@ class Booking {
     if (identical(this, other)) return true;
 
     return other is Booking &&
-        other.bookingId == bookingId &&
-        other.customerName == customerName &&
-        other.customerPhone == customerPhone &&
+        other.id == id &&
+        other.roomId == roomId &&
+        other.name == name &&
+        other.phone == phone &&
+        other.address == address &&
         other.bookingStatus == bookingStatus &&
-        other.fromDate == fromDate &&
-        other.toDate == toDate;
+        other.roomFare == roomFare &&
+        other.paidAmount == paidAmount &&
+        other.checkInDate == checkInDate &&
+        other.checkOutDate == checkOutDate;
   }
 
   @override
   int get hashCode {
-    return bookingId.hashCode ^
-        customerName.hashCode ^
-        customerPhone.hashCode ^
+    return id.hashCode ^
+        roomId.hashCode ^
+        name.hashCode ^
+        phone.hashCode ^
+        address.hashCode ^
         bookingStatus.hashCode ^
-        fromDate.hashCode ^
-        toDate.hashCode;
+        roomFare.hashCode ^
+        paidAmount.hashCode ^
+        checkInDate.hashCode ^
+        checkOutDate.hashCode;
   }
 }

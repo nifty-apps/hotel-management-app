@@ -30,9 +30,7 @@ class RoomTile extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () async {
-          if (room.isBooked == 1) {
-            Get.to(() => BookingOverview(room: room));
-          } else {
+          if (room.isBooked == 0) {
             Get.to(
               () => BookingRoom(
                 room: room,
@@ -40,6 +38,8 @@ class RoomTile extends StatelessWidget {
                 toDate: toDate,
               ),
             );
+          } else {
+            Get.to(() => BookingOverview(room: room));
           }
         },
         child: Container(

@@ -22,10 +22,12 @@ class PaymentUpdateController extends GetxController {
           'paid_amount': amount
         });
     if (response.statusCode == 200) {
-      Get.snackbar('Update', 'Payment updated successfuly');
+      Get.snackbar('Update', 'Payment updated successfuly',
+          snackPosition: SnackPosition.BOTTOM);
     } else {
       Get.snackbar(
-          'Validation error', 'Paid amount cannot bigger than total fare');
+          'Validation error', 'Paid amount cannot bigger than total fare',
+          snackPosition: SnackPosition.BOTTOM);
     }
     isLoading = false;
     update();

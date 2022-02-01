@@ -25,19 +25,12 @@ class TransactionController extends GetxController implements GetxService {
         // 'Accept': 'application/json',
       },
     );
-    print('response: ${response.body}');
     if (response.statusCode == 200) {
       allTransaction = [];
       var result = jsonDecode(response.body);
-
-      print(result);
-
       result['data'].forEach((transactionData) {
-        print('Transaction data: $transactionData');
         allTransaction.add(Transaction.fromMap(transactionData));
       });
-
-      print(allTransaction);
     }
     isLoading = false;
     update();

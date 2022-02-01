@@ -10,7 +10,7 @@ final client = http.Client();
 
 class BookingController extends GetxController implements GetxService {
   late String name;
-  int phone = 01826078348;
+  late String phone;
   String address = 'Pearabag Moghbazar';
   int roomId = 12;
   late DateTime checkInDate;
@@ -23,18 +23,23 @@ class BookingController extends GetxController implements GetxService {
 
   Future<bool> bookRoom() async {
     Response response = await RestDatasource.bookRoom(
-      name,
-      phone,
-      address,
-      roomId,
-      DateFormat('yyyy-MM-dd').format(checkInDate),
-      DateFormat('yyyy-MM-dd').format(checkOutDate),
-      bookingStatus,
-      roomFare,
-      paidAmount,
+      Booking(
+        roomId: roomId,
+        name: name,
+        phone: phone,
+        address: address,
+        bookingStatus: bookingStatus,
+        roomFare: roomFare,
+        paidAmount: paidAmount,
+        checkInDate: DateFormat('yyyy-MM-dd').format(checkInDate),
+        checkOutDate: DateFormat('yyyy-MM-dd').format(checkOutDate),
+      ),
     );
-    print(response.body);
-    return true;
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<List<Booking>> getBookingDetails(int roomId) async {
@@ -45,23 +50,26 @@ class BookingController extends GetxController implements GetxService {
     return bookings;
   }
 
-  Future<String> updateBooking() async {
+  Future<bool> updateBooking(Booking booking) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString("Token");
     http.Response response = await client.put(
-      Uri.parse(AppConstants.BASE_URL + AppConstants.bookingUpdte),
+      Uri.parse(
+        AppConstants.BASE_URL + AppConstants.bookingUpdate + '/${booking.id}',
+      ),
       headers: {
         'Authorization': 'Bearer $token',
-        // 'Content-Type': 'application/json',
-        // 'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
-      body: {},
+      body: booking.toJson(),
     );
     if (response.statusCode == 200) {
       Get.snackbar('Success', " Successfully Updated!");
     } else {
       Get.snackbar('Error', 'Update unsuccessful');
     }
-    return response.body;
+    update();
+    return true;
   }
 }
