@@ -22,9 +22,7 @@ class _BookingOverviewState extends State<BookingOverview> {
       fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black54);
 
   final valueStyle = TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(0.5));
+      fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87);
 
   @override
   Widget build(BuildContext context) {
@@ -45,185 +43,192 @@ class _BookingOverviewState extends State<BookingOverview> {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<Booking> bookings = snapshot.data;
             return ListView.builder(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 6.0,
+                horizontal: 8.0,
+              ),
               itemCount: bookings.length,
               itemBuilder: (context, index) {
-                return Card(
-                  elevation: 6,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: InkWell(
-                      onTap: () {
-                        Get.find<TransactionController>().getTransactions(
-                          bookings[index].id!,
-                        );
-                        Get.to(() => TransactionView());
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.00),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: IconButton(
-                                splashRadius: 20.0,
-                                iconSize: 20.0,
-                                visualDensity: VisualDensity.compact,
-                                padding: EdgeInsets.zero,
-                                onPressed: () async {
-                                  await Get.to(
-                                    () => BookingEditPage(
-                                      booking: bookings[index].copyWith(
-                                        roomId: widget.room.id,
+                    clipBehavior: Clip.hardEdge,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Get.find<TransactionController>().getTransactions(
+                            bookings[index].id!,
+                          );
+                          Get.to(() => TransactionView());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.00),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: IconButton(
+                                  splashRadius: 20.0,
+                                  iconSize: 20.0,
+                                  visualDensity: VisualDensity.compact,
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () async {
+                                    await Get.to(
+                                      () => BookingEditPage(
+                                        booking: bookings[index].copyWith(
+                                          roomId: widget.room.id,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                  setState(() {});
-                                },
-                                icon: Icon(Icons.edit),
+                                    );
+                                    setState(() {});
+                                  },
+                                  icon: Icon(Icons.edit),
+                                ),
                               ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Booking ID: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      bookings[index].id.toString(),
-                                      style: valueStyle,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Customer Name: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      bookings[index].name.toString(),
-                                      style: valueStyle,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Phone Number: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      bookings[index].phone.toString(),
-                                      style: valueStyle,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Address: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      bookings[index].address,
-                                      style: valueStyle,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Booking Status: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      bookings[index].bookingStatus.toString(),
-                                      style: valueStyle,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Total fare: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      //bookings[index].bookingStatus.toString(),
-                                      '19000 BDT',
-                                      style: valueStyle,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Check In: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      DateFormat(DateFormat.ABBR_MONTH_DAY)
-                                          .add_jm()
-                                          .format(
-                                            DateTime.parse(
-                                              bookings[index]
-                                                  .checkInDate
-                                                  .toString(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Booking ID: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        bookings[index].id.toString(),
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Customer Name: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        bookings[index].name.toString(),
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Phone Number: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        bookings[index].phone.toString(),
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Address: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        bookings[index].address,
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Booking Status: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        bookings[index]
+                                            .bookingStatus
+                                            .toString(),
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Total fare: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        //bookings[index].bookingStatus.toString(),
+                                        '19000 BDT',
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Check In: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        DateFormat(DateFormat.ABBR_MONTH_DAY)
+                                            .add_jm()
+                                            .format(
+                                              DateTime.parse(
+                                                bookings[index]
+                                                    .checkInDate
+                                                    .toString(),
+                                              ),
                                             ),
-                                          ),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black87),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Wrap(
-                                  children: [
-                                    Text(
-                                      'Check Out: ',
-                                      style: keyStyle,
-                                    ),
-                                    Text(
-                                      DateFormat(DateFormat.ABBR_MONTH_DAY)
-                                          .add_jm()
-                                          .format(
-                                            DateTime.parse(
-                                              bookings[index]
-                                                  .checkOutDate
-                                                  .toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black87),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Check Out: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        DateFormat(DateFormat.ABBR_MONTH_DAY)
+                                            .add_jm()
+                                            .format(
+                                              DateTime.parse(
+                                                bookings[index]
+                                                    .checkOutDate
+                                                    .toString(),
+                                              ),
                                             ),
-                                          ),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black87),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black87),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
