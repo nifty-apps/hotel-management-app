@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
 import 'package:somudro_bilash_hotel/controller/transactionController.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
-import 'package:somudro_bilash_hotel/model/rooms_model.dart';
+import 'package:somudro_bilash_hotel/model/room_model.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking_edit/booking_edit_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_page.dart';
 
@@ -22,7 +22,7 @@ class _BookingOverviewState extends State<BookingOverview> {
       fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black54);
 
   final valueStyle = TextStyle(
-      fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87);
+      fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black87);
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +171,7 @@ class _BookingOverviewState extends State<BookingOverview> {
                                         style: keyStyle,
                                       ),
                                       Text(
-                                        //bookings[index].bookingStatus.toString(),
-                                        '19000 BDT',
+                                        bookings[index].roomFare.toString(),
                                         style: valueStyle,
                                       ),
                                     ],

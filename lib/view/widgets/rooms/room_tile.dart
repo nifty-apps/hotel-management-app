@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/model/rooms_model.dart';
+import 'package:somudro_bilash_hotel/model/room_model.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking/booking.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking/booking_overview.dart';
 
@@ -62,6 +62,17 @@ class RoomTile extends StatelessWidget {
               SizedBox(height: 5.0),
               Text(
                 room.name,
+                style: TextStyle(
+                  color: room.isBooked == 0
+                      ? Colors.black
+                      : room.isBooked == 1
+                          ? Colors.white
+                          : Colors.white,
+                ),
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                room.haveAc == 1 ? 'AC' : 'Non-AC',
                 style: TextStyle(
                   color: room.isBooked == 0
                       ? Colors.black

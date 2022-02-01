@@ -17,11 +17,9 @@ class BookingEditPage extends StatefulWidget {
 class _BookingEditPageState extends State<BookingEditPage> {
   final formKey = GlobalKey<FormState>();
 
-  // Initial Selected Value
-  String dropdownvalue = 'check_in';
-
   // List of items in our dropdown menu
   final roomStatuses = {
+    'booked': 'Booked',
     'check_in': 'Check In',
     'check_out': 'Check Out',
   };
@@ -139,7 +137,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
               ),
               const SizedBox(height: 5),
               TextFormField(
-                initialValue: '18000',
+                initialValue: widget.booking.roomFare.toString(),
                 keyboardType: TextInputType.number,
                 maxLines: 1,
                 validator: (value) {
@@ -152,7 +150,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   hintText: 'Write total fare',
                 ),
                 onChanged: (String amount) {
-                  widget.booking.paidAmount = int.parse(amount);
+                  widget.booking.roomFare = int.parse(amount);
                 },
               ),
               SizedBox(height: 5),
@@ -165,7 +163,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
               ),
               const SizedBox(height: 5),
               TextFormField(
-                initialValue: '12/21/2021',
+                initialValue: widget.booking.checkInDate,
                 keyboardType: TextInputType.number,
                 maxLines: 1,
                 validator: (value) {
@@ -191,7 +189,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
               ),
               const SizedBox(height: 5),
               TextFormField(
-                initialValue: '12/21/2021',
+                initialValue: widget.booking.checkOutDate,
                 keyboardType: TextInputType.number,
                 maxLines: 1,
                 validator: (value) {
@@ -220,7 +218,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
               const SizedBox(height: 5),
               DropdownButton(
                 // Initial Value
-                value: dropdownvalue,
+                value: widget.booking.bookingStatus,
                 // Down Arrow Icon
                 icon: const Icon(Icons.keyboard_arrow_down),
                 // Array list of items
@@ -230,13 +228,9 @@ class _BookingEditPageState extends State<BookingEditPage> {
                     child: Text(roomStatuses[key]!),
                   );
                 }).toList(),
-
                 onChanged: (String? newValue) {
                   setState(() {
-                    dropdownvalue = newValue!;
-                    setState(() {
-                      widget.booking.bookingStatus = newValue;
-                    });
+                    widget.booking.bookingStatus = newValue!;
                   });
                 },
               ),
