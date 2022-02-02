@@ -27,12 +27,12 @@ class _BookingRoomState extends State<BookingRoom> {
   int roomFare = 0;
   int advance = 0;
   // Initial Selected Value
-  String dropdownvalue = 'check_in';
+  String dropdownvalue = 'booked';
 
   // List of items in our dropdown menu
   final roomStatuses = {
     'check_in': 'Check In',
-    'check_out': 'Check Out',
+    'booked': 'Booked',
   };
 
   final bookingController = Get.put(BookingController());
@@ -73,6 +73,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please enter your name';
@@ -99,6 +100,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please enter your phone number';
@@ -127,6 +129,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please enter your address';
@@ -156,6 +159,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please enter your room fare';
@@ -184,6 +188,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please enter your paid amount';

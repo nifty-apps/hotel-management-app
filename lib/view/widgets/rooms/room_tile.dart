@@ -4,7 +4,7 @@ import 'package:somudro_bilash_hotel/model/room_model.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking/booking.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking/booking_overview.dart';
 
-class RoomTile extends StatelessWidget {
+class RoomTile extends StatefulWidget {
   const RoomTile({
     Key? key,
     required this.room,
@@ -17,11 +17,16 @@ class RoomTile extends StatelessWidget {
   final DateTime toDate;
 
   @override
+  State<RoomTile> createState() => _RoomTileState();
+}
+
+class _RoomTileState extends State<RoomTile> {
+  @override
   Widget build(BuildContext context) {
     return Card(
-      color: room.isBooked == 0
+      color: widget.room.isBooked == 0
           ? Colors.white
-          : room.isBooked == 1
+          : widget.room.isBooked == 1
               ? Colors.green
               : Colors.red,
       shape: RoundedRectangleBorder(
@@ -30,16 +35,18 @@ class RoomTile extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () async {
-          if (room.isBooked == 0) {
-            Get.to(
+          if (widget.room.isBooked == 0) {
+            await Get.to(
               () => BookingRoom(
-                room: room,
-                fromDate: fromDate,
-                toDate: toDate,
+                room: widget.room,
+                fromDate: widget.fromDate,
+                toDate: widget.toDate,
               ),
             );
+            setState(() {});
           } else {
-            Get.to(() => BookingOverview(room: room));
+            await Get.to(() => BookingOverview(room: widget.room));
+            setState(() {});
           }
         },
         child: Container(
@@ -48,11 +55,11 @@ class RoomTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Room No ' + room.roomNo.toString(),
+                'Room No ' + widget.room.roomNo.toString(),
                 style: TextStyle(
-                  color: room.isBooked == 0
+                  color: widget.room.isBooked == 0
                       ? Colors.black
-                      : room.isBooked == 1
+                      : widget.room.isBooked == 1
                           ? Colors.white
                           : Colors.white,
                   fontWeight: FontWeight.bold,
@@ -61,22 +68,22 @@ class RoomTile extends StatelessWidget {
               ),
               SizedBox(height: 5.0),
               Text(
-                room.name,
+                widget.room.name,
                 style: TextStyle(
-                  color: room.isBooked == 0
+                  color: widget.room.isBooked == 0
                       ? Colors.black
-                      : room.isBooked == 1
+                      : widget.room.isBooked == 1
                           ? Colors.white
                           : Colors.white,
                 ),
               ),
               SizedBox(height: 5.0),
               Text(
-                room.haveAc == 1 ? 'AC' : 'Non-AC',
+                widget.room.haveAc == 1 ? 'AC' : 'Non-AC',
                 style: TextStyle(
-                  color: room.isBooked == 0
+                  color: widget.room.isBooked == 0
                       ? Colors.black
-                      : room.isBooked == 1
+                      : widget.room.isBooked == 1
                           ? Colors.white
                           : Colors.white,
                 ),

@@ -22,6 +22,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
     'booked': 'Booked',
     'check_in': 'Check In',
     'check_out': 'Check Out',
+    'cancel': 'Cancel'
   };
 
   @override
