@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
+import 'package:somudro_bilash_hotel/controller/room_controller.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
 
 class BookingEditPage extends StatefulWidget {
@@ -151,7 +152,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   hintText: 'Write total fare',
                 ),
                 onChanged: (String amount) {
-                  widget.booking.roomFare = int.parse(amount);
+                  widget.booking.roomFare = int.tryParse(amount) ?? 0;
                 },
               ),
               SizedBox(height: 5),
@@ -248,6 +249,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                         'Successfully Updated!',
                         snackPosition: SnackPosition.BOTTOM,
                       );
+                      await Get.find<RoomController>().getRooms();
                     } else {
                       Get.snackbar(
                         'Error',

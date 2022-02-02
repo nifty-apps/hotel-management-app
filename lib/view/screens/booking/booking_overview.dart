@@ -3,15 +3,18 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
-import 'package:somudro_bilash_hotel/controller/transactionController.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
 import 'package:somudro_bilash_hotel/model/room_model.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking_edit/booking_edit_page.dart';
-import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_page.dart';
+import 'package:somudro_bilash_hotel/view/screens/transaction/transacion_view_page.dart';
 
 class BookingOverview extends StatefulWidget {
   final Room room;
-  BookingOverview({Key? key, required this.room}) : super(key: key);
+
+  BookingOverview({
+    Key? key,
+    required this.room,
+  }) : super(key: key);
 
   @override
   State<BookingOverview> createState() => _BookingOverviewState();
@@ -42,6 +45,14 @@ class _BookingOverviewState extends State<BookingOverview> {
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<Booking> bookings = snapshot.data;
+            if (bookings.isEmpty) {
+              return Center(
+                child: Text(
+                  'No bookings found!',
+                  style: keyStyle,
+                ),
+              );
+            }
             return ListView.builder(
               padding: const EdgeInsets.symmetric(
                 vertical: 6.0,
@@ -64,10 +75,11 @@ class _BookingOverviewState extends State<BookingOverview> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          Get.find<TransactionController>().getTransactions(
-                            bookings[index].id!,
+                          Get.to(
+                            () => TransactionView(
+                              bookingId: bookings[index].id!,
+                            ),
                           );
-                          Get.to(() => TransactionView());
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.00),
@@ -163,6 +175,21 @@ class _BookingOverviewState extends State<BookingOverview> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Wrap(
+                                    children: [
+                                      Text(
+                                        'Paid Amount: ',
+                                        style: keyStyle,
+                                      ),
+                                      Text(
+                                        "${bookings[index].paidAmount.toString()} BDT",
+                                        style: valueStyle,
+                                      ),
+                                    ],
+                                  ),
                                   const SizedBox(height: 5),
                                   Wrap(
                                     children: [
@@ -171,7 +198,7 @@ class _BookingOverviewState extends State<BookingOverview> {
                                         style: keyStyle,
                                       ),
                                       Text(
-                                        bookings[index].roomFare.toString(),
+                                        "${bookings[index].roomFare.toString()} BDT",
                                         style: valueStyle,
                                       ),
                                     ],

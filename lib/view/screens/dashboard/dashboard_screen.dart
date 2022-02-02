@@ -6,12 +6,10 @@ import 'package:somudro_bilash_hotel/controller/payment_update_controller.dart';
 import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_controller.dart';
-import 'package:somudro_bilash_hotel/controller/transactionController.dart';
-import 'package:somudro_bilash_hotel/view/screens/admin_profile.dart/admin_profile_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/admin_profile.dart/admin_profile_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/revenue/revenue.dart';
-import 'package:somudro_bilash_hotel/view/screens/transaction/transacionView_page.dart';
+import 'package:somudro_bilash_hotel/view/screens/transaction/transacion_view_page.dart';
 import 'package:somudro_bilash_hotel/view/widgets/dashboard/room_type_info_tile.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -254,20 +252,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         height: 14.0,
                       ),
                       ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(200, 35),
-                          ),
-                          onPressed: () async {
-                            if (formkey.currentState!.validate()) {
-                              Get.find<TransactionController>().getTransactions(
-                                int.parse(idController.text),
-                              );
-                              idController.clear();
-                              Get.back();
-                              Get.to(() => TransactionView());
-                            }
-                          },
-                          child: Text('See Transaction'))
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(200, 35),
+                        ),
+                        onPressed: () async {
+                          if (formkey.currentState!.validate()) {
+                            Get.back();
+                            await Get.to(
+                              () => TransactionView(
+                                bookingId: int.parse(idController.text),
+                              ),
+                            );
+                            idController.clear();
+                          }
+                        },
+                        child: Text('See Transaction'),
+                      )
                     ],
                   ),
                 ),

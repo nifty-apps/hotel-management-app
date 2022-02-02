@@ -59,7 +59,7 @@ class Booking {
       'address': address,
       'booking_status': bookingStatus,
       'room_fare': roomFare,
-      'paid_amount': 0,
+      'paid_amount': paidAmount,
       'check_in_date': checkInDate,
       'check_out_date': checkOutDate,
     };

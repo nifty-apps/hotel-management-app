@@ -77,8 +77,7 @@ class _RevenuePageState extends State<RevenuePage> {
                                   style: keystyle,
                                 ),
                                 Text(
-                                  controller.allReports.todayCollection
-                                      .toString(),
+                                  "${controller.allReports.todayCollection.toString()} BDT",
                                   style: valuestyle,
                                 )
                               ]),
@@ -92,8 +91,7 @@ class _RevenuePageState extends State<RevenuePage> {
                                     style: keystyle,
                                   ),
                                   Text(
-                                    controller.allReports.yesterdayCollection
-                                        .toString(),
+                                    "${controller.allReports.yesterdayCollection.toString()} BDT",
                                     style: valuestyle,
                                   )
                                 ],
@@ -107,8 +105,7 @@ class _RevenuePageState extends State<RevenuePage> {
                                   style: keystyle,
                                 ),
                                 Text(
-                                  controller.allReports.lastMonthCollection
-                                      .toString(),
+                                  "${controller.allReports.lastMonthCollection.toString()} BDT",
                                   style: valuestyle,
                                 )
                               ]),
@@ -122,8 +119,7 @@ class _RevenuePageState extends State<RevenuePage> {
                                     style: keystyle,
                                   ),
                                   Text(
-                                    controller.allReports.lastMonthCollection
-                                        .toString(),
+                                    "${controller.allReports.lastMonthCollection.toString()} BDT",
                                     style: valuestyle,
                                   ),
                                 ],
@@ -138,8 +134,7 @@ class _RevenuePageState extends State<RevenuePage> {
                                     style: keystyle,
                                   ),
                                   Text(
-                                    controller.allReports.lastYearCollection
-                                        .toString(),
+                                    "${controller.allReports.lastYearCollection.toString()} BDT",
                                     style: valuestyle,
                                   )
                                 ],

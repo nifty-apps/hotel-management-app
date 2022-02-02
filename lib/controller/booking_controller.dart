@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:somudro_bilash_hotel/data/rest_ds.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
+import 'package:somudro_bilash_hotel/model/response/transaction_response.dart';
 import 'package:somudro_bilash_hotel/util/app_constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,6 +45,7 @@ class BookingController extends GetxController implements GetxService {
   }
 
   Future<List<Booking>> getBookingDetails(int roomId) async {
+    print(roomId);
     Response response = await RestDatasource.getBookingDetails(roomId);
     List<Booking> bookings = (response.body['data'] as List)
         .map((el) => Booking.fromMap(el))
@@ -64,12 +67,26 @@ class BookingController extends GetxController implements GetxService {
       },
       body: booking.toJson(),
     );
+    print("update data: ${response.body}");
+    return response.statusCode == 200;
+  }
+
+  Future<List<Transaction>> getTransactions(int bookingId) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    var token = preferences.getString("Token");
+    http.Response response = await client.get(
+      Uri.parse(AppConstants.BASE_URL + AppConstants.transaction).replace(
+        queryParameters: {'booking_id': bookingId.toString()},
+      ),
+      headers: {'Authorization': 'Bearer $token'},
+    );
     if (response.statusCode == 200) {
-      Get.snackbar('Success', " Successfully Updated!");
+      var result = jsonDecode(response.body);
+      return (result['data'] as List)
+          .map((e) => Transaction.fromMap(e))
+          .toList();
     } else {
-      Get.snackbar('Error', 'Update unsuccessful');
+      return [];
     }
-    update();
-    return true;
   }
 }

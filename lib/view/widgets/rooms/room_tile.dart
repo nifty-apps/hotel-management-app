@@ -36,17 +36,17 @@ class _RoomTileState extends State<RoomTile> {
       child: InkWell(
         onTap: () async {
           if (widget.room.isBooked == 0) {
-            await Get.to(
+            Get.to(
               () => BookingRoom(
                 room: widget.room,
                 fromDate: widget.fromDate,
                 toDate: widget.toDate,
               ),
             );
-            setState(() {});
           } else {
-            await Get.to(() => BookingOverview(room: widget.room));
-            setState(() {});
+            Get.to(() => BookingOverview(
+                  room: widget.room,
+                ));
           }
         },
         child: Container(
