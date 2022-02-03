@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/data/rest_ds.dart';
 import 'package:somudro_bilash_hotel/model/room_type_model.dart';
 
@@ -16,8 +15,8 @@ class RoomTypeController extends GetxController implements GetxService {
     isLoading = true;
     update();
     Response response = await RestDatasource.getRoomTypeInfo(
-      DateFormat('yyyy-MM-dd').format(startDate),
-      DateFormat('yyyy-MM-dd').format(endDate),
+      startDate.toIso8601String(),
+      endDate.toIso8601String(),
     );
     if (response.status.code == 200) {
       roomTypes.clear();

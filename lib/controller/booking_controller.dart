@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:somudro_bilash_hotel/data/rest_ds.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
@@ -33,8 +32,8 @@ class BookingController extends GetxController implements GetxService {
         bookingStatus: bookingStatus,
         roomFare: roomFare,
         paidAmount: paidAmount,
-        checkInDate: DateFormat('yyyy-MM-dd').format(checkInDate),
-        checkOutDate: DateFormat('yyyy-MM-dd').format(checkOutDate),
+        checkInDate: checkInDate,
+        checkOutDate: checkInDate,
       ),
     );
     if (response.statusCode == 200) {
@@ -45,7 +44,6 @@ class BookingController extends GetxController implements GetxService {
   }
 
   Future<List<Booking>> getBookingDetails(int roomId) async {
-    print(roomId);
     Response response = await RestDatasource.getBookingDetails(roomId);
     List<Booking> bookings = (response.body['data'] as List)
         .map((el) => Booking.fromMap(el))
@@ -67,7 +65,6 @@ class BookingController extends GetxController implements GetxService {
       },
       body: booking.toJson(),
     );
-    print("update data: ${response.body}");
     return response.statusCode == 200;
   }
 

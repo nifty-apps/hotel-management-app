@@ -9,8 +9,8 @@ class Booking {
   String bookingStatus;
   int roomFare;
   int paidAmount;
-  String checkInDate;
-  String checkOutDate;
+  DateTime checkInDate;
+  DateTime checkOutDate;
   Booking({
     this.id,
     this.roomId,
@@ -33,8 +33,8 @@ class Booking {
     String? bookingStatus,
     int? roomFare,
     int? paidAmount,
-    String? checkInDate,
-    String? checkOutDate,
+    DateTime? checkInDate,
+    DateTime? checkOutDate,
   }) {
     return Booking(
       id: id ?? this.id,
@@ -60,8 +60,8 @@ class Booking {
       'booking_status': bookingStatus,
       'room_fare': roomFare,
       'paid_amount': paidAmount,
-      'check_in_date': checkInDate,
-      'check_out_date': checkOutDate,
+      'check_in_date': checkInDate.toIso8601String(),
+      'check_out_date': checkOutDate.toIso8601String(),
     };
   }
 
@@ -75,8 +75,8 @@ class Booking {
       bookingStatus: map['booking_status'] ?? '',
       roomFare: map['room_fare']?.toInt() ?? 0,
       paidAmount: map['paid_amount']?.toInt() ?? 0,
-      checkInDate: map['check_in_date'] ?? '',
-      checkOutDate: map['check_out_date'] ?? '',
+      checkInDate: DateTime.parse(map['check_in_date']),
+      checkOutDate: DateTime.parse(map['check_out_date']),
     );
   }
 

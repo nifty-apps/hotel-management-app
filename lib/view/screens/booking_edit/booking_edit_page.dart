@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
 import 'package:somudro_bilash_hotel/controller/room_controller.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
@@ -163,53 +164,62 @@ class _BookingEditPageState extends State<BookingEditPage> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 5),
-              TextFormField(
-                initialValue: widget.booking.checkInDate,
-                keyboardType: TextInputType.number,
-                maxLines: 1,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Check in date';
+              TextButton(
+                style: TextButton.styleFrom(
+                  alignment: Alignment.centerLeft,
+                ),
+                onPressed: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: widget.booking.checkInDate,
+                    firstDate: widget.booking.checkInDate,
+                    lastDate: DateTime.now().add(Duration(days: 365)),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      widget.booking.checkInDate = date;
+                    });
                   }
                 },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'check in date',
+                child: Text(
+                  DateFormat.yMMMd().format(
+                    widget.booking.checkInDate,
+                  ),
                 ),
-                onChanged: (String checkInDate) {
-                  widget.booking.checkInDate = checkInDate;
-                },
               ),
-              SizedBox(height: 5),
               Text(
-                'Check Out Date',
+                'Check Out',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 5),
-              TextFormField(
-                initialValue: widget.booking.checkOutDate,
-                keyboardType: TextInputType.number,
-                maxLines: 1,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Check out date';
+              TextButton(
+                style: TextButton.styleFrom(
+                  alignment: Alignment.centerLeft,
+                ),
+                onPressed: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: widget.booking.checkOutDate,
+                    firstDate: widget.booking.checkOutDate.subtract(
+                      Duration(days: 30),
+                    ),
+                    lastDate: DateTime.now().add(Duration(days: 365)),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      widget.booking.checkOutDate = date;
+                    });
                   }
                 },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'check out date',
+                child: Text(
+                  DateFormat.yMMMd().format(
+                    widget.booking.checkOutDate,
+                  ),
                 ),
-                onChanged: (String checkOutDate) {
-                  widget.booking.checkOutDate = checkOutDate;
-                },
               ),
-              SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 5),
               Text(
                 'Booking Status',
                 style: TextStyle(

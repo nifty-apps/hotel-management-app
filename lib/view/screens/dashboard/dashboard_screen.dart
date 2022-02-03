@@ -86,7 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.payment_sharp,
+                      Icons.history,
                       color: Colors.grey.shade700,
                     ),
                     SizedBox(width: 10.0),
@@ -99,11 +99,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.update_sharp,
+                      Icons.add,
                       color: Colors.grey.shade700,
                     ),
                     SizedBox(width: 10.0),
-                    Text('Update Payment'),
+                    Text('Add Payment'),
                   ],
                 ),
               ),

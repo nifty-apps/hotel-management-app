@@ -141,13 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                         passwordController.text.toString(),
                                       );
                                       if (success) {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DashboardScreen(),
-                                            ),
-                                            (route) => false);
+                                        Get.offAll(() => DashboardScreen());
                                         Get.snackbar(
                                             'Login', 'Login successfully',
                                             snackPosition:

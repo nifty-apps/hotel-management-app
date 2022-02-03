@@ -243,7 +243,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         if (formKey.currentState!.validate()) {
                           if (await bookingController.bookRoom()) {
                             Get.find<RoomController>().getRooms();
-                            Navigator.pop(context);
+                            Get.back(closeOverlays: true);
                             Get.snackbar(
                               'Success',
                               'Room confirm successfuly',

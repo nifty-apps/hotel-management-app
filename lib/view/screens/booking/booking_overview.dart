@@ -211,15 +211,13 @@ class _BookingOverviewState extends State<BookingOverview> {
                                         style: keyStyle,
                                       ),
                                       Text(
-                                        DateFormat(DateFormat.ABBR_MONTH_DAY)
-                                            .add_jm()
-                                            .format(
-                                              DateTime.parse(
-                                                bookings[index]
-                                                    .checkInDate
-                                                    .toString(),
-                                              ),
-                                            ),
+                                        DateFormat.yMMMd().format(
+                                          DateTime.parse(
+                                            bookings[index]
+                                                .checkInDate
+                                                .toString(),
+                                          ),
+                                        ),
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -235,15 +233,13 @@ class _BookingOverviewState extends State<BookingOverview> {
                                         style: keyStyle,
                                       ),
                                       Text(
-                                        DateFormat(DateFormat.ABBR_MONTH_DAY)
-                                            .add_jm()
-                                            .format(
-                                              DateTime.parse(
-                                                bookings[index]
-                                                    .checkOutDate
-                                                    .toString(),
-                                              ),
-                                            ),
+                                        DateFormat.yMMMd().format(
+                                          DateTime.parse(
+                                            bookings[index]
+                                                .checkOutDate
+                                                .toString(),
+                                          ),
+                                        ),
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
