@@ -5,7 +5,7 @@ class Booking {
   int? roomId;
   String name;
   String phone;
-  String address;
+  String? address;
   String bookingStatus;
   int roomFare;
   int paidAmount;

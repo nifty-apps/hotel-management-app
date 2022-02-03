@@ -12,7 +12,7 @@ final client = http.Client();
 class BookingController extends GetxController implements GetxService {
   late String name;
   late String phone;
-  String address = 'Pearabag Moghbazar';
+  String? address = 'Pearabag Moghbazar';
   int roomId = 12;
   late DateTime checkInDate;
   late DateTime checkOutDate;

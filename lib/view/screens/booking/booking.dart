@@ -129,12 +129,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
-                      textInputAction: TextInputAction.next,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'Please enter your address';
-                        }
-                      },
+                      textInputAction: TextInputAction.next,                   
                       onChanged: (String text) {
                         bookController.address = text;
                       },

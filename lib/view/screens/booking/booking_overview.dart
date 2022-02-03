@@ -155,7 +155,7 @@ class _BookingOverviewState extends State<BookingOverview> {
                                         style: keyStyle,
                                       ),
                                       Text(
-                                        bookings[index].address,
+                                        bookings[index].address.toString(),
                                         style: valueStyle,
                                       ),
                                     ],
