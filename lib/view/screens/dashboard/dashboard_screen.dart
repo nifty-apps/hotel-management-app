@@ -339,7 +339,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Get.offAll(() => DashboardScreen());
                         }
                       },
-                      child: Text('Update'))
+                      child: Text('Add'))
                 ],
               ),
             ),
