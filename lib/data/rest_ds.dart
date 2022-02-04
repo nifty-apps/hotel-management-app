@@ -44,6 +44,7 @@ class RestDatasource {
       AppConstants.ROOM_BOOK,
       body: jsonEncode(data),
     );
+    print(data);
     return response;
   }
 }

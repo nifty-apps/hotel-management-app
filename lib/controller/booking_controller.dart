@@ -12,15 +12,13 @@ final client = http.Client();
 class BookingController extends GetxController implements GetxService {
   late String name;
   late String phone;
-  String? address = 'Pearabag Moghbazar';
-  int roomId = 12;
+  String? address;
+  late int roomId;
   late DateTime checkInDate;
   late DateTime checkOutDate;
-  String checkInTime = '10:00';
-  String checkOutTime = '04:00';
   String bookingStatus = 'booked';
-  int paidAmount = 2000;
-  int roomFare = 4000;
+  late int paidAmount;
+  late int roomFare;
 
   Future<bool> bookRoom() async {
     Response response = await RestDatasource.bookRoom(
@@ -33,7 +31,7 @@ class BookingController extends GetxController implements GetxService {
         roomFare: roomFare,
         paidAmount: paidAmount,
         checkInDate: checkInDate,
-        checkOutDate: checkInDate,
+        checkOutDate: checkOutDate,
       ),
     );
     if (response.statusCode == 200) {

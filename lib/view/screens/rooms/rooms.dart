@@ -40,7 +40,7 @@ class RoomsScreen extends StatelessWidget {
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
                           maxCrossAxisExtent: 200,
-                          childAspectRatio: 4 / 2,
+                          childAspectRatio: 4 / 2.5,
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 5,
                         ),

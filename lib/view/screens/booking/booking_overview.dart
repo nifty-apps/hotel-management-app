@@ -3,8 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
+import 'package:somudro_bilash_hotel/controller/room_controller.dart';
 import 'package:somudro_bilash_hotel/model/booking_model.dart';
 import 'package:somudro_bilash_hotel/model/room_model.dart';
+import 'package:somudro_bilash_hotel/view/screens/booking/booking.dart';
 import 'package:somudro_bilash_hotel/view/screens/booking_edit/booking_edit_page.dart';
 import 'package:somudro_bilash_hotel/view/screens/transaction/transacion_view_page.dart';
 
@@ -30,6 +32,19 @@ class _BookingOverviewState extends State<BookingOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Get.to(
+            () => BookingRoom(
+              room: widget.room,
+              fromDate: Get.find<RoomController>().fromDate,
+              toDate: Get.find<RoomController>().toDate,
+            ),
+          );
+          setState(() {});
+        },
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         elevation: 0,
         title: Text(

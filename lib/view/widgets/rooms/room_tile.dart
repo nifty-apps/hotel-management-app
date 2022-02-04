@@ -50,7 +50,7 @@ class _RoomTileState extends State<RoomTile> {
           }
         },
         child: Container(
-          margin: EdgeInsets.only(left: 5, right: 5),
+          margin: EdgeInsets.all(5.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -63,10 +63,10 @@ class _RoomTileState extends State<RoomTile> {
                           ? Colors.white
                           : Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 18.0,
                 ),
               ),
-              SizedBox(height: 5.0),
+              SizedBox(height: 3.0),
               Text(
                 widget.room.name,
                 style: TextStyle(
@@ -76,8 +76,9 @@ class _RoomTileState extends State<RoomTile> {
                           ? Colors.white
                           : Colors.white,
                 ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 5.0),
+              SizedBox(height: 3.0),
               Text(
                 widget.room.haveAc == 1 ? 'AC' : 'Non-AC',
                 style: TextStyle(
