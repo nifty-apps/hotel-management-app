@@ -7,7 +7,7 @@ import 'package:hotel_management/controller/reports_controller.dart';
 import 'package:hotel_management/controller/room_type_controller.dart';
 import 'package:hotel_management/controller/room_controller.dart';
 import 'package:hotel_management/view/screens/admin_profile.dart/admin_profile_page.dart';
-import 'package:hotel_management/view/screens/login_screen/login_page.dart';
+import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/revenue/revenue.dart';
 import 'package:hotel_management/view/screens/transaction/transacion_view_page.dart';
 import 'package:hotel_management/view/widgets/dashboard/room_type_info_tile.dart';

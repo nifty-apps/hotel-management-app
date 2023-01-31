@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_management/model/user_model.dart';
 import 'package:hotel_management/util/app_constants.dart';
@@ -9,6 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   final ApiClient _apiClient = ApiClient();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController pasController = TextEditingController();
+  final TextEditingController roleController = TextEditingController();
   bool isLoading = false;
 
   // User login

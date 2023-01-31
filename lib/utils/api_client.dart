@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
-class ApiClient {
+class ApiClient extends GetxService {
   final _dio = Dio();
 
   Map<String, dynamic> defaultHeaders = {
