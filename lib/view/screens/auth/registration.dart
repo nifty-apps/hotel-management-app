@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
+import 'package:hotel_management/model/body/registration.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
+import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 
 class Registration extends StatelessWidget {
@@ -49,12 +51,31 @@ class Registration extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 CustomTextField(
-                  controller: controller.roleController,
+                  controller: controller.pasController,
                   hintText: 'Password',
+                  isPassword: true,
                 ),
                 SizedBox(height: 16),
                 CustomButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    RegistrationModel registration = RegistrationModel(
+                      name: controller.nameController.text,
+                      email: controller.emailController.text,
+                      phone: controller.phoneController.text,
+                      role: controller.roleController.text,
+                      password: controller.pasController.text,
+                    );
+                    controller
+                        .registration(registration, context)
+                        .then((value) {
+                      if (value == true) {
+                        Get.offAll(
+                          () => AddHotel(),
+                          transition: Transition.fadeIn,
+                        );
+                      }
+                    });
+                  },
                   buttonText: 'Sign Up',
                   width: double.infinity,
                   height: 45,

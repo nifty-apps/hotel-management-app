@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
-import 'package:hotel_management/controller/payment_update_controller.dart';
-import 'package:hotel_management/controller/reports_controller.dart';
-import 'package:hotel_management/controller/room_type_controller.dart';
-import 'package:hotel_management/controller/room_controller.dart';
 import 'package:hotel_management/view/screens/admin_profile.dart/admin_profile_page.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/revenue/revenue.dart';
@@ -163,16 +158,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-                child:  ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 5,
-                            itemBuilder: (BuildContext context, int index) {
-                              return RoomTypeInfoTile(
-                          
-                              );
-                            },
-                          
-                  
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RoomTypeInfoTile();
+                  },
                 ),
               ),
             ),
@@ -204,8 +195,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onPressed: () async {
                 bool success = await Get.find<AuthController>().logout();
                 if (success) Get.offAll(LoginPage());
-                Get.snackbar('Logout', 'Logout successfuly!',
-                    snackPosition: SnackPosition.BOTTOM);
               },
               child: Text('Ok'))
         ],
@@ -234,6 +223,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter booking ID';
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                             hintText: 'Booking ID',
@@ -290,6 +280,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter booking ID';
                       }
+                      return null;
                     },
                     decoration: InputDecoration(
                         hintText: 'Booking ID',
@@ -304,6 +295,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter update amount';
                       }
+                      return null;
                     },
                     decoration: InputDecoration(
                         hintText: 'Amount',

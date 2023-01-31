@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -59,7 +61,16 @@ class _LoginPageState extends State<LoginPage> {
                           height: 15,
                         ),
                         CustomButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.find<AuthController>()
+                                .login(emailController.text.trim(),
+                                    passwordController.text.trim(), context)
+                                .then((value) {
+                              if (value == true) {
+                                Get.offAll(() => DashboardScreen());
+                              }
+                            });
+                          },
                           buttonText: 'Login',
                           width: 200,
                           height: 40,

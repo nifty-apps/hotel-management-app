@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_management/model/body/registration.dart';
 import 'package:hotel_management/model/user_model.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
@@ -17,13 +18,58 @@ class AuthController extends GetxController {
   final TextEditingController roleController = TextEditingController();
   bool isLoading = false;
 
+  // User registration
+  Future<bool> registration(
+      RegistrationModel userData, BuildContext context) async {
+    try {
+      final response = await _apiClient.post(AppConstants.registraionUrl,
+          data: userData.toJson());
+      if (response.statusCode == 201) {
+        String token = response.data['data']['token'];
+        _apiClient.updateToken(token);
+        final SharedPreferences preferences =
+            await SharedPreferences.getInstance();
+        preferences.setString('Token', token);
+        return true;
+      } else if (response.statusCode == 403) {
+        print(response.data['message']);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.data['message']),
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        );
+        return false;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   // User login
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(
+      String email, String password, BuildContext context) async {
     try {
       final response = await _apiClient.post(AppConstants.loginUrl,
           data: {'email': email, 'password': password});
       if (response.statusCode == 200) {
+        String? token = response.headers.map['access-token']?.first;
+        print(token);
+        _apiClient.updateToken(token!);
+        final SharedPreferences preferences =
+            await SharedPreferences.getInstance();
+        preferences.setString('Token', token);
         return true;
+      } else if (response.statusCode == 403) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.data['message']),
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        );
+        return false;
       }
       return false;
     } catch (error) {
