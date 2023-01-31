@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/model/room_model.dart';
-import 'package:somudro_bilash_hotel/view/screens/booking/booking.dart';
-import 'package:somudro_bilash_hotel/view/screens/booking/booking_overview.dart';
+import 'package:hotel_management/model/room_model.dart';
+import 'package:hotel_management/view/screens/booking/booking.dart';
+import 'package:hotel_management/view/screens/booking/booking_overview.dart';
 
 class RoomTile extends StatefulWidget {
   const RoomTile({

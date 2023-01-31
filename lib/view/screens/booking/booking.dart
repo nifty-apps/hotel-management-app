@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
-import 'package:somudro_bilash_hotel/controller/room_controller.dart';
-import 'package:somudro_bilash_hotel/model/room_model.dart';
+import 'package:hotel_management/controller/booking_controller.dart';
+import 'package:hotel_management/controller/room_controller.dart';
+import 'package:hotel_management/model/room_model.dart';
 
 class BookingRoom extends StatefulWidget {
   final Room room;
@@ -129,7 +129,7 @@ class _BookingRoomState extends State<BookingRoom> {
                       ),
                     ),
                     TextFormField(
-                      textInputAction: TextInputAction.next,                   
+                      textInputAction: TextInputAction.next,
                       onChanged: (String text) {
                         bookController.address = text;
                       },

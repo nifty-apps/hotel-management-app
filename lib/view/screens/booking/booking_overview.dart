@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
-import 'package:somudro_bilash_hotel/controller/room_controller.dart';
-import 'package:somudro_bilash_hotel/model/booking_model.dart';
-import 'package:somudro_bilash_hotel/model/room_model.dart';
-import 'package:somudro_bilash_hotel/view/screens/booking/booking.dart';
-import 'package:somudro_bilash_hotel/view/screens/booking_edit/booking_edit_page.dart';
-import 'package:somudro_bilash_hotel/view/screens/transaction/transacion_view_page.dart';
+import 'package:hotel_management/controller/booking_controller.dart';
+import 'package:hotel_management/controller/room_controller.dart';
+import 'package:hotel_management/model/booking_model.dart';
+import 'package:hotel_management/model/room_model.dart';
+import 'package:hotel_management/view/screens/booking/booking.dart';
+import 'package:hotel_management/view/screens/booking_edit/booking_edit_page.dart';
+import 'package:hotel_management/view/screens/transaction/transacion_view_page.dart';
 
 class BookingOverview extends StatefulWidget {
   final Room room;

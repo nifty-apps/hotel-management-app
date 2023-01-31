@@ -1,4 +1,4 @@
-# somudro_bilash_hotel
+# hotel_management
 
 A new Flutter project.
 

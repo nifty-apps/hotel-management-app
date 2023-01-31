@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:http/http.dart' as http;
-import 'package:somudro_bilash_hotel/model/response/error_response.dart';
-import 'package:somudro_bilash_hotel/util/app_constants.dart';
+import 'package:hotel_management/model/response/error_response.dart';
+import 'package:hotel_management/util/app_constants.dart';
 
 class NetworkUtil {
   // next three lines makes this class a Singleton

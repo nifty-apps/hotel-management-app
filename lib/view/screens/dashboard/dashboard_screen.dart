@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
-import 'package:somudro_bilash_hotel/controller/payment_update_controller.dart';
-import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
-import 'package:somudro_bilash_hotel/controller/room_type_controller.dart';
-import 'package:somudro_bilash_hotel/controller/room_controller.dart';
-import 'package:somudro_bilash_hotel/view/screens/admin_profile.dart/admin_profile_page.dart';
-import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
-import 'package:somudro_bilash_hotel/view/screens/revenue/revenue.dart';
-import 'package:somudro_bilash_hotel/view/screens/transaction/transacion_view_page.dart';
-import 'package:somudro_bilash_hotel/view/widgets/dashboard/room_type_info_tile.dart';
+import 'package:hotel_management/controller/auth_controller.dart';
+import 'package:hotel_management/controller/payment_update_controller.dart';
+import 'package:hotel_management/controller/reports_controller.dart';
+import 'package:hotel_management/controller/room_type_controller.dart';
+import 'package:hotel_management/controller/room_controller.dart';
+import 'package:hotel_management/view/screens/admin_profile.dart/admin_profile_page.dart';
+import 'package:hotel_management/view/screens/login_screen/login_page.dart';
+import 'package:hotel_management/view/screens/revenue/revenue.dart';
+import 'package:hotel_management/view/screens/transaction/transacion_view_page.dart';
+import 'package:hotel_management/view/widgets/dashboard/room_type_info_tile.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DashboardScreen extends StatefulWidget {

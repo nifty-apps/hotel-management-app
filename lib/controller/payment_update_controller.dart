@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:somudro_bilash_hotel/util/app_constants.dart';
+import 'package:hotel_management/util/app_constants.dart';
 
 var client = http.Client();
 

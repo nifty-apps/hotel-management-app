@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/reports_controller.dart';
+import 'package:hotel_management/controller/reports_controller.dart';
 
 class RevenuePage extends StatefulWidget {
   @override

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:somudro_bilash_hotel/controller/booking_controller.dart';
-import 'package:somudro_bilash_hotel/model/response/transaction_response.dart';
+import 'package:hotel_management/controller/booking_controller.dart';
+import 'package:hotel_management/model/response/transaction_response.dart';
 
 class TransactionView extends StatelessWidget {
   TransactionView({

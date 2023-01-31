@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/auth_controller.dart';
-import 'package:somudro_bilash_hotel/view/screens/dashboard/dashboard_screen.dart';
+import 'package:hotel_management/controller/auth_controller.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

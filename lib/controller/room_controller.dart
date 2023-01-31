@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/data/rest_ds.dart';
-import 'package:somudro_bilash_hotel/model/room_model.dart';
+import 'package:hotel_management/data/rest_ds.dart';
+import 'package:hotel_management/model/room_model.dart';
 
 class RoomController extends GetxController implements GetxService {
   int roomTypeId = 0;

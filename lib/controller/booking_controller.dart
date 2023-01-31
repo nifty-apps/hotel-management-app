@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:somudro_bilash_hotel/data/rest_ds.dart';
-import 'package:somudro_bilash_hotel/model/booking_model.dart';
-import 'package:somudro_bilash_hotel/model/response/transaction_response.dart';
-import 'package:somudro_bilash_hotel/util/app_constants.dart';
+import 'package:hotel_management/data/rest_ds.dart';
+import 'package:hotel_management/model/booking_model.dart';
+import 'package:hotel_management/model/response/transaction_response.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:http/http.dart' as http;
 
 final client = http.Client();

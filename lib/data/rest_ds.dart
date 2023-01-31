@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:somudro_bilash_hotel/model/booking_model.dart';
-import 'package:somudro_bilash_hotel/util/app_constants.dart';
-import 'package:somudro_bilash_hotel/utils/routes/network_util.dart';
+import 'package:hotel_management/model/booking_model.dart';
+import 'package:hotel_management/util/app_constants.dart';
+import 'package:hotel_management/utils/routes/network_util.dart';
 
 class RestDatasource {
   static NetworkUtil _netUtil = new NetworkUtil();

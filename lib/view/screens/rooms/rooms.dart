@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/controller/room_controller.dart';
-import 'package:somudro_bilash_hotel/model/room_type_model.dart';
-import 'package:somudro_bilash_hotel/view/widgets/rooms/room_tile.dart';
+import 'package:hotel_management/controller/room_controller.dart';
+import 'package:hotel_management/model/room_type_model.dart';
+import 'package:hotel_management/view/widgets/rooms/room_tile.dart';
 
 class RoomsScreen extends StatelessWidget {
   final RoomType roomType;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:somudro_bilash_hotel/helper/get_di.dart' as di;
-import 'package:somudro_bilash_hotel/view/screens/dashboard/dashboard_screen.dart';
-import 'package:somudro_bilash_hotel/view/screens/login_screen/login_page.dart';
+import 'package:hotel_management/helper/get_di.dart' as di;
+import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
+import 'package:hotel_management/view/screens/login_screen/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
