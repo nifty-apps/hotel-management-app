@@ -34,14 +34,14 @@ class _BookingOverviewState extends State<BookingOverview> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await Get.to(
-            () => BookingRoom(
-              room: widget.room,
-              fromDate: Get.find<RoomController>().fromDate,
-              toDate: Get.find<RoomController>().toDate,
-            ),
-          );
-          setState(() {});
+          // await Get.to(
+          //   () => BookingRoom(
+          //     room: widget.room,
+          //     fromDate: Get.find<RoomController>().fromDate,
+          //     toDate: Get.find<RoomController>().toDate,
+          //   ),
+          // );
+          // setState(() {});
         },
         child: Icon(Icons.add),
       ),
@@ -55,8 +55,9 @@ class _BookingOverviewState extends State<BookingOverview> {
           ),
         ),
       ),
-      body: FutureBuilder(
-        future: Get.find<BookingController>().getBookingDetails(widget.room.id),
+      body: 
+      FutureBuilder(
+        // future: Get.find<BookingController>().getBookingDetails(widget.room.id),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<Booking> bookings = snapshot.data;

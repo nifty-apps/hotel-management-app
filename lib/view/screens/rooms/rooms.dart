@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotel_management/controller/room_controller.dart';
 import 'package:hotel_management/model/room_type_model.dart';
 import 'package:hotel_management/view/widgets/rooms/room_tile.dart';
 
@@ -12,7 +11,7 @@ class RoomsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: Get.find<RoomController>().roomsByFloor.length,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -20,22 +19,21 @@ class RoomsScreen extends StatelessWidget {
           title: Text(roomType.name),
           bottom: TabBar(
             isScrollable: true,
-            tabs: Get.find<RoomController>()
-                .roomsByFloor
-                .keys
-                .map((e) => Tab(
-                      text: e,
-                    ))
-                .toList(),
+            tabs:[
+
+            ],
+            // Get.find<RoomController>()
+            //     .roomsByFloor
+            //     .keys
+            //     .map(
+            //       (e) => Tab(
+            //         text: e,
+            //       ),
+            //     )
+            //     .toList(),
           ),
         ),
-        body: TabBarView(
-          children: Get.find<RoomController>()
-              .roomsByFloor
-              .keys
-              .map((e) => GetBuilder<RoomController>(
-                    builder: (searchController) {
-                      return GridView.builder(
+        body: GridView.builder(
                         padding: EdgeInsets.all(20),
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -44,19 +42,27 @@ class RoomsScreen extends StatelessWidget {
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 5,
                         ),
-                        itemCount: searchController.roomsByFloor[e]!.length,
+                        itemCount:5,
                         itemBuilder: (BuildContext ctx, index) {
-                          return RoomTile(
-                            room: searchController.roomsByFloor[e]![index],
-                            fromDate: searchController.fromDate,
-                            toDate: searchController.toDate,
-                          );
+                          return Container(); 
+                          //  RoomTile(
+                          //   room: searchController.roomsByFloor[e]![index],
+                          //   fromDate: searchController.fromDate,
+                          //   toDate: searchController.toDate,
+                          // );
                         },
-                      );
-                    },
-                  ))
-              .toList(),
-        ),
+                      )
+        // TabBarView(
+        //   children: Get.find<RoomController>()
+        //       .roomsByFloor
+        //       .keys
+        //       .map((e) => GetBuilder<RoomController>(
+        //             builder: (searchController) {
+        //               return 
+        //             },
+        //           ))
+        //       .toList(),
+        // ),
       ),
     );
   }

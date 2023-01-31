@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_management/helper/get_di.dart' as di;
+import 'package:hotel_management/theme/theme.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 import 'package:hotel_management/view/screens/login_screen/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.red),
+      theme: MyAppTheme.lightTheme,
       home: FutureBuilder(
         future: SharedPreferences.getInstance(),
         builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {

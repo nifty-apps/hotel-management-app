@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:hotel_management/controller/booking_controller.dart';
 import 'package:hotel_management/model/response/transaction_response.dart';
+import 'package:intl/intl.dart';
 
 class TransactionView extends StatelessWidget {
   TransactionView({
@@ -31,7 +29,7 @@ class TransactionView extends StatelessWidget {
         title: Text('Transactions'),
       ),
       body: FutureBuilder(
-        future: Get.find<BookingController>().getTransactions(bookingId),
+        // future: Get.find<BookingController>().getTransactions(bookingId),
         builder: (context, AsyncSnapshot<List<Transaction>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<Transaction> transactions = snapshot.data ?? [];

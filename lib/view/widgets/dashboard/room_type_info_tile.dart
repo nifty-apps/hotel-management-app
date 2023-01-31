@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hotel_management/controller/room_controller.dart';
-import 'package:hotel_management/model/room_type_model.dart';
-import 'package:hotel_management/view/screens/rooms/rooms.dart';
 
 class RoomTypeInfoTile extends StatelessWidget {
-  final RoomType roomType;
+
 
   const RoomTypeInfoTile({
     Key? key,
-    required this.roomType,
   }) : super(key: key);
 
   @override
@@ -19,11 +14,11 @@ class RoomTypeInfoTile extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: () async {
-          Get.find<RoomController>().roomTypeId = roomType.id;
-          await Get.find<RoomController>().getRooms();
-          Get.to(
-            () => RoomsScreen(roomType: roomType),
-          );
+          // Get.find<RoomController>().roomTypeId = roomType.id;
+          // await Get.find<RoomController>().getRooms();
+          // Get.to(
+          //   () => RoomsScreen(roomType: roomType),
+          // );
         },
         child: Container(
           padding: EdgeInsets.all(14.0),
@@ -31,11 +26,11 @@ class RoomTypeInfoTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                roomType.name,
+                "roomType.name",
                 style: TextStyle(color: Colors.black, fontSize: 15),
               ),
               Text(
-                roomType.totalRooms.toString(),
+                "roomType.totalRooms",
                 style: TextStyle(color: Colors.black, fontSize: 15),
               ),
             ],

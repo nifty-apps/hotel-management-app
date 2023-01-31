@@ -250,23 +250,23 @@ class _BookingEditPageState extends State<BookingEditPage> {
               TextButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    bool success = await Get.find<BookingController>()
-                        .updateBooking(widget.booking);
-                    if (success) {
-                      Get.back(closeOverlays: true);
-                      Get.snackbar(
-                        'Success',
-                        'Successfully Updated!',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                      await Get.find<RoomController>().getRooms();
-                    } else {
-                      Get.snackbar(
-                        'Error',
-                        'Update unsuccessful',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    }
+                    // bool success = await Get.find<BookingController>()
+                    //     .updateBooking(widget.booking);
+                    // if (success) {
+                    //   Get.back(closeOverlays: true);
+                    //   Get.snackbar(
+                    //     'Success',
+                    //     'Successfully Updated!',
+                    //     snackPosition: SnackPosition.BOTTOM,
+                    //   );
+                    //   // await Get.find<RoomController>().getRooms();
+                    // } else {
+                    //   Get.snackbar(
+                    //     'Error',
+                    //     'Update unsuccessful',
+                    //     snackPosition: SnackPosition.BOTTOM,
+                    //   );
+                    // }
                   }
                 },
                 child: Text(

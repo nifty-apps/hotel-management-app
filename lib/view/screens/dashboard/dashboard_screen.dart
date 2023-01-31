@@ -40,7 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Get.to(() => AdminProfile());
                   break;
                 case 1:
-                  Get.find<ReportController>().getReports();
+                  // Get.find<ReportController>().getReports();
                   Get.to(() => RevenuePage());
                   break;
                 case 2:
@@ -143,18 +143,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               controller: _controller,
               selectionMode: DateRangePickerSelectionMode.range,
               onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                Get.find<RoomController>().fromDate = args.value.startDate;
-                Get.find<RoomController>().toDate =
-                    args.value.endDate ?? args.value.startDate;
+                // Get.find<RoomController>().fromDate = args.value.startDate;
+                // Get.find<RoomController>().toDate =
+                //     args.value.endDate ?? args.value.startDate;
               },
               allowViewNavigation: false,
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                await Get.find<RoomTypeController>().getInfo(
-                  Get.find<RoomController>().fromDate,
-                  Get.find<RoomController>().toDate,
-                );
+                // await Get.find<RoomTypeController>().getInfo(
+                //   Get.find<RoomController>().fromDate,
+                //   Get.find<RoomController>().toDate,
+                // );
               },
               icon: Icon(Icons.search),
               label: Text('Search'),
@@ -163,25 +163,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-                child: GetBuilder<RoomTypeController>(
-                  builder: (controller) {
-                    return controller.isLoading
-                        ? Center(
-                            child: SpinKitThreeBounce(
-                              size: 30.0,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          )
-                        : ListView.builder(
+                child:  ListView.builder(
                             shrinkWrap: true,
-                            itemCount: controller.roomTypes.length,
+                            itemCount: 5,
                             itemBuilder: (BuildContext context, int index) {
                               return RoomTypeInfoTile(
-                                roomType: controller.roomTypes[index],
+                          
                               );
                             },
-                          );
-                  },
+                          
+                  
                 ),
               ),
             ),
@@ -326,17 +317,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ElevatedButton.styleFrom(minimumSize: Size(200, 35)),
                       onPressed: () async {
                         if (formkey.currentState!.validate()) {
-                          Get.find<PaymentUpdateController>().isLoading
-                              ? Center(
-                                  child: SpinKitThreeBounce(
-                                    color: Theme.of(context).primaryColor,
-                                    size: 30,
-                                  ),
-                                )
-                              : Get.find<PaymentUpdateController>()
-                                  .paymentUpdate(
-                                      idController.text, amountController.text);
-                          Get.offAll(() => DashboardScreen());
+                          // Get.find<PaymentUpdateController>().isLoading
+                          //     ? Center(
+                          //         child: SpinKitThreeBounce(
+                          //           color: Theme.of(context).primaryColor,
+                          //           size: 30,
+                          //         ),
+                          //       )
+                          //     : Get.find<PaymentUpdateController>()
+                          //         .paymentUpdate(
+                          //             idController.text, amountController.text);
+                          // Get.offAll(() => DashboardScreen());
                         }
                       },
                       child: Text('Add'))

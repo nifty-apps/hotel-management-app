@@ -35,7 +35,7 @@ class _BookingRoomState extends State<BookingRoom> {
     'booked': 'Booked',
   };
 
-  final bookingController = Get.put(BookingController());
+  // final bookingController = Get.put(BookingController());
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -51,11 +51,11 @@ class _BookingRoomState extends State<BookingRoom> {
         ),
       ),
       body: SingleChildScrollView(
-        child: GetBuilder<BookingController>(
+        child: GetBuilder(
           builder: (bookController) {
-            bookController.roomId = widget.room.id;
-            bookController.checkInDate = widget.fromDate;
-            bookController.checkOutDate = widget.toDate;
+            // bookController.roomId = widget.room.id;
+            // bookController.checkInDate = widget.fromDate;
+            // bookController.checkOutDate = widget.toDate;
             return Container(
               padding: EdgeInsets.all(20.0),
               child: Form(
@@ -80,7 +80,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         }
                       },
                       onChanged: (String text) {
-                        bookController.name = text;
+                        // bookController.name = text;
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -107,7 +107,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         }
                       },
                       onChanged: (String text) {
-                        bookController.phone = text.trim();
+                        // bookController.phone = text.trim();
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -131,7 +131,7 @@ class _BookingRoomState extends State<BookingRoom> {
                     TextFormField(
                       textInputAction: TextInputAction.next,
                       onChanged: (String text) {
-                        bookController.address = text;
+                        // bookController.address = text;
                       },
                       maxLines: 4,
                       keyboardType: TextInputType.text,
@@ -161,7 +161,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         }
                       },
                       onChanged: (String text) {
-                        bookController.roomFare = int.parse(text);
+                        // bookController.roomFare = int.parse(text);
                       },
                       keyboardType: TextInputType.number,
                       maxLines: 1,
@@ -190,7 +190,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         }
                       },
                       onChanged: (String text) {
-                        bookController.paidAmount = int.parse(text);
+                        // bookController.paidAmount = int.parse(text);
                       },
                       keyboardType: TextInputType.number,
                       maxLines: 1,
@@ -227,8 +227,8 @@ class _BookingRoomState extends State<BookingRoom> {
                       // change button value to selected value
                       onChanged: (String? newValue) {
                         setState(() {
-                          dropdownvalue = newValue!;
-                          bookingController.bookingStatus = newValue;
+                          // dropdownvalue = newValue!;
+                          // bookingController.bookingStatus = newValue;
                         });
                       },
                     ),
@@ -236,21 +236,21 @@ class _BookingRoomState extends State<BookingRoom> {
                     TextButton(
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          if (await bookingController.bookRoom()) {
-                            Get.find<RoomController>().getRooms();
-                            Get.back(closeOverlays: true);
-                            Get.snackbar(
-                              'Success',
-                              'Room confirm successfuly',
-                              snackPosition: SnackPosition.BOTTOM,
-                            );
-                          } else {
-                            Get.snackbar(
-                              'Error',
-                              'Something went wrong!',
-                              snackPosition: SnackPosition.BOTTOM,
-                            );
-                          }
+                          // if (await bookingController.bookRoom()) {
+                          //   Get.find<RoomController>().getRooms();
+                          //   Get.back(closeOverlays: true);
+                          //   Get.snackbar(
+                          //     'Success',
+                          //     'Room confirm successfuly',
+                          //     snackPosition: SnackPosition.BOTTOM,
+                          //   );
+                          // } else {
+                          //   Get.snackbar(
+                          //     'Error',
+                          //     'Something went wrong!',
+                          //     snackPosition: SnackPosition.BOTTOM,
+                          //   );
+                          // }
                         }
                       },
                       child: Text(
