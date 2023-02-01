@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_management/controller/booking_controller.dart';
 import 'package:hotel_management/controller/room_controller.dart';
-import 'package:hotel_management/model/room_model.dart';
+import 'package:hotel_management/models/room_model.dart';
 
 class BookingRoom extends StatefulWidget {
   final Room room;

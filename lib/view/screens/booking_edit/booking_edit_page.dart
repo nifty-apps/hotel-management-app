@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:hotel_management/controller/booking_controller.dart';
 import 'package:hotel_management/controller/room_controller.dart';
-import 'package:hotel_management/model/booking_model.dart';
+import 'package:hotel_management/models/booking_model.dart';
 
 class BookingEditPage extends StatefulWidget {
   BookingEditPage({

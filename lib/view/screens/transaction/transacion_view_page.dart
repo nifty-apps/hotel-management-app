@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hotel_management/model/response/transaction_response.dart';
+import 'package:hotel_management/models/transaction_response.dart';
 import 'package:intl/intl.dart';
 
 class TransactionView extends StatelessWidget {

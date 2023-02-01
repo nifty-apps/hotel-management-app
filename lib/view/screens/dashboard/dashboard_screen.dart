@@ -25,8 +25,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
-        title: Text('Dashboard'),
+        title: Text(
+          'Dashboard',
+          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+        ),
         actions: [
           PopupMenuButton(
             onSelected: (value) async {
@@ -48,7 +52,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   logoutDialog(context);
               }
             },
-            icon: Icon(Icons.more_vert),
+            icon: Icon(
+              Icons.more_vert,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             itemBuilder: (BuildContext context) => [
               PopupMenuItem(
                 value: 0,
@@ -120,37 +127,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 20.0, left: 20, right: 20),
+        color: Theme.of(context).colorScheme.background,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Center(
-              child: Text(
-                'Select Date',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
-              ),
-            ),
             SfDateRangePicker(
               controller: _controller,
               selectionMode: DateRangePickerSelectionMode.range,
-              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                // Get.find<RoomController>().fromDate = args.value.startDate;
-                // Get.find<RoomController>().toDate =
-                //     args.value.endDate ?? args.value.startDate;
-              },
+              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {},
               allowViewNavigation: false,
             ),
             ElevatedButton.icon(
-              onPressed: () async {
-                // await Get.find<RoomTypeController>().getInfo(
-                //   Get.find<RoomController>().fromDate,
-                //   Get.find<RoomController>().toDate,
-                // );
-              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+              ),
+              onPressed: () async {},
               icon: Icon(Icons.search),
               label: Text('Search'),
             ),

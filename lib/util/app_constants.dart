@@ -4,6 +4,7 @@ class AppConstants {
   static const baseUrl = 'http://192.168.0.174:4000/api';
   static const registraionUrl = '$baseUrl/auth/registration';
   static const loginUrl = '$baseUrl/auth/login';
+  static const hotelAddUrl = '$baseUrl/hotels';
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
   static const totalRoom = '$baseUrl/api/v1/admin/room/list';
   static const roomBooking = '$baseUrl/admin/room/booking/store';

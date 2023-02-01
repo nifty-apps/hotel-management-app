@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/helper/get_di.dart' as di;
+import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/theme/theme.dart';
-import 'package:hotel_management/view/screens/auth/addHotel.dart';
+import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
-import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 
 void main() async {
   await di.init();
@@ -22,22 +21,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: MyAppTheme.lightTheme,
       home: FutureBuilder(
-        future: SharedPreferences.getInstance(),
-        builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            final pref = snapshot.data;
-            if (pref!.getString('Token') == null) {
+        future: Get.find<LocalStorage>().loadTokenAndUser(),
+        builder: (context, AsyncSnapshot<List<dynamic>?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data == null) {
               return Login();
+            }
+            if (snapshot.data!.last.hotel == null) {
+              return AddHotel();
             } else {
-              if (Get.find<AuthController>().userData?.hotel == null) {
-                return AddHotel();
-              } else {
-                return DashboardScreen();
-              }
+              return DashboardScreen();
             }
           }
           return Center(

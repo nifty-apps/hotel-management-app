@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
-import 'package:hotel_management/view/screens/auth/addHotel.dart';
+import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 
@@ -54,7 +54,7 @@ class Login extends StatelessWidget {
                                   passwordController.text.trim(), context)
                               .then((value) {
                             if (value == true) {
-                              if (Get.find<AuthController>().userData?.hotel !=
+                              if (Get.find<AuthController>().userData.hotel !=
                                   null) {
                                 Get.offAll(() => DashboardScreen(),
                                     transition: Transition.fadeIn);

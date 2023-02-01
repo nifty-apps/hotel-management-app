@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotel_management/model/body/registration.dart';
-import 'package:hotel_management/model/response/user.dart';
-import 'package:hotel_management/model/user_model.dart';
+import 'package:hotel_management/models/hotel.dart';
+import 'package:hotel_management/models/registration.dart';
+import 'package:hotel_management/models/user.dart';
+import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 import 'package:http/http.dart' as http;
@@ -18,8 +19,8 @@ class AuthController extends GetxController {
   final TextEditingController pasController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
   bool isLoading = false;
-  UserModel? _userData;
-  UserModel? get userData => _userData;
+  late User userData;
+
   // User registration
   Future<bool> registration(
       RegistrationModel userData, BuildContext context) async {
@@ -29,11 +30,10 @@ class AuthController extends GetxController {
       if (response.statusCode == 201) {
         String token = response.data['data']['token'];
         _apiClient.updateToken(token);
-        final SharedPreferences preferences =
-            await SharedPreferences.getInstance();
-        preferences.setString('Token', token);
+        Get.find<LocalStorage>().saveToken(token);
         return true;
-      } else if (response.statusCode == 403) {
+      }
+      {
         print(response.data['message']);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -43,7 +43,6 @@ class AuthController extends GetxController {
         );
         return false;
       }
-      return false;
     } catch (e) {
       print(e);
       return false;
@@ -52,21 +51,26 @@ class AuthController extends GetxController {
 
   // User login
   Future<bool> login(
-      String email, String password, BuildContext context) async {
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     try {
-      final response = await _apiClient.post(AppConstants.loginUrl,
-          data: {'email': email, 'password': password});
+      final response = await _apiClient.post(
+        AppConstants.loginUrl,
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
       if (response.statusCode == 200) {
         String? token = response.headers.map['access-token']?.first;
-        print(response.data['data']);
-        _userData = UserModel.fromJson(response.data['data']);
-        print(_userData);
+        userData = User.fromMap(response.data['data']);
         _apiClient.updateToken(token!);
-        final SharedPreferences preferences =
-            await SharedPreferences.getInstance();
-        preferences.setString('Token', token);
+        Get.find<LocalStorage>().saveToken(token);
+        Get.find<LocalStorage>().saveUser(userData);
         return true;
-      } else if (response.statusCode == 403) {
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(response.data['message']),
@@ -75,16 +79,39 @@ class AuthController extends GetxController {
         );
         return false;
       }
-      return false;
     } catch (error) {
-      throw error;
+      rethrow;
+    }
+  }
+
+  // Add Hotel
+  Future<Hotel?> addHotel(String name, address) async {
+    try {
+      final response = await _apiClient.post(
+        AppConstants.hotelAddUrl,
+        data: {
+          'name': name,
+          'address': address,
+        },
+      );
+      if (response.statusCode == 200) {
+        final hotel = Hotel.fromMap(response.data['data']);
+        final updatedUser = Get.find<AuthController>().userData.copyWith(
+              hotel: hotel,
+            );
+        await Get.find<LocalStorage>().saveUser(updatedUser);
+        return hotel;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 
   // User logout
   Future<bool> logout() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.remove('Token');
+    Get.find<LocalStorage>().removeTokenAndUser();
     update();
     return true;
   }
@@ -92,7 +119,7 @@ class AuthController extends GetxController {
   // User get profile
   Future<User?> getUserProfile() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token = preferences.getString("Token");
+    var token = preferences.getString("token");
     http.Response response = await http.get(
         Uri.parse(AppConstants.baseUrl + AppConstants.adminProfile),
         headers: {
@@ -100,7 +127,7 @@ class AuthController extends GetxController {
         });
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body);
-      return User.fromMap(result['data']);
+      return User.fromJson(result['data']);
     }
     return null;
   }

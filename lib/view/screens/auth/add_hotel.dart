@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 
 class AddHotel extends StatelessWidget {
   AddHotel({Key? key}) : super(key: key);
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressConteroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +60,21 @@ class AddHotel extends StatelessWidget {
                         SizedBox(height: 30),
                         CustomButton(
                           onPressed: () {
-                            
+                            // Get.find<AuthController>().logout();
+                            Get.find<AuthController>()
+                                .addHotel(
+                              nameController.text.trim(),
+                              addressConteroller.text.trim(),
+                            )
+                                .then((hotel) {
+                              if (hotel?.id != null) {
+                                print(hotel);
+                                Get.to(
+                                  () => DashboardScreen(),
+                                  transition: Transition.fadeIn,
+                                );
+                              }
+                            });
                           },
                           buttonText: 'Submit',
                           width: double.infinity,
