@@ -61,11 +61,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               : widget.inputAction,
           keyboardType:
               widget.isAmount ? TextInputType.number : widget.inputType,
-          cursorColor: Theme.of(context).primaryColor,
+          cursorColor: Theme.of(context).colorScheme.secondary,
           textCapitalization: widget.capitalization,
           enabled: widget.isEnabled,
           autofocus: false,
-         
           obscureText: widget.isPassword ? _obscureText : false,
           inputFormatters: widget.inputType == TextInputType.phone
               ? <TextInputFormatter>[
@@ -78,14 +77,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       : null,
           decoration: InputDecoration(
             border: OutlineInputBorder(
-              
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(style: BorderStyle.none, width: 0),
             ),
-            
             isDense: true,
             hintText: widget.hintText,
-            fillColor: Theme.of(context).cardColor,
+            fillColor: Theme.of(context).colorScheme.primary,
             filled: true,
             hintStyle: TextStyle(fontSize: 14),
             suffixIcon: widget.isPassword

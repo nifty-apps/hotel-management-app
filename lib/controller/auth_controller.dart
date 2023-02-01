@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_management/model/body/registration.dart';
+import 'package:hotel_management/model/response/user.dart';
 import 'package:hotel_management/model/user_model.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
@@ -17,7 +18,8 @@ class AuthController extends GetxController {
   final TextEditingController pasController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
   bool isLoading = false;
-
+  UserModel? _userData;
+  UserModel? get userData => _userData;
   // User registration
   Future<bool> registration(
       RegistrationModel userData, BuildContext context) async {
@@ -56,7 +58,9 @@ class AuthController extends GetxController {
           data: {'email': email, 'password': password});
       if (response.statusCode == 200) {
         String? token = response.headers.map['access-token']?.first;
-        print(token);
+        print(response.data['data']);
+        _userData = UserModel.fromJson(response.data['data']);
+        print(_userData);
         _apiClient.updateToken(token!);
         final SharedPreferences preferences =
             await SharedPreferences.getInstance();
@@ -66,14 +70,14 @@ class AuthController extends GetxController {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(response.data['message']),
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).errorColor,
           ),
         );
         return false;
       }
       return false;
     } catch (error) {
-      return false;
+      throw error;
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
+import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey.shade200,
+            color: Color(0xFFF1F8FF),
             borderRadius: BorderRadius.circular(5),
           ),
           margin: EdgeInsets.symmetric(horizontal: 30.0),
@@ -67,7 +68,16 @@ class _LoginPageState extends State<LoginPage> {
                                     passwordController.text.trim(), context)
                                 .then((value) {
                               if (value == true) {
-                                Get.offAll(() => DashboardScreen());
+                                if (Get.find<AuthController>()
+                                        .userData!
+                                        .hotel !=
+                                    null) {
+                                  Get.offAll(() => DashboardScreen(),
+                                      transition: Transition.fadeIn);
+                                } else {
+                                  Get.to(() => AddHotel(),
+                                      transition: Transition.fadeIn);
+                                }
                               }
                             });
                           },

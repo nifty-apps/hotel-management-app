@@ -12,14 +12,14 @@ class CustomButton extends StatelessWidget {
     required this.buttonText,
     this.transparent = false,
     this.width = 200,
-    this.height = 40,
-    this.radius = 5,
+    this.height = 44,
+    this.radius = 12,
   });
 
   @override
   Widget build(BuildContext context) {
     final ButtonStyle _flatButtonStyle = TextButton.styleFrom(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       minimumSize: Size(width, height),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
