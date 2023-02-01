@@ -1,7 +1,7 @@
 class AppConstants {
   static const String APP_NAME = 'Hotel Management';
   static const int APP_VERSION = 1;
-  static const baseUrl = 'http://10.0.2.2:4000/api';
+  static const baseUrl = 'http://192.168.0.174:4000/api';
   static const registraionUrl = '$baseUrl/auth/registration';
   static const loginUrl = '$baseUrl/auth/login';
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';

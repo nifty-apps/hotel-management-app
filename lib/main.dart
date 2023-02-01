@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/helper/get_di.dart' as di;
 import 'package:hotel_management/theme/theme.dart';
-import 'package:hotel_management/view/screens/auth/add_hotel.dart';
+import 'package:hotel_management/view/screens/auth/addHotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyAppTheme.lightTheme,
       home: FutureBuilder(
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.connectionState == ConnectionState.done) {
             final pref = snapshot.data;
             if (pref!.getString('Token') == null) {
-              return LoginPage();
+              return Login();
             } else {
               if (Get.find<AuthController>().userData?.hotel == null) {
                 return AddHotel();

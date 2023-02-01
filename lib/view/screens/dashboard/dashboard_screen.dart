@@ -194,7 +194,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           TextButton(
               onPressed: () async {
                 bool success = await Get.find<AuthController>().logout();
-                if (success) Get.offAll(LoginPage());
+                if (success) Get.offAll(Login());
               },
               child: Text('Ok'))
         ],

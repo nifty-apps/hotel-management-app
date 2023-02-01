@@ -4,7 +4,7 @@ import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/model/body/registration.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
-import 'package:hotel_management/view/screens/auth/add_hotel.dart';
+import 'package:hotel_management/view/screens/auth/addHotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 
 class Registration extends StatelessWidget {
@@ -13,21 +13,17 @@ class Registration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text('Registration'),
-      ),
       backgroundColor: Colors.grey.shade200,
       body: GetBuilder<AuthController>(builder: (controller) {
         return Container(
+          color: Theme.of(context).colorScheme.background,
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
-                  width: double.infinity,
-                  child: Image.asset('assets/images/signup.jpg'),
+                  child: Image.asset('assets/images/signup.png'),
                 ),
                 SizedBox(height: 10),
                 CustomTextField(
@@ -85,13 +81,17 @@ class Registration extends StatelessWidget {
                   children: [
                     Text("Have an account?"),
                     TextButton(
-                        onPressed: () {
-                          Get.to(() => LoginPage(),
-                              transition: Transition.fadeIn);
-                        },
-                        child: Text('Login'))
+                      onPressed: () {
+                        Get.to(() => Login(), transition: Transition.fadeIn);
+                      },
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
+                      ),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
