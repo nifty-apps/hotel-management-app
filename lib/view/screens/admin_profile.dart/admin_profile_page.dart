@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/models/user.dart';
 
-class AdminProfile extends StatelessWidget {
+class AdminProfile extends ConsumerWidget {
   const AdminProfile({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(authProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -16,7 +17,7 @@ class AdminProfile extends StatelessWidget {
         title: Text('Profile'),
       ),
       body: FutureBuilder(
-        future: Get.find<AuthController>().getUserProfile(),
+        future: provider.getUserProfile(),
         builder: (context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final User? user = snapshot.data;

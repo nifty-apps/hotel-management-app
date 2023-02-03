@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
-import 'package:hotel_management/view/screens/auth/add_hotel.dart';
-import 'package:hotel_management/view/screens/auth/registration.dart';
-import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
 
-class Login extends StatelessWidget {
-  Login({Key? key}) : super(key: key);
+class LoginScreen extends ConsumerWidget {
+  LoginScreen({Key? key}) : super(key: key);
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(authProvider);
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -49,18 +48,19 @@ class Login extends StatelessWidget {
                       SizedBox(height: 30),
                       CustomButton(
                         onPressed: () {
-                          Get.find<AuthController>()
-                              .login(emailController.text.trim(),
-                                  passwordController.text.trim(), context)
+                          provider
+                              .login(
+                            emailController.text.trim(),
+                            passwordController.text.trim(),
+                            context,
+                          )
                               .then((value) {
                             if (value == true) {
-                              if (Get.find<AuthController>().userData.hotel !=
-                                  null) {
-                                Get.offAll(() => DashboardScreen(),
-                                    transition: Transition.fadeIn);
+                              if (provider.userData.hotel != null) {
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.dashboard);
                               } else {
-                                Get.to(() => AddHotel(),
-                                    transition: Transition.fadeIn);
+                                Navigator.pushNamed(context, Routes.addHotel);
                               }
                             }
                           });
@@ -76,14 +76,14 @@ class Login extends StatelessWidget {
                           Text("Haven't an account?"),
                           TextButton(
                             onPressed: () {
-                              Get.to(() => Registration(),
-                                  transition: Transition.fadeIn);
+                              Navigator.pushReplacementNamed(
+                                  context, Routes.signUp);
                             },
                             child: Text(
                               'Sign up',
                               style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                           )
                         ],

@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/models/registration.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
-import 'package:hotel_management/view/screens/auth/add_hotel.dart';
-import 'package:hotel_management/view/screens/auth/login.dart';
 
-class Registration extends StatelessWidget {
-  const Registration({Key? key}) : super(key: key);
-
+class SignUpScreen extends ConsumerWidget {
+  SignUpScreen({Key? key}) : super(key: key);
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController pasController = TextEditingController();
+  final TextEditingController roleController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      body: GetBuilder<AuthController>(builder: (controller) {
+      body: Consumer(builder: (contex, ref, _) {
+        final provider = ref.watch(authProvider);
         return Container(
           color: Theme.of(context).colorScheme.background,
+          height: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: SingleChildScrollView(
             child: Column(
@@ -27,27 +32,27 @@ class Registration extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 CustomTextField(
-                  controller: controller.nameController,
+                  controller: nameController,
                   hintText: 'Name',
                 ),
                 SizedBox(height: 16),
                 CustomTextField(
-                  controller: controller.emailController,
+                  controller: emailController,
                   hintText: 'Email',
                 ),
                 SizedBox(height: 16),
                 CustomTextField(
-                  controller: controller.phoneController,
+                  controller: phoneController,
                   hintText: 'Phone',
                 ),
                 SizedBox(height: 16),
                 CustomTextField(
-                  controller: controller.roleController,
+                  controller: roleController,
                   hintText: 'Role',
                 ),
                 SizedBox(height: 16),
                 CustomTextField(
-                  controller: controller.pasController,
+                  controller: pasController,
                   hintText: 'Password',
                   isPassword: true,
                 ),
@@ -55,20 +60,15 @@ class Registration extends StatelessWidget {
                 CustomButton(
                   onPressed: () {
                     RegistrationModel registration = RegistrationModel(
-                      name: controller.nameController.text,
-                      email: controller.emailController.text,
-                      phone: controller.phoneController.text,
-                      role: controller.roleController.text,
-                      password: controller.pasController.text,
+                      name: nameController.text,
+                      email: emailController.text,
+                      phone: phoneController.text,
+                      role: roleController.text,
+                      password: pasController.text,
                     );
-                    controller
-                        .registration(registration, context)
-                        .then((value) {
+                    provider.registration(registration, contex).then((value) {
                       if (value == true) {
-                        Get.offAll(
-                          () => AddHotel(),
-                          transition: Transition.fadeIn,
-                        );
+                        Navigator.pushNamed(context, Routes.addHotel);
                       }
                     });
                   },
@@ -82,7 +82,7 @@ class Registration extends StatelessWidget {
                     Text("Have an account?"),
                     TextButton(
                       onPressed: () {
-                        Get.to(() => Login(), transition: Transition.fadeIn);
+                        Navigator.pushNamed(context, Routes.login);
                       },
                       child: Text(
                         'Login',

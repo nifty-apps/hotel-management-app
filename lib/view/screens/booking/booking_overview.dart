@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:hotel_management/controller/booking_controller.dart';
-import 'package:hotel_management/controller/room_controller.dart';
 import 'package:hotel_management/models/booking_model.dart';
 import 'package:hotel_management/models/room_model.dart';
-import 'package:hotel_management/view/screens/booking/booking.dart';
-import 'package:hotel_management/view/screens/booking_edit/booking_edit_page.dart';
-import 'package:hotel_management/view/screens/transaction/transacion_view_page.dart';
+import 'package:intl/intl.dart';
 
 class BookingOverview extends StatefulWidget {
   final Room room;
@@ -55,8 +49,7 @@ class _BookingOverviewState extends State<BookingOverview> {
           ),
         ),
       ),
-      body: 
-      FutureBuilder(
+      body: FutureBuilder(
         // future: Get.find<BookingController>().getBookingDetails(widget.room.id),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -91,11 +84,11 @@ class _BookingOverviewState extends State<BookingOverview> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          Get.to(
-                            () => TransactionView(
-                              bookingId: bookings[index].id!,
-                            ),
-                          );
+                          // Get.to(
+                          //   () => TransactionView(
+                          //     bookingId: bookings[index].id!,
+                          //   ),
+                          // );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.00),
@@ -110,13 +103,13 @@ class _BookingOverviewState extends State<BookingOverview> {
                                   visualDensity: VisualDensity.compact,
                                   padding: EdgeInsets.zero,
                                   onPressed: () async {
-                                    await Get.to(
-                                      () => BookingEditPage(
-                                        booking: bookings[index].copyWith(
-                                          roomId: widget.room.id,
-                                        ),
-                                      ),
-                                    );
+                                    // await Get.to(
+                                    //   () => BookingEditPage(
+                                    //     booking: bookings[index].copyWith(
+                                    //       roomId: widget.room.id,
+                                    //     ),
+                                    //   ),
+                                    // );
                                     setState(() {});
                                   },
                                   icon: Icon(Icons.edit),

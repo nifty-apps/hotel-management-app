@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hotel_management/models/room_model.dart';
 import 'package:hotel_management/view/screens/booking/booking.dart';
 import 'package:hotel_management/view/screens/booking/booking_overview.dart';
@@ -36,17 +35,17 @@ class _RoomTileState extends State<RoomTile> {
       child: InkWell(
         onTap: () async {
           if (widget.room.isBooked == 0) {
-            Get.to(
-              () => BookingRoom(
-                room: widget.room,
-                fromDate: widget.fromDate,
-                toDate: widget.toDate,
-              ),
-            );
+            // Get.to(
+            //   () => BookingRoom(
+            //     room: widget.room,
+            //     fromDate: widget.fromDate,
+            //     toDate: widget.toDate,
+            //   ),
+            // );
           } else {
-            Get.to(() => BookingOverview(
-                  room: widget.room,
-                ));
+            // Get.to(() => BookingOverview(
+            //       room: widget.room,
+            //     ));
           }
         },
         child: Container(

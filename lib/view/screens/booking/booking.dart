@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hotel_management/controller/booking_controller.dart';
-import 'package:hotel_management/controller/room_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/room_model.dart';
 
 class BookingRoom extends StatefulWidget {
@@ -51,8 +49,8 @@ class _BookingRoomState extends State<BookingRoom> {
         ),
       ),
       body: SingleChildScrollView(
-        child: GetBuilder(
-          builder: (bookController) {
+        child: Consumer(
+          builder: (c, d, _) {
             // bookController.roomId = widget.room.id;
             // bookController.checkInDate = widget.fromDate;
             // bookController.checkOutDate = widget.toDate;
@@ -78,6 +76,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         if (val!.isEmpty) {
                           return 'Please enter your name';
                         }
+                        return null;
                       },
                       onChanged: (String text) {
                         // bookController.name = text;
@@ -105,6 +104,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         if (val!.isEmpty) {
                           return 'Please enter your phone number';
                         }
+                        return null;
                       },
                       onChanged: (String text) {
                         // bookController.phone = text.trim();
@@ -159,6 +159,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         if (val!.isEmpty) {
                           return 'Please enter your room fare';
                         }
+                        return null;
                       },
                       onChanged: (String text) {
                         // bookController.roomFare = int.parse(text);
@@ -188,6 +189,7 @@ class _BookingRoomState extends State<BookingRoom> {
                         if (val!.isEmpty) {
                           return 'Please enter your paid amount';
                         }
+                        return null;
                       },
                       onChanged: (String text) {
                         // bookController.paidAmount = int.parse(text);

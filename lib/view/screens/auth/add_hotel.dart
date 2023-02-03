@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
-import 'package:hotel_management/view/screens/dashboard/dashboard_screen.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 
-class AddHotel extends StatelessWidget {
-  AddHotel({Key? key}) : super(key: key);
+class AddHotelScreen extends ConsumerWidget {
+  AddHotelScreen({Key? key}) : super(key: key);
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressConteroller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(authProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -61,7 +63,7 @@ class AddHotel extends StatelessWidget {
                         CustomButton(
                           onPressed: () {
                             // Get.find<AuthController>().logout();
-                            Get.find<AuthController>()
+                            provider
                                 .addHotel(
                               nameController.text.trim(),
                               addressConteroller.text.trim(),
@@ -69,10 +71,7 @@ class AddHotel extends StatelessWidget {
                                 .then((hotel) {
                               if (hotel?.id != null) {
                                 print(hotel);
-                                Get.to(
-                                  () => DashboardScreen(),
-                                  transition: Transition.fadeIn,
-                                );
+                                Navigator.pushReplacementNamed(context, Routes.dashboard);
                               }
                             });
                           },

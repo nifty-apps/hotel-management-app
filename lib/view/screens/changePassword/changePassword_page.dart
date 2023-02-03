@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ChangePassPage extends StatefulWidget {
   ChangePassPage({Key? key}) : super(key: key);
@@ -30,7 +29,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            // Get.back();
           },
           icon: Icon(
             Icons.arrow_back,
@@ -82,6 +81,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                               if (val == null || val.isEmpty) {
                                 return 'Please enter your valid username';
                               }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Password',
@@ -111,6 +111,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                               if (value!.isEmpty) {
                                 return 'Please enter your new password';
                               }
+                              return null;
                             },
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
@@ -198,12 +199,12 @@ class _ChangePassPageState extends State<ChangePassPage> {
                         ElevatedButton(
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              Get.snackbar(
-                                'Password',
-                                'Password changed succesfuly',
-                                snackPosition: SnackPosition.BOTTOM,
-                                duration: Duration(seconds: 3),
-                              );
+                              // Get.snackbar(
+                              //   'Password',
+                              //   'Password changed succesfuly',
+                              //   snackPosition: SnackPosition.BOTTOM,
+                              //   duration: Duration(seconds: 3),
+                              // );
                             }
                           },
                           style: TextButton.styleFrom(

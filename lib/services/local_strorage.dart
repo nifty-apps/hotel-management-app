@@ -1,11 +1,12 @@
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/models/user.dart';
 import 'package:hotel_management/utils/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalStorage extends GetxController {
+class LocalStorage {
+  final Ref ref;
+  LocalStorage(this.ref);
   Future<void> saveUser(User user) async {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('currentUser', user.toJson());
@@ -29,8 +30,10 @@ class LocalStorage extends GetxController {
         : null;
     final token = pref.getString('token');
     if (currentUser == null || token == null) return null;
-    Get.find<ApiClient>().updateToken(token);
-    Get.find<AuthController>().userData = currentUser;
+    ref.read(apiClientProvider).updateToken(token);
+    ref.read(authProvider).userData = currentUser;
     return [token, currentUser];
   }
 }
+
+final localStorageProvider = Provider((ref) => LocalStorage(ref));

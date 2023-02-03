@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/hotel.dart';
 import 'package:hotel_management/models/registration.dart';
 import 'package:hotel_management/models/user.dart';
@@ -11,13 +12,11 @@ import 'package:hotel_management/utils/api_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthController extends GetxController {
-  final ApiClient _apiClient = ApiClient();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController pasController = TextEditingController();
-  final TextEditingController roleController = TextEditingController();
+class AuthProvider {
+  final Ref ref;
+
+  AuthProvider(this.ref);
+
   bool isLoading = false;
   late User userData;
 
@@ -25,22 +24,18 @@ class AuthController extends GetxController {
   Future<bool> registration(
       RegistrationModel userData, BuildContext context) async {
     try {
-      final response = await _apiClient.post(AppConstants.registraionUrl,
-          data: userData.toJson());
+      final response = await ref.read(apiClientProvider).post(
+            AppConstants.registraionUrl,
+            data: userData.toJson(),
+          );
       if (response.statusCode == 201) {
         String token = response.data['data']['token'];
-        _apiClient.updateToken(token);
-        Get.find<LocalStorage>().saveToken(token);
+        ref.read(apiClientProvider).updateToken(token);
+        ref.read(localStorageProvider).saveToken(token);
         return true;
-      }
-      {
-        print(response.data['message']);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.data['message']),
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-        );
+      } else {
+        String message = response.data['message'];
+        showSnackBarMethod(context, message);
         return false;
       }
     } catch (e) {
@@ -51,12 +46,9 @@ class AuthController extends GetxController {
 
   // User login
   Future<bool> login(
-    String email,
-    String password,
-    BuildContext context,
-  ) async {
+      String email, String password, BuildContext context) async {
     try {
-      final response = await _apiClient.post(
+      final response = await ref.read(apiClientProvider).post(
         AppConstants.loginUrl,
         data: {
           'email': email,
@@ -66,17 +58,13 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         String? token = response.headers.map['access-token']?.first;
         userData = User.fromMap(response.data['data']);
-        _apiClient.updateToken(token!);
-        Get.find<LocalStorage>().saveToken(token);
-        Get.find<LocalStorage>().saveUser(userData);
+        ref.read(apiClientProvider).updateToken(token!);
+        ref.read(localStorageProvider).saveToken(token);
+        ref.read(localStorageProvider).saveUser(userData);
         return true;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.data['message']),
-            backgroundColor: Theme.of(context).errorColor,
-          ),
-        );
+        String message = response.data['message'];
+        showSnackBarMethod(context, message);
         return false;
       }
     } catch (error) {
@@ -87,7 +75,7 @@ class AuthController extends GetxController {
   // Add Hotel
   Future<Hotel?> addHotel(String name, address) async {
     try {
-      final response = await _apiClient.post(
+      final response = await ref.read(apiClientProvider).post(
         AppConstants.hotelAddUrl,
         data: {
           'name': name,
@@ -96,10 +84,11 @@ class AuthController extends GetxController {
       );
       if (response.statusCode == 200) {
         final hotel = Hotel.fromMap(response.data['data']);
-        final updatedUser = Get.find<AuthController>().userData.copyWith(
-              hotel: hotel,
-            );
-        await Get.find<LocalStorage>().saveUser(updatedUser);
+        final updatedUser = userData.copyWith(
+          hotel: hotel,
+        );
+        print(updatedUser);
+        ref.read(localStorageProvider).saveUser(updatedUser);
         return hotel;
       }
       return null;
@@ -111,8 +100,7 @@ class AuthController extends GetxController {
 
   // User logout
   Future<bool> logout() async {
-    Get.find<LocalStorage>().removeTokenAndUser();
-    update();
+    ref.read(localStorageProvider).removeTokenAndUser();
     return true;
   }
 
@@ -132,3 +120,5 @@ class AuthController extends GetxController {
     return null;
   }
 }
+
+final authProvider = Provider((ref) => AuthProvider(ref));

@@ -1,43 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hotel_management/helper/get_di.dart' as di;
-import 'package:hotel_management/services/local_strorage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/theme/theme.dart';
-import 'package:hotel_management/view/screens/auth/add_hotel.dart';
-import 'package:hotel_management/view/screens/auth/login.dart';
-import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
+import 'package:hotel_management/view/screens/splash/splash.dart';
 
 void main() async {
-  await di.init();
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ProviderScope(child: HotelManagement()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class HotelManagement extends StatelessWidget {
+  const HotelManagement({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyAppTheme.lightTheme,
-      home: FutureBuilder(
-        future: Get.find<LocalStorage>().loadTokenAndUser(),
-        builder: (context, AsyncSnapshot<List<dynamic>?> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data == null) {
-              return Login();
-            }
-            if (snapshot.data!.last.hotel == null) {
-              return AddHotel();
-            } else {
-              return DashboardScreen();
-            }
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
+      onGenerateRoute: Routes.onGenerateRoute,
+      onUnknownRoute: ((settings) {
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
+      }),
+
+      // home: FutureBuilder(
+      //   future: Get.find<LocalStorage>().loadTokenAndUser(),
+      //   builder: (context, AsyncSnapshot<List<dynamic>?> snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       if (snapshot.data == null) {
+      //         return LoginScreen();
+      //       }
+      //       if (snapshot.data!.last.hotel == null) {
+      //         return AddHotelScreen();
+      //       } else {
+      //         return DashboardScreen();
+      //       }
+      //     }
+      //     return Center(
+      //       child: CircularProgressIndicator(),
+      //     );
+      //   },
+      // ),
     );
   }
 }

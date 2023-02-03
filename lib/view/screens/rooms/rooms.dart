@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hotel_management/models/room_type_model.dart';
 import 'package:hotel_management/view/widgets/rooms/room_tile.dart';
 

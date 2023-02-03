@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ApiClient extends GetxService {
+class ApiClient {
+ 
   final _dio = Dio();
 
   Map<String, dynamic> defaultHeaders = {
@@ -58,3 +59,5 @@ class ApiClient extends GetxService {
     defaultHeaders[HttpHeaders.authorizationHeader] = 'Bearer $token';
   }
 }
+
+final apiClientProvider = Provider((ref) => ApiClient());
