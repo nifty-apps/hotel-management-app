@@ -13,35 +13,29 @@ class AddRoomScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Add Room',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
-      ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            color: Theme.of(context).colorScheme.background,
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Flexible(
-                  flex: 1,
-                  child: Image.asset(
-                    'assets/images/living_room.png',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
+        onTap: (() => FocusScope.of(context).unfocus()),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
+              floating: false,
+              expandedHeight: 300,
+              title: Text(
+                'Add Room',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
-                SizedBox(height: 50),
-                Flexible(
-                  flex: 2,
-                  child: SingleChildScrollView(
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.asset('assets/images/living_room.png'),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
                         CustomTextField(
@@ -78,11 +72,11 @@ class AddRoomScreen extends ConsumerWidget {
                         SizedBox(height: 10)
                       ],
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

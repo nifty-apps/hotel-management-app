@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/widgets/rooms/room_card.dart';
 
-class AvailableRoomScreen extends ConsumerWidget {
-  const AvailableRoomScreen({Key? key}) : super(key: key);
+class RoomsScreen extends ConsumerWidget {
+  const RoomsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

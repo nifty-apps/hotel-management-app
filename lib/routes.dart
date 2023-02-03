@@ -4,7 +4,7 @@ import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
-import 'package:hotel_management/view/screens/room/available_room.dart';
+import 'package:hotel_management/view/screens/room/room_list.dart';
 
 class Routes {
   static const String splash = '/';
@@ -39,7 +39,7 @@ class Routes {
         );
       case availableRoom:
         return MaterialPageRoute(
-          builder: (context) => AvailableRoomScreen(),
+          builder: (context) => RoomsScreen(),
         );
     }
     return null;
