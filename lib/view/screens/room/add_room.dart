@@ -41,12 +41,12 @@ class AddRoomScreen extends ConsumerWidget {
                         CustomTextField(
                           controller: floorController,
                           inputType: TextInputType.text,
-                          hintText: 'Floor Six',
+                          hintText: 'Floor',
                         ),
                         SizedBox(height: 16),
                         CustomTextField(
                           controller: roomConteroller,
-                          inputType: TextInputType.number,
+                          inputType: TextInputType.text,
                           isNumber: true,
                           hintText: 'Room ',
                         ),
