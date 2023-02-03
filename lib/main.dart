@@ -15,7 +15,7 @@ class HotelManagement extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: MyAppTheme.lightTheme,
+      theme: AppTheme.lightTheme,
       onGenerateRoute: Routes.onGenerateRoute,
       onUnknownRoute: ((settings) {
         return MaterialPageRoute(builder: (context) => const SplashScreen());

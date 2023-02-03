@@ -12,7 +12,7 @@ import 'package:hotel_management/utils/api_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthProvider {
+class AuthProvider extends ChangeNotifier {
   final Ref ref;
 
   AuthProvider(this.ref);
@@ -121,4 +121,5 @@ class AuthProvider {
   }
 }
 
-final authProvider = Provider((ref) => AuthProvider(ref));
+final authProvider = ChangeNotifierProvider((ref) => AuthProvider(ref));
+// final authProvider = Provider((ref) => AuthProvider(ref));

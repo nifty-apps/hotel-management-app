@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:hotel_management/controller/booking_controller.dart';
-import 'package:hotel_management/controller/room_controller.dart';
 import 'package:hotel_management/models/booking_model.dart';
 
 class BookingEditPage extends StatefulWidget {
@@ -62,6 +60,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   if (val!.isEmpty) {
                     return 'Please enter your name';
                   }
+                  return null;
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -88,6 +87,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   if (val!.isEmpty) {
                     return 'Please enter your phone number';
                   }
+                  return null;
                 },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -116,6 +116,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   if (val!.isEmpty) {
                     return 'Please enter your address';
                   }
+                  return null;
                 },
                 maxLines: 4,
                 keyboardType: TextInputType.text,
@@ -146,6 +147,7 @@ class _BookingEditPageState extends State<BookingEditPage> {
                   if (value!.isEmpty) {
                     return 'Total Fare';
                   }
+                  return null;
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),

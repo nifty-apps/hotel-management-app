@@ -3,6 +3,8 @@ import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
+import 'package:hotel_management/view/screens/room/add_room.dart';
+import 'package:hotel_management/view/screens/room/available_room.dart';
 
 class Routes {
   static const String splash = '/';
@@ -10,6 +12,8 @@ class Routes {
   static const String signUp = '/signUp';
   static const String addHotel = '/addHotel';
   static const String dashboard = '/dashboard';
+  static const String addRoom = '/addRoom';
+  static const String availableRoom = '/availableRoom';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -28,6 +32,14 @@ class Routes {
       case dashboard:
         return MaterialPageRoute(
           builder: (context) => DashboardScreen(),
+        );
+      case addRoom:
+        return MaterialPageRoute(
+          builder: (context) => AddRoomScreen(),
+        );
+      case availableRoom:
+        return MaterialPageRoute(
+          builder: (context) => AvailableRoomScreen(),
         );
     }
     return null;

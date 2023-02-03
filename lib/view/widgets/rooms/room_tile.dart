@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/models/room_model.dart';
-import 'package:hotel_management/view/screens/booking/booking.dart';
-import 'package:hotel_management/view/screens/booking/booking_overview.dart';
 
 class RoomTile extends StatefulWidget {
   const RoomTile({

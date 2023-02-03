@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/controller/auth_controller.dart';
-import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
 
-class AddHotelScreen extends ConsumerWidget {
-  AddHotelScreen({Key? key}) : super(key: key);
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController addressConteroller = TextEditingController();
+class AddRoomScreen extends ConsumerWidget {
+  AddRoomScreen({Key? key}) : super(key: key);
+  final TextEditingController floorController = TextEditingController();
+  final TextEditingController roomConteroller = TextEditingController();
+  final TextEditingController typeController = TextEditingController();
+  final TextEditingController rentController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(authProvider);
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
-          'Add Hotel',
+          'Add Room',
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
           ),
@@ -35,7 +33,7 @@ class AddHotelScreen extends ConsumerWidget {
                 Flexible(
                   flex: 1,
                   child: Image.asset(
-                    'assets/images/hotel.png',
+                    'assets/images/living_room.png',
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
@@ -47,31 +45,32 @@ class AddHotelScreen extends ConsumerWidget {
                     child: Column(
                       children: [
                         CustomTextField(
-                          controller: nameController,
-                          hintText: 'Name',
+                          controller: floorController,
+                          inputType: TextInputType.text,
+                          hintText: 'Floor Six',
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 16),
                         CustomTextField(
-                          controller: addressConteroller,
-                          hintText: 'Address',
+                          controller: roomConteroller,
+                          inputType: TextInputType.number,
+                          isNumber: true,
+                          hintText: 'Room ',
                         ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 16),
+                        CustomTextField(
+                          controller: typeController,
+                          hintText: 'Type',
+                        ),
+                        SizedBox(height: 16),
+                        CustomTextField(
+                          controller: rentController,
+                          inputType: TextInputType.number,
+                          isNumber: true,
+                          hintText: 'Rent',
+                        ),
+                        SizedBox(height: 16),
                         CustomButton(
-                          onPressed: () {
-                            // Get.find<AuthController>().logout();
-                            provider
-                                .addHotel(
-                              nameController.text.trim(),
-                              addressConteroller.text.trim(),
-                            )
-                                .then((hotel) {
-                              if (hotel?.id != null) {
-                                print(hotel);
-                                Navigator.pushReplacementNamed(
-                                    context, Routes.dashboard);
-                              }
-                            });
-                          },
+                          onPressed: () {},
                           buttonText: 'Submit',
                           width: double.infinity,
                           height: 48,
