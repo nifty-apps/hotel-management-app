@@ -8,6 +8,7 @@ class AppTheme {
       backgroundColor: Color(0xFFE7EAF6),
       elevation: 0,
       centerTitle: true,
+      titleTextStyle: TextStyle(color: Color(0xFF113F67), fontSize: 22),
       iconTheme: IconThemeData(
         color: Color(0xFF113F67),
       ),

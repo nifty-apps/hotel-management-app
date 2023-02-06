@@ -37,7 +37,14 @@ class RoomsScreen extends ConsumerWidget {
             horizontal: 10,
             vertical: 10,
           ),
-          child: RoomCard(),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.bookingRoom,
+                  arguments: ['244', false]);
+            },
+            child: RoomCard(),
+          ),
         ),
       ),
     );
