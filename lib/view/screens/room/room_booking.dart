@@ -39,7 +39,7 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
               floating: false,
               expandedHeight: 220,
               title: Text(
-                'Add Room',
+                widget.isUpdate ? 'Update Room' : 'Room Booking',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),
