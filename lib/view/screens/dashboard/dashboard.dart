@@ -4,6 +4,7 @@ import 'package:hotel_management/controller/dashboard.dart';
 import 'package:hotel_management/models/dashboard.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/widgets/dashboard_tile.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -89,7 +90,84 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               );
             }
             return Center(
-              child: CircularProgressIndicator(),
+              child: SizedBox(
+                child: Shimmer.fromColors(
+                    direction: ShimmerDirection.ltr,
+                    child: Container(
+                      child: ListView(
+                        physics: NeverScrollableScrollPhysics(),
+                        children: [
+                          GridView.count(
+                            crossAxisCount: 2,
+                            shrinkWrap: true,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              DashboardTile(
+                                title: 'Total Rooms',
+                                count: 10,
+                                onTap: () {},
+                              ),
+                              DashboardTile(
+                                title: 'Today Bookings',
+                                count: 10,
+                                onTap: () {},
+                              ),
+                              DashboardTile(
+                                title: 'Booked Rooms',
+                                count: 10,
+                                onTap: () {},
+                              ),
+                              DashboardTile(
+                                title: 'Available Rooms',
+                                count: 10,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.availableRoom);
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 24),
+                          Container(
+                            height: 10,
+                            width: 200,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 16),
+                          Column(
+                            children: List.generate(
+                              4,
+                              (index) {
+                                return Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          height: 10,
+                                          width: 150,
+                                          color: Colors.white),
+                                      SizedBox(height: 5),
+                                      Container(
+                                        height: 10,
+                                        width: double.infinity,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(height: 20),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    baseColor: Theme.of(context).highlightColor,
+                    highlightColor: Theme.of(context).colorScheme.background),
+              ),
             );
           },
         ),
