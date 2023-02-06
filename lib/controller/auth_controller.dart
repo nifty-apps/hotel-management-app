@@ -35,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
         return true;
       } else {
         String message = response.data['message'];
-        showSnackBarMethod(context, message);
+        showSnackBarMethod(context, message, false);
         return false;
       }
     } catch (e) {
@@ -64,7 +64,7 @@ class AuthProvider extends ChangeNotifier {
         return true;
       } else {
         String message = response.data['message'];
-        showSnackBarMethod(context, message);
+        showSnackBarMethod(context, message, false);
         return false;
       }
     } catch (error) {

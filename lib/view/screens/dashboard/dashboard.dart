@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/controller/dashboard.dart';
 import 'package:hotel_management/models/dashboard.dart';
 import 'package:hotel_management/routes.dart';
@@ -15,12 +16,6 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
-  void initState() {
-    super.initState();
-    ref.read(dashboardProvider).getDashboardInfo();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +27,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: Container(
         padding: EdgeInsets.all(16),
         child: FutureBuilder(
-          future: ref.read(dashboardProvider).getDashboardInfo(),
+          future: ref
+              .read(dashboardProvider)
+              .getDashboardInfo(ref.read(authProvider).userData.hotel!.id),
           builder: (context, AsyncSnapshot<DashboardInfo?> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               final DashboardInfo? dashboardInfo = snapshot.data;

@@ -5,7 +5,8 @@ class AppConstants {
   static const registraionUrl = '$baseUrl/auth/registration';
   static const loginUrl = '$baseUrl/auth/login';
   static const hotelAddUrl = '$baseUrl/hotels';
-  static const dashboardInfo = '$baseUrl/dashboard/info';
+  static const dashboardInfo = '$baseUrl';
+  static const addroomUrl = '$baseUrl';
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
   static const totalRoom = '$baseUrl/api/v1/admin/room/list';
   static const roomBooking = '$baseUrl/admin/room/booking/store';

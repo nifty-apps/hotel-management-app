@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/controller/room_controller.dart';
+import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/add_room.dart';
+import 'package:hotel_management/models/user.dart';
+import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
 
@@ -47,7 +53,6 @@ class AddRoomScreen extends ConsumerWidget {
                         CustomTextField(
                           controller: roomConteroller,
                           inputType: TextInputType.text,
-                          isNumber: true,
                           hintText: 'Room ',
                         ),
                         SizedBox(height: 16),
@@ -63,11 +68,55 @@ class AddRoomScreen extends ConsumerWidget {
                           hintText: 'Rent',
                         ),
                         SizedBox(height: 16),
-                        CustomButton(
-                          onPressed: () {},
-                          buttonText: 'Submit',
-                          width: double.infinity,
-                          height: 48,
+                        FutureBuilder(
+                          future:
+                              ref.read(localStorageProvider).getCurrentUser(),
+                          builder: (context, AsyncSnapshot<User?> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              final User? userInfo = snapshot.data;
+                              if (userInfo == null) {
+                                return Center(
+                                  child: Text('Something went wrong'),
+                                );
+                              }
+                              return CustomButton(
+                                onPressed: () {
+                                  AddRoom room = AddRoom(
+                                    floor: floorController.text.trim(),
+                                    number: roomConteroller.text.trim(),
+                                    type: typeController.text.trim(),
+                                    rent: int.tryParse(rentController.text),
+                                  );
+                                  if (floorController.text.isEmpty ||
+                                      roomConteroller.text.isEmpty ||
+                                      typeController.text.isEmpty ||
+                                      rentController.text.isEmpty) {
+                                    showSnackBarMethod(
+                                      context,
+                                      'All fields are required!',
+                                      false,
+                                    );
+                                  } else {
+                                    ref
+                                        .read(roomProvider)
+                                        .addRoom(
+                                            room, userInfo.hotel!.id, context)
+                                        .then((success) {
+                                      if (success) {
+                                        Navigator.pushNamed(
+                                            context, Routes.dashboard);
+                                      }
+                                    });
+                                  }
+                                },
+                                buttonText: 'Submit',
+                                width: double.infinity,
+                                height: 48,
+                              );
+                            }
+                            return CircularProgressIndicator();
+                          },
                         ),
                         SizedBox(height: 10)
                       ],

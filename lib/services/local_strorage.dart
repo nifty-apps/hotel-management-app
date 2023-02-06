@@ -23,6 +23,14 @@ class LocalStorage {
     await pref.remove('currentUser');
   }
 
+  Future<User?> getCurrentUser() async {
+    final pref = await SharedPreferences.getInstance();
+    final currentUser = pref.getString('currentUser') != null
+        ? User.fromJson(pref.getString('currentUser')!)
+        : null;
+    return currentUser;
+  }
+
   Future<List<dynamic>?> loadTokenAndUser() async {
     final pref = await SharedPreferences.getInstance();
     final currentUser = pref.getString('currentUser') != null
