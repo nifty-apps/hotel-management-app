@@ -5,11 +5,9 @@ import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
 
 class RoomBooking extends ConsumerStatefulWidget {
-  final String roomId;
-  final bool isUpdate;
-
-  RoomBooking({Key? key, required this.roomId, required this.isUpdate})
-      : super(key: key);
+  RoomBooking({
+    Key? key,
+  }) : super(key: key);
 
   @override
   ConsumerState<RoomBooking> createState() => _RoomBookingState();
@@ -39,7 +37,7 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
               floating: false,
               expandedHeight: 220,
               title: Text(
-                widget.isUpdate ? 'Update Room' : 'Room Booking',
+                'Room Booking',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),

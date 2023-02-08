@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/controller/auth_controller.dart';
+import 'package:hotel_management/controller/auth_provider.dart';
 import 'package:hotel_management/models/user.dart';
 import 'package:hotel_management/utils/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';

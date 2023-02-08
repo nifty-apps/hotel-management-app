@@ -11,9 +11,9 @@ class DashboardProvider extends ChangeNotifier {
 
   late DashboardInfo dashboardInfo;
 
-  Future<DashboardInfo?> getDashboardInfo(String hotelId) async {
+  Future<DashboardInfo?> getDashboardInfo() async {
     final response =
-        await ref.read(apiClientProvider).get('${AppConstants.dashboardInfo}/dashboard/$hotelId/info');
+        await ref.read(apiClientProvider).get(AppConstants.dashboardInfo);
     if (response.statusCode == 200) {
       print(response.data);
       dashboardInfo = DashboardInfo.fromMap(response.data["data"]);

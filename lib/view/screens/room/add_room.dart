@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/controller/room_controller.dart';
+import 'package:hotel_management/controller/room_provider.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/add_room.dart';
 import 'package:hotel_management/models/user.dart';

@@ -4,8 +4,9 @@ import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
+import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room_booking.dart';
-import 'package:hotel_management/view/screens/room/room_list.dart';
+import 'package:hotel_management/view/screens/room/total.dart';
 
 class Routes {
   static const String splash = '/';
@@ -14,6 +15,7 @@ class Routes {
   static const String addHotel = '/addHotel';
   static const String dashboard = '/dashboard';
   static const String addRoom = '/addRoom';
+  static const String totalRooms = '/totalRooms';
   static const String availableRoom = '/availableRoom';
   static const String bookingRoom = '/bookingRoom';
 
@@ -39,17 +41,21 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => AddRoomScreen(),
         );
+      case totalRooms:
+        return MaterialPageRoute(
+          builder: (context) => TotalRoomSrceen(),
+        );
       case availableRoom:
         return MaterialPageRoute(
-          builder: (context) => RoomsScreen(),
+          builder: (context) => AvailableRoomScreen(),
         );
       case bookingRoom:
-        List<dynamic>? args = settings.arguments as List?;
+        // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
           builder: (context) => RoomBooking(
-            roomId: args!.first,
-            isUpdate: args.last as bool,
-          ),
+              // roomId: args!.first,
+              // isUpdate: args.last as bool,
+              ),
         );
     }
     return null;

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/models/room.dart';
+import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/util/app_constants.dart';
 
 class RoomCard extends StatelessWidget {
-  const RoomCard({Key? key}) : super(key: key);
+  final Room room;
+  RoomCard({Key? key, required this.room}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +19,12 @@ class RoomCard extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 6,
             width: MediaQuery.of(context).size.width / 3,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).colorScheme.primary),
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.primary,
+            ),
             child: Center(
               child: Text(
-                '265',
+                room.number,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                     fontWeight: FontWeight.bold),
@@ -34,14 +39,14 @@ class RoomCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Single',
+                  AppConstants().roomTypes[room.roomType] ?? 'Unknown',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'Floor Five',
+                  room.floor,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
@@ -49,7 +54,7 @@ class RoomCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'BDT 10050',
+                  'BDT ${room.rent}',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w500),
@@ -69,7 +74,12 @@ class RoomCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.bookingRoom,
+                    );
+                  },
                   icon: Icon(
                     Icons.edit,
                     color: Theme.of(context).colorScheme.secondary,

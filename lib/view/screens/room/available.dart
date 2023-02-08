@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/routes.dart';
-import 'package:hotel_management/view/widgets/rooms/room_card.dart';
 
-class RoomsScreen extends ConsumerWidget {
-  const RoomsScreen({Key? key}) : super(key: key);
+class AvailableRoomScreen extends ConsumerWidget {
+  const AvailableRoomScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,14 +20,6 @@ class RoomsScreen extends ConsumerWidget {
         ),
         centerTitle: true,
         elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.addRoom);
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
       ),
       body: ListView.builder(
         itemCount: 20,
@@ -38,13 +29,18 @@ class RoomsScreen extends ConsumerWidget {
             vertical: 10,
           ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(10),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.bookingRoom,
-                  arguments: ['244', false]);
-            },
-            child: RoomCard(),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                Navigator.pushNamed(
+                  context, Routes.bookingRoom,
+                  // arguments: ['244', false]
+                );
+              },
+              child: Container(
+                child: Center(
+                  child: Text('Available Rooms'),
+                ),
+              )),
         ),
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/controller/auth_controller.dart';
 import 'package:hotel_management/controller/dashboard.dart';
 import 'package:hotel_management/models/dashboard.dart';
 import 'package:hotel_management/routes.dart';
@@ -28,9 +27,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: Container(
         padding: EdgeInsets.all(16),
         child: FutureBuilder(
-          future: ref
-              .read(dashboardProvider)
-              .getDashboardInfo(ref.read(authProvider).userData.hotel!.id),
+          future: ref.read(dashboardProvider).getDashboardInfo(),
           builder: (context, AsyncSnapshot<DashboardInfo?> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               final DashboardInfo? dashboardInfo = snapshot.data;
@@ -49,7 +46,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       DashboardTile(
                         title: 'Total Rooms',
                         count: dashboardInfo.summary.totalRooms,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.totalRooms);
+                        },
                       ),
                       DashboardTile(
                         title: 'Today Bookings',
