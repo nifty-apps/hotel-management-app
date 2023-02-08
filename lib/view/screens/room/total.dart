@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/controller/room_provider.dart';
+import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/widgets/rooms/room_card.dart';
@@ -54,7 +54,7 @@ class TotalRoomSrceen extends ConsumerWidget {
                     onTap: () {
                       Navigator.pushNamed(
                         context, Routes.bookingRoom,
-                        // arguments: ['244', false]
+                        arguments: data[index].id
                       );
                     },
                     child: RoomCard(room: data[index]),

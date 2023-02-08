@@ -53,9 +53,8 @@ class Routes {
         // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
           builder: (context) => RoomBooking(
-              // roomId: args!.first,
-              // isUpdate: args.last as bool,
-              ),
+            roomId: settings.arguments.toString(),
+          ),
         );
     }
     return null;

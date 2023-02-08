@@ -5,7 +5,8 @@ import 'package:hotel_management/util/app_constants.dart';
 
 class RoomCard extends StatelessWidget {
   final Room room;
-  RoomCard({Key? key, required this.room}) : super(key: key);
+  RoomCard({Key? key, required this.room})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

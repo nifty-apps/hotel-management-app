@@ -8,8 +8,10 @@ class AppConstants {
   static const dashboardInfo = '$baseUrl/dashboard/info';
   static const addroomUrl = '$baseUrl';
   static const totalRoom = '$baseUrl/rooms';
+  static const roomBooking = '$baseUrl/rooms';
+  static const recentBookingRooms = '$baseUrl/rooms/recent/bookings';
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
-  static const roomBooking = '$baseUrl/admin/room/booking/store';
+  // static const roomBooking = '$baseUrl/admin/room/booking/store';
   static const searchRoom = '$baseUrl/admin/room/searching';
   static const collectionsReport = "$baseUrl/admin/report/collection";
   static const transaction = '$baseUrl/admin/report/transaction';
@@ -20,7 +22,7 @@ class AppConstants {
   static const bookingUpdate = '$baseUrl/admin/room/booking/update';
   static const adminProfile = '$baseUrl/admin/profile';
 
-   final Map<String, String> roomTypes = {
+  final Map<String, String> roomTypes = {
     'single': 'Single',
     'doubleDulux': 'Double Delux',
   };

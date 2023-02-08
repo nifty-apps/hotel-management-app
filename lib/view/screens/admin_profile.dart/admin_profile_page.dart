@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hotel_management/controller/auth_provider.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/models/user.dart';
 
 class AdminProfile extends ConsumerWidget {

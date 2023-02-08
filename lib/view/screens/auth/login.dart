@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/controller/auth_provider.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';

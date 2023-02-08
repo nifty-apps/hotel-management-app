@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/helper/date_picker.dart';
+import 'package:hotel_management/provider/room.dart';
+import 'package:hotel_management/models/booking.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
+import 'package:intl/intl.dart';
 
 class RoomBooking extends ConsumerStatefulWidget {
-  RoomBooking({
-    Key? key,
-  }) : super(key: key);
+  final String roomId;
+  RoomBooking({Key? key, required this.roomId}) : super(key: key);
 
   @override
   ConsumerState<RoomBooking> createState() => _RoomBookingState();
@@ -15,15 +17,12 @@ class RoomBooking extends ConsumerStatefulWidget {
 
 class _RoomBookingState extends ConsumerState<RoomBooking> {
   final TextEditingController nameController = TextEditingController();
-
   final TextEditingController addressController = TextEditingController();
-
   final TextEditingController phoneController = TextEditingController();
-
   final TextEditingController rentController = TextEditingController();
 
-  String checkInDate = 'CheckIn';
-  String checkOutDate = 'CheckOut';
+  DateTime? checkIn;
+  DateTime? checkOut;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
             SliverAppBar(
               pinned: true,
               floating: false,
-              expandedHeight: 220,
+              expandedHeight: 240,
               title: Text(
                 'Room Booking',
                 style: TextStyle(
@@ -45,7 +44,7 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 background: Padding(
-                  padding: EdgeInsets.only(top: 50),
+                  padding: EdgeInsets.only(top: 80),
                   child: Image.asset(
                     'assets/images/booking.png',
                   ),
@@ -62,18 +61,18 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                         CustomTextField(
                           controller: nameController,
                           inputType: TextInputType.text,
-                          hintText: 'Floor',
-                        ),
-                        SizedBox(height: 16),
-                        CustomTextField(
-                          controller: addressController,
-                          inputType: TextInputType.text,
-                          hintText: 'Room ',
+                          hintText: 'Name',
                         ),
                         SizedBox(height: 16),
                         CustomTextField(
                           controller: phoneController,
-                          hintText: 'Type',
+                          inputType: TextInputType.text,
+                          hintText: 'Phone ',
+                        ),
+                        SizedBox(height: 16),
+                        CustomTextField(
+                          controller: addressController,
+                          hintText: 'Address',
                         ),
                         SizedBox(height: 16),
                         CustomTextField(
@@ -87,11 +86,10 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                               flex: 1,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(5),
-                                onTap: () {
-                                  selectDate(context).then((pickedDate) {
-                                    setState(() {
-                                      checkInDate = pickedDate!;
-                                    });
+                                onTap: () async {
+                                  final date = await selectDate(context);
+                                  setState(() {
+                                    checkIn = date;
                                   });
                                 },
                                 child: Container(
@@ -101,7 +99,11 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                                       color: Theme.of(context).hoverColor),
                                   height: 54,
                                   child: Center(
-                                    child: Text(checkInDate),
+                                    child: Text(
+                                      checkIn != null
+                                          ? DateFormat.yMMMd().format(checkIn!)
+                                          : 'Check Out',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -110,11 +112,10 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                             Flexible(
                               flex: 1,
                               child: InkWell(
-                                onTap: () {
-                                  selectDate(context).then((pickedDate) {
-                                    setState(() {
-                                      checkOutDate = pickedDate!;
-                                    });
+                                onTap: () async {
+                                  final date = await selectDate(context);
+                                  setState(() {
+                                    checkOut = date;
                                   });
                                 },
                                 child: Container(
@@ -125,7 +126,11 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                                   padding: EdgeInsets.only(left: 10),
                                   height: 54,
                                   child: Center(
-                                    child: Text(checkOutDate),
+                                    child: Text(
+                                      checkOut != null
+                                          ? DateFormat.yMMMd().format(checkOut!)
+                                          : 'Check Out',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -134,7 +139,27 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                         ),
                         SizedBox(height: 20),
                         CustomButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            // Check if "check in" and "check out" date is not null
+                            if (checkIn == null || checkOut == null) return;
+                            Booking bookingData = Booking(
+                              customer: Customer(
+                                name: nameController.text,
+                                phone: phoneController.text,
+                                address: addressController.text,
+                              ),
+                              rent: int.parse(rentController.text),
+                              checkIn: checkIn!,
+                              checkOut: checkOut!,
+                              room: null,
+                            );
+                            final result = await ref
+                                .read(roomProvider)
+                                .bookRoom(widget.roomId, bookingData, context);
+                            if (result == true) {
+                              Navigator.pushNamed(context, Routes.dashboard);
+                            }
+                          },
                           buttonText: 'Submit',
                           height: 48,
                           width: double.infinity,
@@ -149,5 +174,24 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
         ),
       ),
     );
+  }
+
+  Future<DateTime?> selectDate(BuildContext context) async {
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2030),
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.light(
+            primary: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+        child: child!,
+      ),
+    );
+
+    return pickedDate;
   }
 }
