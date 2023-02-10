@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Hotel {
   final String id;
-  final String name;
+  late final String name;
   final String address;
   Hotel({
     required this.id,

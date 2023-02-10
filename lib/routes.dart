@@ -3,6 +3,7 @@ import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/registration.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
+import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room_booking.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const String totalRooms = '/totalRooms';
   static const String availableRoom = '/availableRoom';
   static const String bookingRoom = '/bookingRoom';
+  static const String profile = '/profile';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -56,6 +58,8 @@ class Routes {
             roomId: settings.arguments.toString(),
           ),
         );
+      case profile:
+        return MaterialPageRoute(builder: (context) => ProfileScreen());
     }
     return null;
   }

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/routes.dart';
-import 'package:hotel_management/view/widgets/rooms/room_card.dart';
+import 'package:hotel_management/view/widgets/room_card.dart';
 
 class TotalRoomSrceen extends ConsumerWidget {
   const TotalRoomSrceen({Key? key}) : super(key: key);

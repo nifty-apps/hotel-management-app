@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/models/dashboard.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/provider/dashboard.dart';
 import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
@@ -30,9 +31,32 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'The Dream House',
+          ref.read(authProvider).userData.hotel!.name,
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, Routes.profile);
+            },
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              child: Center(
+                child: Text(
+                  ref.read(authProvider).userData.hotel!.name[0],
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(16),

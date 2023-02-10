@@ -18,27 +18,10 @@ class HotelManagement extends StatelessWidget {
       theme: AppTheme.lightTheme,
       onGenerateRoute: Routes.onGenerateRoute,
       onUnknownRoute: ((settings) {
-        return MaterialPageRoute(builder: (context) => const SplashScreen());
+        return MaterialPageRoute(
+          builder: (context) => const SplashScreen(),
+        );
       }),
-
-      // home: FutureBuilder(
-      //   future: Get.find<LocalStorage>().loadTokenAndUser(),
-      //   builder: (context, AsyncSnapshot<List<dynamic>?> snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       if (snapshot.data == null) {
-      //         return LoginScreen();
-      //       }
-      //       if (snapshot.data!.last.hotel == null) {
-      //         return AddHotelScreen();
-      //       } else {
-      //         return DashboardScreen();
-      //       }
-      //     }
-      //     return Center(
-      //       child: CircularProgressIndicator(),
-      //     );
-      //   },
-      // ),
     );
   }
 }

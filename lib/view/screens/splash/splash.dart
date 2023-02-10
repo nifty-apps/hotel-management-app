@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/user.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/services/local_strorage.dart';
 
@@ -18,8 +19,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       ref.read(localStorageProvider).loadTokenAndUser(),
       Future.delayed(const Duration(seconds: 1))
     ]).then((data) {
-      print(data.first.last);
-      if (data.first.first == null) {
+      if (data.first == null) {
         return Navigator.pushReplacementNamed(context, Routes.login);
       }
       if (data.first.last == null) {
@@ -30,30 +30,46 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     });
   }
 
+  String welcomeText = 'Hotel Management';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Flexible(
-              flex: 1,
-              child: Image.asset(
-                'assets/images/hotel.png',
-                width: 200,
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Hotel Management System',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
+      body: FutureBuilder(
+        future: ref.read(localStorageProvider).getCurrentUser(),
+        builder: (context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            final data = snapshot.data;
+            if (data != null) {
+              welcomeText = data.hotel!.name;
+            }
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Image.asset(
+                      'assets/images/hotel.png',
+                      width: 200,
+                    ),
                   ),
-            ),
-          ],
-        ),
+                  SizedBox(height: 20),
+                  Text(
+                    welcomeText,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                  ),
+                ],
+              ),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
