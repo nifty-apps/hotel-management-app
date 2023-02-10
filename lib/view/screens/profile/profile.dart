@@ -14,11 +14,10 @@ class ProfileScreen extends ConsumerWidget {
     final userData = ref.read(authProvider).userData;
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          Flexible(
-            flex: 1,
-            child: Container(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,12 +25,10 @@ class ProfileScreen extends ConsumerWidget {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Theme.of(context).colorScheme.secondary,
-                    child: Text(
-                      userData.hotel!.name[0],
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white, fontSize: 35),
+                    child: Icon(
+                      Icons.house,
+                      color: Colors.white,
+                      size: 40,
                     ),
                   ),
                   SizedBox(height: 10),
@@ -51,10 +48,7 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
             ),
-          ),
-          Flexible(
-            flex: 2,
-            child: Container(
+            Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Column(
                 children: [
@@ -71,11 +65,6 @@ class ProfileScreen extends ConsumerWidget {
                   ProfileTile(
                     title: userData.email,
                     icon: Icons.email_outlined,
-                  ),
-                  SizedBox(height: 15),
-                  ProfileTile(
-                    title: userData.phone,
-                    icon: Icons.phone_outlined,
                   ),
                   SizedBox(height: 15),
                   ProfileTile(
@@ -102,11 +91,18 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Version: 1.0.0',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.grey,
+                        ),
+                  ),
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -147,7 +143,7 @@ class ProfileScreen extends ConsumerWidget {
                     Navigator.pop(context);
                   },
                   buttonText: 'No',
-                  width: 100,
+                  width: 80,
                   height: 35,
                 ),
                 CustomButton(
@@ -156,7 +152,7 @@ class ProfileScreen extends ConsumerWidget {
                     Navigator.pushNamed(context, Routes.login);
                   },
                   buttonText: 'Yes',
-                  width: 100,
+                  width: 80,
                   height: 35,
                 ),
               ],

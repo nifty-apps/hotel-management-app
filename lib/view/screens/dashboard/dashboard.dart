@@ -35,22 +35,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
-          InkWell(
-            onTap: () {
+          IconButton(
+            onPressed: () {
               Navigator.pushNamed(context, Routes.profile);
             },
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: Center(
-                child: Text(
-                  ref.read(authProvider).userData.hotel!.name[0],
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
-                ),
-              ),
+            icon: Icon(
+              Icons.person,
+              size: 30,
             ),
           ),
           SizedBox(
@@ -59,7 +50,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
         child: FutureBuilder(
           future: ref.read(dashboardProvider).getDashboardInfo(),
           builder: (context, AsyncSnapshot<DashboardInfo?> snapshot) {
@@ -69,6 +59,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 return Center(child: Text('Something went wrong'));
               }
               return ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
                   GridView.count(
                     crossAxisCount: 2,
@@ -104,7 +95,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ],
                   ),
                   SizedBox(height: 24),
-                  Text('Recent Booking'),
+                  Text('Recent Bookings'),
                   SizedBox(height: 16),
                   FutureBuilder(
                     future: ref.read(roomProvider).recentBookingRooms(),
@@ -119,6 +110,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           children: List.generate(
                             bookings.length,
                             (index) {
+                              String roomType =
+                                  bookings[index].room['roomType'];
                               return Container(
                                 margin: EdgeInsets.symmetric(vertical: 5),
                                 height: MediaQuery.of(context).size.height / 12,
@@ -176,17 +169,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                AppConstants().roomTypes[
-                                                        bookings[index].room[
-                                                            'roomType']] ??
-                                                    'Unknown',
+                                                roomType.toTitleCase(),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .titleSmall!
                                                     .copyWith(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary),
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                    ),
                                               ),
                                               Text(
                                                 bookings[index].customer.name,
@@ -204,7 +195,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
-                                                          .spaceBetween,
+                                                          .spaceEvenly,
                                                   children: [
                                                     Text(
                                                       'Check In: ${DateFormat.yMMMd().format(bookings[index].checkIn)}',
@@ -220,7 +211,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                           ),
                                                     ),
                                                     Text(
-                                                      'Check Out: ${DateFormat.yMMMd().format(bookings[index].checkOut)}',
+                                                      ' ${DateFormat.yMMMd().format(bookings[index].checkOut)}',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodySmall!

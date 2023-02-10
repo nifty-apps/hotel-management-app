@@ -22,8 +22,18 @@ class AppConstants {
   static const bookingUpdate = '$baseUrl/admin/room/booking/update';
   static const adminProfile = '$baseUrl/admin/profile';
 
-  final Map<String, String> roomTypes = {
-    'single': 'Single',
-    'doubleDulux': 'Double Delux',
-  };
+  // final Map<String, String> roomTypes = {
+  //   'single': 'Single',
+  //   'doubleDulux': 'Double Delux',
+  // };
+
+}
+
+extension StringCasingExtension on String {
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
 }

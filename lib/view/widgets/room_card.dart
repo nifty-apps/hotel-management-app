@@ -5,8 +5,7 @@ import 'package:hotel_management/util/app_constants.dart';
 
 class RoomCard extends StatelessWidget {
   final Room room;
-  RoomCard({Key? key, required this.room})
-      : super(key: key);
+  RoomCard({Key? key, required this.room}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class RoomCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppConstants().roomTypes[room.roomType] ?? 'Unknown',
+                  room.roomType.toTitleCase(),
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w600),
