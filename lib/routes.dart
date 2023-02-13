@@ -44,7 +44,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => AddRoomScreen(
             isUpdate: args?[0] ?? false,
-            room: args?[1],
+            roomData: args?[1],
           ),
         );
       case totalRooms:
@@ -56,7 +56,6 @@ class Routes {
           builder: (context) => AvailableRoomScreen(),
         );
       case bookingRoom:
-        // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
           builder: (context) => RoomBooking(
             roomId: settings.arguments.toString(),

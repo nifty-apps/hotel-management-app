@@ -13,12 +13,12 @@ import 'package:hotel_management/view/base/custom_text_field.dart';
 
 class AddRoomScreen extends ConsumerWidget {
   final bool isUpdate;
-  final Room? room;
-  
+  final Room? roomData;
+
   AddRoomScreen({
     Key? key,
     required this.isUpdate,
-    this.room,
+    this.roomData,
   }) : super(key: key);
 
   final TextEditingController floorController = TextEditingController();
@@ -28,10 +28,10 @@ class AddRoomScreen extends ConsumerWidget {
 
   void setUpdateInfo() {
     if (isUpdate) {
-      floorController.text = room?.floor ?? '';
-      roomConteroller.text = room?.number ?? '';
-      typeController.text = room?.roomType ?? '';
-      rentController.text = room?.rent.toString() ?? '';
+      floorController.text = roomData?.floor ?? '';
+      roomConteroller.text = roomData?.number ?? '';
+      typeController.text = roomData?.roomType ?? '';
+      rentController.text = roomData?.rent.toString() ?? '';
     }
   }
 
@@ -105,7 +105,7 @@ class AddRoomScreen extends ConsumerWidget {
                                 );
                               }
                               return CustomButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   AddRoom room = AddRoom(
                                     floor: floorController.text.trim(),
                                     number: roomConteroller.text.trim(),
@@ -122,16 +122,25 @@ class AddRoomScreen extends ConsumerWidget {
                                       false,
                                     );
                                   } else {
-                                    ref
-                                        .read(roomProvider)
-                                        .addRoom(
-                                            room, userInfo.hotel!.id, context)
-                                        .then((success) {
-                                      if (success) {
+                                    if (isUpdate) {
+                                      bool isSuccess = await ref
+                                          .read(roomProvider)
+                                          .updateRoomInfo(roomData?.id ?? '',
+                                              room, context);
+                                      if (isSuccess) {
                                         Navigator.pushNamed(
                                             context, Routes.dashboard);
                                       }
-                                    });
+                                    } else {
+                                      bool isSuccess = await ref
+                                          .read(roomProvider)
+                                          .addRoom(room, userInfo.hotel!.id,
+                                              context);
+                                      if (isSuccess) {
+                                        Navigator.pushNamed(
+                                            context, Routes.dashboard);
+                                      }
+                                    }
                                   }
                                 },
                                 buttonText: isUpdate ? 'Update' : 'Submit',

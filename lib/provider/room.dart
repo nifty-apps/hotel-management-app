@@ -79,6 +79,21 @@ class RoomProvider {
     return null;
   }
 
+  // update room information
+  Future<bool> updateRoomInfo(
+      String roomId, AddRoom room, BuildContext context) async {
+    final response = await ref
+        .read(apiClientProvider)
+        .put('${AppConstants.updateRoomInfo}/$roomId', data: room.toJson());
+    final message = response.data['message'];
+    if (response.statusCode == 200) {
+      showSnackBarMethod(context, message, true);
+      return true;
+    }
+    showSnackBarMethod(context, message, false);
+    return false;
+  }
+
   // delete room
   Future<bool> deleteRoom(String roomId, BuildContext context) async {
     final response = await ref
