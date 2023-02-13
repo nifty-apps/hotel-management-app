@@ -78,6 +78,20 @@ class RoomProvider {
     }
     return null;
   }
+
+  // delete room
+  Future<bool> deleteRoom(String roomId, BuildContext context) async {
+    final response = await ref
+        .read(apiClientProvider)
+        .delete('${AppConstants.deleteRoom}/$roomId');
+    final message = response.data['message'];
+    if (response.statusCode == 200) {
+      showSnackBarMethod(context, message, true);
+      return true;
+    }
+    showSnackBarMethod(context, message, false);
+    return false;
+  }
 }
 
 final roomProvider = Provider((ref) => RoomProvider(ref));

@@ -76,18 +76,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         },
                       ),
                       DashboardTile(
-                        title: 'Today Bookings',
+                        title: 'Today Revenue',
+                        count: dashboardInfo.summary.todayCheckIn,
+                        onTap: () {},
+                      ),
+                      DashboardTile(
+                        title: 'Today Booked',
                         count: dashboardInfo.summary.todayBookings,
                         onTap: () {},
                       ),
                       DashboardTile(
-                        title: 'Booked Rooms',
-                        count: dashboardInfo.summary.bookedRooms,
-                        onTap: () {},
-                      ),
-                      DashboardTile(
-                        title: 'Available Rooms',
-                        count: dashboardInfo.summary.availableRooms,
+                        title: 'Today Checking',
+                        count: dashboardInfo.summary.todayCheckIn,
                         onTap: () {
                           Navigator.pushNamed(context, Routes.availableRoom);
                         },
@@ -198,7 +198,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                           .spaceEvenly,
                                                   children: [
                                                     Text(
-                                                      'Check In: ${DateFormat.yMMMd().format(bookings[index].checkIn)}',
+                                                      'Check In: ${DateFormat.yMMMd().format(bookings[index].checkIn.toLocal())}',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodySmall!
@@ -211,7 +211,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                           ),
                                                     ),
                                                     Text(
-                                                      ' ${DateFormat.yMMMd().format(bookings[index].checkOut)}',
+                                                      ' ${DateFormat.yMMMd().format(bookings[index].checkOut.toLocal())}',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodySmall!
@@ -267,17 +267,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 onTap: () {},
                               ),
                               DashboardTile(
+                                title: 'Today Revenue',
+                                count: 10,
+                                onTap: () {},
+                              ),
+                              DashboardTile(
                                 title: 'Today Bookings',
                                 count: 10,
                                 onTap: () {},
                               ),
                               DashboardTile(
-                                title: 'Booked Rooms',
-                                count: 10,
-                                onTap: () {},
-                              ),
-                              DashboardTile(
-                                title: 'Available Rooms',
+                                title: 'Today Checking',
                                 count: 10,
                                 onTap: () {
                                   Navigator.pushNamed(

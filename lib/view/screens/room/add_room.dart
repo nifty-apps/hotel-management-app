@@ -1,23 +1,44 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/add_room.dart';
+import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/models/user.dart';
+import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_text_field.dart';
 
 class AddRoomScreen extends ConsumerWidget {
-  AddRoomScreen({Key? key}) : super(key: key);
+  final bool isUpdate;
+  final Room? room;
+  
+  AddRoomScreen({
+    Key? key,
+    required this.isUpdate,
+    this.room,
+  }) : super(key: key);
+
   final TextEditingController floorController = TextEditingController();
   final TextEditingController roomConteroller = TextEditingController();
   final TextEditingController typeController = TextEditingController();
   final TextEditingController rentController = TextEditingController();
 
+  void setUpdateInfo() {
+    if (isUpdate) {
+      floorController.text = room?.floor ?? '';
+      roomConteroller.text = room?.number ?? '';
+      typeController.text = room?.roomType ?? '';
+      rentController.text = room?.rent.toString() ?? '';
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(isUpdate);
+    setUpdateInfo();
     return Scaffold(
       body: GestureDetector(
         onTap: (() => FocusScope.of(context).unfocus()),
@@ -28,13 +49,16 @@ class AddRoomScreen extends ConsumerWidget {
               floating: false,
               expandedHeight: 300,
               title: Text(
-                'Add Room',
+                isUpdate ? 'Update Room' : 'Add Room',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
               flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset('assets/images/living_room.png'),
+                background: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Image.asset('assets/images/living_room.png'),
+                ),
               ),
             ),
             SliverList(
@@ -110,7 +134,7 @@ class AddRoomScreen extends ConsumerWidget {
                                     });
                                   }
                                 },
-                                buttonText: 'Submit',
+                                buttonText: isUpdate ? 'Update' : 'Submit',
                                 width: double.infinity,
                                 height: 48,
                               );

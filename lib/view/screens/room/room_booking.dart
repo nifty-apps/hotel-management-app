@@ -142,6 +142,8 @@ class _RoomBookingState extends ConsumerState<RoomBooking> {
                           onPressed: () async {
                             // Check if "check in" and "check out" date is not null
                             if (checkIn == null || checkOut == null) return;
+                            print(checkIn!.toIso8601String());
+                            print(checkOut!.toIso8601String());
                             Booking bookingData = Booking(
                               customer: Customer(
                                 name: nameController.text,

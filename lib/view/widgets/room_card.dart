@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/room.dart';
+import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 
-class RoomCard extends StatelessWidget {
+class RoomCard extends ConsumerWidget {
   final Room room;
   RoomCard({Key? key, required this.room}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -67,7 +69,10 @@ class RoomCard extends StatelessWidget {
             child: Column(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await ref.read(roomProvider).deleteRoom(room.id, context);
+                    Navigator.pushNamed(context, Routes.dashboard);
+                  },
                   icon: Icon(
                     Icons.delete,
                     color: Theme.of(context).colorScheme.secondary,
@@ -77,7 +82,8 @@ class RoomCard extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      Routes.bookingRoom,
+                      Routes.addRoom,
+                      arguments: [true, room],
                     );
                   },
                   icon: Icon(

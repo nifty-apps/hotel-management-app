@@ -40,8 +40,12 @@ class Routes {
           builder: (context) => DashboardScreen(),
         );
       case addRoom:
+        List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
-          builder: (context) => AddRoomScreen(),
+          builder: (context) => AddRoomScreen(
+            isUpdate: args?[0] ?? false,
+            room: args?[1],
+          ),
         );
       case totalRooms:
         return MaterialPageRoute(

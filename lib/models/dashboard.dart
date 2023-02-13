@@ -47,14 +47,14 @@ class DashboardInfo {
 
 class Summary {
   final int totalRooms;
-  final int bookedRooms;
-  final int availableRooms;
+  final int todayRevenue;
   final int todayBookings;
+  final int todayCheckIn;
   Summary({
     required this.totalRooms,
-    required this.bookedRooms,
-    required this.availableRooms,
+    required this.todayRevenue,
     required this.todayBookings,
+    required this.todayCheckIn,
   });
 
   Summary copyWith({
@@ -65,27 +65,27 @@ class Summary {
   }) {
     return Summary(
       totalRooms: totalRooms ?? this.totalRooms,
-      bookedRooms: bookedRooms ?? this.bookedRooms,
-      availableRooms: availableRooms ?? this.availableRooms,
-      todayBookings: todayBookings ?? this.todayBookings,
+      todayRevenue: bookedRooms ?? this.todayRevenue,
+      todayBookings: availableRooms ?? this.todayBookings,
+      todayCheckIn: todayBookings ?? this.todayCheckIn,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'totalRooms': totalRooms,
-      'bookedRooms': bookedRooms,
-      'availableRooms': availableRooms,
+      'todayRevenue': todayRevenue,
       'todayBookings': todayBookings,
+      'todayCheckIn': todayCheckIn,
     };
   }
 
   factory Summary.fromMap(Map<String, dynamic> map) {
     return Summary(
       totalRooms: map['totalRooms'].toInt() as int,
-      bookedRooms: map['bookedRooms'].toInt() as int,
-      availableRooms: map['availableRooms'].toInt() as int,
+      todayRevenue: map['todayRevenue'].toInt() as int,
       todayBookings: map['todayBookings'].toInt() as int,
+      todayCheckIn: map['todayCheckIn'].toInt() as int,
     );
   }
 
@@ -96,7 +96,7 @@ class Summary {
 
   @override
   String toString() {
-    return 'Summary(totalRooms: $totalRooms, bookedRooms: $bookedRooms, availableRooms: $availableRooms, todayBookings: $todayBookings)';
+    return 'Summary(totalRooms: $totalRooms, todayRevenue: $todayRevenue, todayBookings: $todayBookings, todayCheckIn: $todayCheckIn)';
   }
 
   @override
@@ -104,16 +104,16 @@ class Summary {
     if (identical(this, other)) return true;
 
     return other.totalRooms == totalRooms &&
-        other.bookedRooms == bookedRooms &&
-        other.availableRooms == availableRooms &&
-        other.todayBookings == todayBookings;
+        other.todayRevenue == todayRevenue &&
+        other.todayBookings == todayBookings &&
+        other.todayCheckIn == todayCheckIn;
   }
 
   @override
   int get hashCode {
     return totalRooms.hashCode ^
-        bookedRooms.hashCode ^
-        availableRooms.hashCode ^
-        todayBookings.hashCode;
+        todayRevenue.hashCode ^
+        todayBookings.hashCode ^
+        todayCheckIn.hashCode;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/models/room.dart';
+import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/widgets/room_card.dart';
 
@@ -26,7 +26,8 @@ class TotalRoomSrceen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, Routes.addRoom);
+              Navigator.pushNamed(context, Routes.addRoom,
+                  arguments: [false, null]);
             },
             icon: Icon(Icons.add),
           ),
@@ -52,10 +53,8 @@ class TotalRoomSrceen extends ConsumerWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                      Navigator.pushNamed(
-                        context, Routes.bookingRoom,
-                        arguments: data[index].id
-                      );
+                      Navigator.pushNamed(context, Routes.bookingRoom,
+                          arguments: data[index].id);
                     },
                     child: RoomCard(room: data[index]),
                   ),
