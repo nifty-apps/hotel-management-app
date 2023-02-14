@@ -33,7 +33,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    userData.hotel!.name,
+                    userData!.hotel!.name,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                         ),

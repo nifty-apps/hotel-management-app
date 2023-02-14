@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hotel.management">
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Hotel Management"
         android:icon="@mipmap/ic_launcher">

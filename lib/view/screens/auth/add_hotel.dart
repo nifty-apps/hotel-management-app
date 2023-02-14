@@ -57,20 +57,14 @@ class AddHotelScreen extends ConsumerWidget {
                         ),
                         SizedBox(height: 30),
                         CustomButton(
-                          onPressed: () {
+                          onPressed: () async {
                             // Get.find<AuthController>().logout();
-                            provider
-                                .addHotel(
+                            await provider.addHotel(
                               nameController.text.trim(),
                               addressConteroller.text.trim(),
-                            )
-                                .then((hotel) {
-                              if (hotel?.id != null) {
-                                print(hotel);
-                                Navigator.pushReplacementNamed(
-                                    context, Routes.dashboard);
-                              }
-                            });
+                            );
+                            Navigator.pushReplacementNamed(
+                                context, Routes.login);
                           },
                           buttonText: 'Submit',
                           width: double.infinity,

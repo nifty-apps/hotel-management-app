@@ -56,7 +56,7 @@ class LoginScreen extends ConsumerWidget {
                           )
                               .then((value) {
                             if (value == true) {
-                              if (provider.userData.hotel != null) {
+                              if (provider.userData!.hotel != null) {
                                 Navigator.pushReplacementNamed(
                                     context, Routes.dashboard);
                               } else {

@@ -31,7 +31,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          ref.read(authProvider).userData.hotel!.name,
+          ref.read(authProvider).userData?.hotel?.name ?? 'Hotel Management',
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -81,15 +81,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         onTap: () {},
                       ),
                       DashboardTile(
-                        title: 'Today Booked',
+                        title: 'Today Bookings',
                         count: dashboardInfo.summary.todayBookings,
-                        onTap: () {},
+                        onTap: () {
+                          ref.read(roomProvider).todayBookingRooms();
+                          Navigator.pushNamed(
+                              context, Routes.todayBookingsRoom);
+                        },
                       ),
                       DashboardTile(
                         title: 'Today Checking',
                         count: dashboardInfo.summary.todayCheckIn,
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.availableRoom);
+                          // Navigator.pushNamed(context, Routes.availableRoom);
                         },
                       ),
                     ],
@@ -195,7 +199,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
-                                                          .spaceEvenly,
+                                                          .spaceBetween,
                                                   children: [
                                                     Text(
                                                       'Check In: ${DateFormat.yMMMd().format(bookings[index].checkIn.toLocal())}',
@@ -218,8 +222,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                                           .copyWith(
                                                             color: Theme.of(
                                                                     context)
-                                                                .colorScheme
-                                                                .secondary,
+                                                                .errorColor,
                                                             fontSize: 11,
                                                           ),
                                                     ),
@@ -280,8 +283,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 title: 'Today Checking',
                                 count: 10,
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.availableRoom);
+                                  // Navigator.pushNamed(
+                                  //     context, Routes.availableRoom);
                                 },
                               ),
                             ],
@@ -303,9 +306,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                          height: 10,
-                                          width: 150,
-                                          color: Colors.white),
+                                        height: 10,
+                                        width: 150,
+                                        color: Colors.white,
+                                      ),
                                       SizedBox(height: 5),
                                       Container(
                                         height: 10,

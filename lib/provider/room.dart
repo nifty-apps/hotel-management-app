@@ -15,6 +15,7 @@ class RoomProvider {
 
   late List<Room> rooms;
   late List<Booking> recentBookings;
+  late List<Booking> todayBookings;
   // add room
   Future<bool> addRoom(
       AddRoom room, String hotelId, BuildContext context) async {
@@ -69,9 +70,22 @@ class RoomProvider {
   // get recent booking rooms
   Future<List<Booking>?> recentBookingRooms() async {
     final response =
-        await ref.read(apiClientProvider).get(AppConstants.recentBookingRooms);
+        await ref.read(apiClientProvider).get(AppConstants.todayBookingRooms);
     if (response.statusCode == 200) {
       recentBookings = response.data['data'].map<Booking>((booking) {
+        return Booking.fromMap(booking);
+      }).toList();
+      return recentBookings;
+    }
+    return null;
+  }
+
+  // get recent booking rooms
+  Future<List<Booking>?> todayBookingRooms() async {
+    final response =
+        await ref.read(apiClientProvider).get(AppConstants.recentBookingRooms);
+    if (response.statusCode == 200) {
+      todayBookings = response.data['data'].map<Booking>((booking) {
         return Booking.fromMap(booking);
       }).toList();
       return recentBookings;

@@ -7,6 +7,7 @@ import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room_booking.dart';
+import 'package:hotel_management/view/screens/room/today_bookings.dart';
 import 'package:hotel_management/view/screens/room/total.dart';
 
 class Routes {
@@ -18,6 +19,7 @@ class Routes {
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
   static const String availableRoom = '/availableRoom';
+  static const String todayBookingsRoom = '/todayBookingsRoom';
   static const String bookingRoom = '/bookingRoom';
   static const String profile = '/profile';
 
@@ -54,6 +56,10 @@ class Routes {
       case availableRoom:
         return MaterialPageRoute(
           builder: (context) => AvailableRoomScreen(),
+        );
+      case todayBookingsRoom:
+        return MaterialPageRoute(
+          builder: (context) => TodayBookingsScreen(),
         );
       case bookingRoom:
         return MaterialPageRoute(

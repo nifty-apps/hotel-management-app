@@ -18,7 +18,7 @@ class AuthProvider extends ChangeNotifier {
   AuthProvider(this.ref);
 
   bool isLoading = false;
-  late User userData;
+   User? userData;
 
   // User registration
   Future<bool> registration(
@@ -60,7 +60,7 @@ class AuthProvider extends ChangeNotifier {
         userData = User.fromMap(response.data['data']);
         ref.read(apiClientProvider).updateToken(token!);
         ref.read(localStorageProvider).saveToken(token);
-        ref.read(localStorageProvider).saveUser(userData);
+        ref.read(localStorageProvider).saveUser(userData!);
         return true;
       } else {
         String message = response.data['message'];
@@ -84,7 +84,7 @@ class AuthProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         final hotel = Hotel.fromMap(response.data['data']);
-        final updatedUser = userData.copyWith(
+        final updatedUser = userData!.copyWith(
           hotel: hotel,
         );
         print(updatedUser);
