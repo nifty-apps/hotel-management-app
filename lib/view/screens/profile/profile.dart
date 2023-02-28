@@ -92,6 +92,22 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+                  // Text(LocaleKeys.welcome_to_second_page.tr()),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     ElevatedButton(
+                  //         onPressed: () {
+                  //           context.setLocale(const Locale('en'));
+                  //         },
+                  //         child: Text('English')),
+                  //     ElevatedButton(
+                  //         onPressed: () {
+                  //           context.setLocale(const Locale('bn'));
+                  //         },
+                  //         child: Text('Bangla')),
+                  //   ],
+                  // ),
                   Text(
                     'Version: 1.0.0',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
