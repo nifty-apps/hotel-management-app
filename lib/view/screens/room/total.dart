@@ -63,7 +63,6 @@ class TotalRoomSrceen extends ConsumerWidget {
             );
           }
 
-          // total rooms screen
           return Center(
             child: CircularProgressIndicator(),
           );
