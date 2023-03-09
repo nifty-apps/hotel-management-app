@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
-import 'package:hotel_management/view/screens/auth/registration.dart';
-import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
+import 'package:hotel_management/view/screens/auth/signup.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard1.dart';
+import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
@@ -15,6 +16,7 @@ class Routes {
   static const String login = '/login';
   static const String signUp = '/signUp';
   static const String addHotel = '/addHotel';
+  static const String intro = '/intro';
   static const String dashboard = '/dashboard';
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
@@ -25,6 +27,10 @@ class Routes {
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case intro:
+        return MaterialPageRoute(
+          builder: (context) => IntroScreen(),
+        );
       case login:
         return MaterialPageRoute(
           builder: (context) => LoginScreen(),
@@ -39,7 +45,7 @@ class Routes {
         );
       case dashboard:
         return MaterialPageRoute(
-          builder: (context) => DashboardScreen(),
+          builder: (context) => MyHomePage(),
         );
       case addRoom:
         List<dynamic>? args = settings.arguments as List?;

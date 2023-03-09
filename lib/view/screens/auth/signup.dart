@@ -4,9 +4,10 @@ import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
-class LoginScreen extends ConsumerWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends ConsumerWidget {
+  SignUpScreen({Key? key}) : super(key: key);
 
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController pasController = TextEditingController();
 
@@ -28,17 +29,17 @@ class LoginScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     Text(
-                      'Get Back To Manageing Your Hotel Oparations',
+                      'Join Thousands Of Hotailers',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
-                        fontSize: 24,
+                        fontSize: 40,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     SizedBox(height: 14),
                     Text(
-                      'Login To Our Admin App Now',
+                      'Sign Up To Our Powerful Admin App Now',
                       style: TextStyle(fontSize: 16),
                     ),
                   ],
@@ -65,12 +66,25 @@ class LoginScreen extends ConsumerWidget {
                               Icon(Icons.arrow_back),
                               SizedBox(width: 5),
                               Text(
-                                'Sign In',
+                                'Sign Up',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w700),
                               ),
                             ],
                           ),
+                          SizedBox(height: 16),
+                          CustomTextFormField(
+                              controller: nameController,
+                              hintText: 'Enter you full name',
+                              labelText: 'Full Name',
+                              prefixIcon: Icons.person,
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter full name';
+                                }
+                                return null;
+                              }),
                           SizedBox(height: 16),
                           CustomTextFormField(
                               controller: emailController,
@@ -101,7 +115,6 @@ class LoginScreen extends ConsumerWidget {
                           SizedBox(height: 70),
                           CustomButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, Routes.addHotel);
                               if (_formKey.currentState!.validate()) {
                                 print('valid');
                               } else {
@@ -121,7 +134,7 @@ class LoginScreen extends ConsumerWidget {
                               //   }
                               // });
                             },
-                            buttonText: 'Sign In',
+                            buttonText: 'Create Account',
                             width: double.infinity,
                             height: 45,
                           ),
@@ -136,9 +149,9 @@ class LoginScreen extends ConsumerWidget {
                               SizedBox(width: 5),
                               InkWell(
                                 onTap: () =>
-                                    Navigator.pushNamed(context, Routes.signUp),
+                                    Navigator.pushNamed(context, Routes.login),
                                 child: Text(
-                                  'CREATE ACCOUNT',
+                                  'LOGIN',
                                   style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.primary,
