@@ -5,7 +5,7 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Color(0xFFF3F3F3),
     appBarTheme: AppBarTheme(
-      backgroundColor: Color(0xFFE7EAF6),
+      backgroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(color: Color(0xFF113F67), fontSize: 22),
@@ -17,6 +17,7 @@ class AppTheme {
       secondary: Color(0xFF113F67),
       primary: Color(0xFF0059AA),
       background: Color(0xFFF3F3F3),
+      primaryContainer: Color(0xFFFFFFFF),
     ),
     brightness: Brightness.light,
     highlightColor: Colors.white,

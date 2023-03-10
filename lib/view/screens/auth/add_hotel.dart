@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
@@ -107,6 +108,8 @@ class AddHotelScreen extends ConsumerWidget {
                             SizedBox(height: 150),
                             CustomButton(
                               onPressed: () async {
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.dashboard);
                                 if (_formKey.currentState!.validate()) {
                                   print('valid');
                                 } else {

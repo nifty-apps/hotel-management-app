@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hotel_management/view/screens/dashboard/home.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -8,41 +9,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentIndex = 0;
-
-  // List<NavigationItem> items = [
-  //   NavigationItem(
-  //     icon: Icon(Icons.home),
-  //     title: Text('Home'),
-  //     color: Colors.indigo,
-  //   ),
-  //   NavigationItem(
-  //     icon: Icon(Icons.search),
-  //     title: Text('Search'),
-  //     color: Colors.pink,
-  //   ),
-  //   NavigationItem(
-  //     icon: Icon(Icons.notifications),
-  //     title: Text('Notifications'),
-  //     color: Colors.yellow,
-  //   ),
-  //   NavigationItem(
-  //     icon: Icon(Icons.settings),
-  //     title: Text('Settings'),
-  //     color: Colors.teal,
-  //   ),
-  //   NavigationItem(
-  //     icon: Icon(Icons.person),
-  //     title: Text('Profile'),
-  //     color: Colors.cyan,
-  //   ),
-  // ];
-
   List<Widget> _screens = [
-    Screen1(),
+    HomeScreen(),
     Screen2(),
     Screen3(),
     Screen4(),
-    Screen5()
   ];
 
   @override
@@ -72,9 +43,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            
-          });
+          setState(() {});
         },
         child: Icon(
           Icons.add,
