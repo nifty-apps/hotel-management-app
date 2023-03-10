@@ -7,8 +7,8 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
       elevation: 0,
-      centerTitle: true,
-      titleTextStyle: TextStyle(color: Color(0xFF113F67), fontSize: 22),
+      centerTitle: false,
+      titleTextStyle: TextStyle(color: Colors.black, fontSize: 22),
       iconTheme: IconThemeData(
         color: Color(0xFF113F67),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
-import 'package:hotel_management/view/screens/dashboard/dashboard1.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
@@ -45,7 +45,7 @@ class Routes {
         );
       case dashboard:
         return MaterialPageRoute(
-          builder: (context) => MyHomePage(),
+          builder: (context) => DashboardScreen(),
         );
       case addRoom:
         List<dynamic>? args = settings.arguments as List?;

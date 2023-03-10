@@ -7,6 +7,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: Icon(Icons.hotel),
         title: Text('Home'),
       ),
       body: Container(
