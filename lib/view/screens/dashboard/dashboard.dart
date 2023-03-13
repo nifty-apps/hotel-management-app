@@ -1,8 +1,8 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hotel_management/view/screens/dashboard/checkin_out.dart';
 import 'package:hotel_management/view/screens/dashboard/home.dart';
 import 'package:hotel_management/view/screens/dashboard/partial_payment.dart';
-import 'package:hotel_management/view/screens/dashboard/screen3.dart';
 import 'package:hotel_management/view/screens/dashboard/screen4.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   List<Widget> _screens = [
     HomeScreen(),
     PartialPaymentScreen(),
-    Screen3(),
+    CheckinOut(),
     Screen4(),
   ];
 

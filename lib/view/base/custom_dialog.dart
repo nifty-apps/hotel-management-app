@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 class CustomDialog extends StatelessWidget {
   final String title;
   final String buttonText;
+  final String imagePath;
+  final void Function()? onTap;
   CustomDialog({
     Key? key,
     required this.title,
     required this.buttonText,
+    required this.imagePath,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -45,7 +49,7 @@ class CustomDialog extends StatelessWidget {
                   ),
                   SizedBox(height: 14),
                   InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: onTap,
                     child: Text(
                       buttonText,
                       style: TextStyle(
@@ -63,7 +67,7 @@ class CustomDialog extends StatelessWidget {
             left: 0,
             right: 0,
             bottom: 100,
-            child: Image.asset('assets/icons/successful.png'),
+            child: Image.asset(imagePath),
           ),
         ],
       ),

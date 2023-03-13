@@ -16,7 +16,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.labelText,
       this.prefixIcon,
     required this.keyboardType,
-    required this.validator,
+     this.validator,
     this.isPassword = false,
   }) : super(key: key);
 

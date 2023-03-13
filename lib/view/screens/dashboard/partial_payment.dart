@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
@@ -21,7 +22,7 @@ class PartialPaymentScreen extends StatelessWidget {
         body: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            height: MediaQuery.of(context).size.height / 2.5,
+            height: MediaQuery.of(context).size.height / 2.2,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -87,6 +88,9 @@ class PartialPaymentScreen extends StatelessWidget {
                           builder: (context) => CustomDialog(
                             title: 'Payment Successful !',
                             buttonText: 'Back To Home',
+                            onTap: () =>
+                                Navigator.pushNamed(context, Routes.dashboard),
+                            imagePath: 'assets/icons/successful.png',
                           ),
                         );
                       } else {
