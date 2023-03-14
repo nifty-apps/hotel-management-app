@@ -4,13 +4,14 @@ import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 
 class ConfirmCheckingScreen extends StatelessWidget {
-  ConfirmCheckingScreen({super.key});
+  final bool isCheckin;
+  ConfirmCheckingScreen({super.key, required this.isCheckin});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Confirm Checkin'),
+        title: Text(isCheckin ? 'Confirm Checkin' : 'Checkout'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -197,17 +198,31 @@ class ConfirmCheckingScreen extends StatelessWidget {
             Spacer(),
             CustomButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => CustomDialog(
-                    onTap: () => Navigator.pushNamed(context, Routes.dashboard),
-                    title: 'Checkin Successful !',
-                    buttonText: 'Back To Home',
-                    imagePath: 'assets/icons/successful.png',
-                  ),
-                );
+                if (isCheckin) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomDialog(
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.dashboard),
+                      title: 'Checkin Successful !',
+                      buttonText: 'Back To Home',
+                      imagePath: 'assets/icons/successful.png',
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomDialog(
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.dashboard),
+                      title: 'Checkout Successful !',
+                      buttonText: 'Back To Home',
+                      imagePath: 'assets/icons/successful.png',
+                    ),
+                  );
+                }
               },
-              buttonText: 'Confrim Checkin',
+              buttonText: isCheckin ? 'Confrim Checkin' : 'Checkout',
               width: double.infinity,
             ),
           ],

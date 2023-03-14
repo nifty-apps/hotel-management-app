@@ -5,9 +5,12 @@ import 'package:hotel_management/view/screens/auth/signup.dart';
 import 'package:hotel_management/view/screens/checkin/checkin.dart';
 import 'package:hotel_management/view/screens/checkin/choice_room.dart';
 import 'package:hotel_management/view/screens/checkin/confirm_checking.dart';
+import 'package:hotel_management/view/screens/checkin/edit_checking_info.dart';
 import 'package:hotel_management/view/screens/checkin/payment.dart';
+import 'package:hotel_management/view/screens/checkin/update_customer_room.dart';
+import 'package:hotel_management/view/screens/checkout/checkout.dart';
+import 'package:hotel_management/view/screens/checkout/checkout_due.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
-import 'package:hotel_management/view/screens/dashboard/home.dart';
 import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
@@ -26,7 +29,12 @@ class Routes {
   static const String checkin = '/checkin';
   static const String choiceRooms = '/choiceRooms';
   static const String payment = '/payment';
-  static const String confirmChecking = '/confirmChecking';
+  static const String confirmCheckin = '/confirmCheckin';
+  static const String editCheckinInfo = '/editCheckinInfo';
+  static const String updateCustomerRoom = '/updateCustomerRoom';
+  static const String checkout = '/checkout';
+  static const String checkoutDue = '/checkoutDue';
+
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
   static const String availableRoom = '/availableRoom';
@@ -48,7 +56,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => SignUpScreen(),
         );
-     
+
       case addHotel:
         return MaterialPageRoute(
           builder: (context) => AddHotelScreen(),
@@ -69,9 +77,26 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => PaymentScreen(),
         );
-      case confirmChecking:
+      case confirmCheckin:
         return MaterialPageRoute(
-          builder: (context) => ConfirmCheckingScreen(),
+          builder: (context) =>
+              ConfirmCheckingScreen(isCheckin: settings.arguments as bool),
+        );
+      case editCheckinInfo:
+        return MaterialPageRoute(
+          builder: (context) => EditCheckingInfoScreen(),
+        );
+      case updateCustomerRoom:
+        return MaterialPageRoute(
+          builder: (context) => UpdateCustomerRoom(),
+        );
+      case checkout:
+        return MaterialPageRoute(
+          builder: (context) => CheckoutScreen(),
+        );
+      case checkoutDue:
+        return MaterialPageRoute(
+          builder: (context) => CheckoutDueScreen(),
         );
       case addRoom:
         List<dynamic>? args = settings.arguments as List?;

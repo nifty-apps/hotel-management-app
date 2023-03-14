@@ -22,7 +22,6 @@ class PartialPaymentScreen extends StatelessWidget {
         body: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            height: MediaQuery.of(context).size.height / 2.2,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -58,6 +57,19 @@ class PartialPaymentScreen extends StatelessWidget {
                     controller: bookingIdController,
                     hintText: 'Booking ID',
                     labelText: 'Booking ID',
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (bookingIdController.text.isEmpty) {
+                        return 'Please enter booking ID';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  CustomTextFormField(
+                    controller: bookingIdController,
+                    hintText: 'Name',
+                    labelText: 'Name',
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (bookingIdController.text.isEmpty) {

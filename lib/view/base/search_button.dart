@@ -19,7 +19,7 @@ class SearchButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
         ),
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Icon(Icons.search, color: Colors.white),
       label: Text(
         'Search',

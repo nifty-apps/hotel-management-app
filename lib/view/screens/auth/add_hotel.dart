@@ -28,9 +28,16 @@ class AddHotelScreen extends ConsumerWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                   child: Image.asset(
-                    'assets/images/add_hotel.png',
+                    'assets/images/hotel.png',
+                    height: 180,
                     fit: BoxFit.cover,
-                    width: double.infinity,
+                  ),
+                ),
+                Text(
+                  'Add Your Hotel & Manage Easily',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 SizedBox(height: 30),
@@ -105,7 +112,7 @@ class AddHotelScreen extends ConsumerWidget {
                                 return null;
                               },
                             ),
-                            SizedBox(height: 150),
+                            SizedBox(height: 120),
                             CustomButton(
                               onPressed: () async {
                                 Navigator.pushReplacementNamed(

@@ -28,6 +28,8 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Flexible(
                       flex: 3,
@@ -36,27 +38,14 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Abu Taher Mollah',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    print('Edit');
-                                  },
-                                  child: Icon(
-                                    (Icons.edit),
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              'Abu Taher Mollah',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                             SizedBox(height: 6),
                             Text(
@@ -202,6 +191,7 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                 ),
                 child: Column(
                   children: [
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -212,11 +202,12 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(
+                              context, Routes.editCheckinInfo),
+                          child: Icon(
                             Icons.edit,
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         )
                       ],

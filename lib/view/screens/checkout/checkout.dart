@@ -5,13 +5,13 @@ import 'package:hotel_management/view/base/date_picker_button.dart';
 import 'package:hotel_management/view/base/search_button.dart';
 import 'package:hotel_management/view/base/search_text_form_field.dart';
 
-class CheckinScreen extends StatefulWidget {
-  CheckinScreen({super.key});
+class CheckoutScreen extends StatefulWidget {
+  CheckoutScreen({super.key});
   @override
-  State<CheckinScreen> createState() => _CheckinScreenState();
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckinScreenState extends State<CheckinScreen> {
+class _CheckoutScreenState extends State<CheckoutScreen> {
   final TextEditingController searchController = TextEditingController();
   DateTime? fromDate = DateTime.now();
   DateTime? toDate = DateTime.now();
@@ -20,7 +20,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Checkin'),
+        title: Text('Checkout'),
       ),
       body: Stack(
         alignment: Alignment.center,
@@ -36,7 +36,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                       children: [
                         SearchTextFormField(
                           controller: searchController,
-                          hintText: 'Enter booking name or number',
+                          hintText: 'Enter booking name or number ',
                         ),
                         SizedBox(height: 20),
                         Container(
@@ -140,7 +140,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
                           child: Text(
-                            'Checkin List',
+                            'Checkout List',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -159,7 +159,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 ),
                                 ListTile(
                                   onTap: () => Navigator.pushNamed(
-                                      context, Routes.choiceRooms),
+                                      context, Routes.checkoutDue,),
                                   leading: Icon(Icons.person),
                                   trailing: Icon(
                                     Icons.arrow_forward_ios,

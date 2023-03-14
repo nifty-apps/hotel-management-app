@@ -44,7 +44,7 @@ class CheckinOut extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: InkWell(
-                        onTap: () => print('checkout'),
+                        onTap: () => Navigator.pushNamed(context, '/checkout'),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),

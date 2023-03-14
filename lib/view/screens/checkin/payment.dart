@@ -96,7 +96,7 @@ class PaymentScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  'Total Amount',
+                                  'Advance ',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -131,7 +131,7 @@ class PaymentScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  'Total Amount',
+                                  'Due Amount',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -184,13 +184,6 @@ class PaymentScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 5),
-                    CustomTextFormField(
-                      controller: advanceAmountController,
-                      hintText: 'Enter amount',
-                      labelText: 'Advance Amount',
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(height: 40),
                     Container(
                       height: 65,
                       width: double.infinity,
@@ -204,7 +197,7 @@ class PaymentScreen extends StatelessWidget {
                               child: CustomTextFormField(
                                 controller: advanceAmountController,
                                 hintText: 'Enter amount',
-                                labelText: 'Advance Amount',
+                                labelText: 'Discount',
                                 keyboardType: TextInputType.number,
                               ),
                             ),
@@ -233,10 +226,17 @@ class PaymentScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    SizedBox(height: 40),
+                    CustomTextFormField(
+                      controller: advanceAmountController,
+                      hintText: 'Enter amount',
+                      labelText: 'Advance Amount',
+                      keyboardType: TextInputType.number,
+                    ),
                     SizedBox(height: 200),
                     CustomButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.confirmChecking);
+                        Navigator.pushNamed(context, Routes.confirmCheckin,arguments: true);
                       },
                       buttonText: 'Payment',
                       width: double.infinity,
