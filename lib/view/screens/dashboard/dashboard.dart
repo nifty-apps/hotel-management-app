@@ -4,7 +4,7 @@ import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/screens/dashboard/checkin_out.dart';
 import 'package:hotel_management/view/screens/dashboard/home.dart';
 import 'package:hotel_management/view/screens/dashboard/partial_payment.dart';
-import 'package:hotel_management/view/screens/dashboard/screen4.dart';
+import 'package:hotel_management/view/screens/dashboard/settings.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     HomeScreen(),
     PartialPaymentScreen(),
     CheckinOut(),
-    Screen4(),
+    SettingsScreen(),
   ];
 
   @override
