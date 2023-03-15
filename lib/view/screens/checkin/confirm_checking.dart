@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 
 class ConfirmCheckingScreen extends StatelessWidget {
-  final bool isCheckin;
-  ConfirmCheckingScreen({super.key, required this.isCheckin});
+  final PageType bookingStatus;
+  ConfirmCheckingScreen({super.key, required this.bookingStatus});
 
   @override
   Widget build(BuildContext context) {
+    print(bookingStatus);
     return Scaffold(
       appBar: AppBar(
-        title: Text(isCheckin ? 'Confirm Checkin' : 'Checkout'),
+        title: Text(
+            bookingStatus == PageType.checkin ? 'Confirm Checkin' : 'Checkout'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -198,13 +201,24 @@ class ConfirmCheckingScreen extends StatelessWidget {
             Spacer(),
             CustomButton(
               onPressed: () {
-                if (isCheckin) {
+                if (bookingStatus == PageType.confirm) {
                   showDialog(
                     context: context,
                     builder: (context) => CustomDialog(
                       onTap: () =>
                           Navigator.pushNamed(context, Routes.dashboard),
-                      title: 'Checkin Successful !',
+                      title: 'Successfully booked!',
+                      buttonText: 'Back To Home',
+                      imagePath: 'assets/icons/successful.png',
+                    ),
+                  );
+                } else if (bookingStatus == PageType.checkin) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomDialog(
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.dashboard),
+                      title: 'Successfully checked in!',
                       buttonText: 'Back To Home',
                       imagePath: 'assets/icons/successful.png',
                     ),
@@ -215,14 +229,18 @@ class ConfirmCheckingScreen extends StatelessWidget {
                     builder: (context) => CustomDialog(
                       onTap: () =>
                           Navigator.pushNamed(context, Routes.dashboard),
-                      title: 'Checkout Successful !',
+                      title: 'Successfully checked out!',
                       buttonText: 'Back To Home',
                       imagePath: 'assets/icons/successful.png',
                     ),
                   );
                 }
               },
-              buttonText: isCheckin ? 'Confrim Checkin' : 'Checkout',
+              buttonText: bookingStatus == PageType.checkin
+                  ? 'Confrim Check in'
+                  : bookingStatus == PageType.checkout
+                      ? 'Checkout'
+                      : 'Confirm',
               width: double.infinity,
             ),
           ],

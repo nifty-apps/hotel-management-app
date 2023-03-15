@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/screens/dashboard/checkin_out.dart';
 import 'package:hotel_management/view/screens/dashboard/home.dart';
 import 'package:hotel_management/view/screens/dashboard/partial_payment.dart';
@@ -28,6 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen>
         backgroundColor: Colors.white,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
+
         activeIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -41,12 +43,14 @@ class _DashboardScreenState extends State<DashboardScreen>
           Icons.settings,
         ],
         // items: ite
-        activeColor: Colors.black,
+        activeColor: Theme.of(context).colorScheme.primary,
         inactiveColor: Colors.grey[600],
         splashColor: Colors.blue,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.newBooking);
+        },
         child: Icon(
           Icons.add,
           color: Colors.white,

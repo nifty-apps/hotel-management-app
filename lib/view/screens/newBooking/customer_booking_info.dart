@@ -4,21 +4,27 @@ import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
-class UpdateCustomerRoom extends StatefulWidget {
-  UpdateCustomerRoom({super.key});
+class CustomerBookingInfoScreen extends StatefulWidget {
+  CustomerBookingInfoScreen({super.key});
 
   @override
-  State<UpdateCustomerRoom> createState() => _UpdateCustomerRoomState();
+  State<CustomerBookingInfoScreen> createState() =>
+      _CustomerBookingInfoScreenState();
 }
 
-class _UpdateCustomerRoomState extends State<UpdateCustomerRoom> {
+class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController discountAmountController =
+      TextEditingController();
   final TextEditingController advanceAmountController = TextEditingController();
 
+  bool isCheckin = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update'),
+        title: Text('Customer Booking Info'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -135,7 +141,6 @@ class _UpdateCustomerRoomState extends State<UpdateCustomerRoom> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
                   Divider(
                     color: Theme.of(context).colorScheme.background,
                     thickness: 3,
@@ -145,181 +150,22 @@ class _UpdateCustomerRoomState extends State<UpdateCustomerRoom> {
                 ],
               ),
             ),
+            SizedBox(height: 40),
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 16,
               ),
               margin: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
                 color: Theme.of(context).colorScheme.primaryContainer,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10),
-                  Text(
-                    'Choice Room',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      ImageIcon(AssetImage('assets/icons/bed.png')),
-                      SizedBox(width: 14),
-                      Text(
-                        'Single Room Number',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(
-                    color: Theme.of(context).colorScheme.background,
-                    thickness: 3,
-                  ),
-                  Container(
-                    height: 70,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: items.length,
-                      itemBuilder: ((context, index) {
-                        final item = items[index];
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (selectedItems.contains(item)) {
-                                selectedItems.remove(item);
-                              } else {
-                                selectedItems.add(item);
-                              }
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 5,
-                            ),
-                            width: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: selectedItems.contains(item)
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                              border: Border.all(
-                                color: selectedItems.contains(item)
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.background,
-                                width: 2,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                items[index],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: selectedItems.contains(item)
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
-                  Divider(
-                    color: Theme.of(context).colorScheme.background,
-                    thickness: 3,
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      ImageIcon(AssetImage('assets/icons/bed.png')),
-                      SizedBox(width: 14),
-                      Text(
-                        'Double Room Number',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(
-                    color: Theme.of(context).colorScheme.background,
-                    thickness: 3,
-                  ),
-                  Container(
-                    height: 70,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: items1.length,
-                      itemBuilder: ((context, index) {
-                        final item = items1[index];
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (selectedItems.contains(item)) {
-                                selectedItems.remove(item);
-                              } else {
-                                selectedItems.add(item);
-                              }
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 5,
-                            ),
-                            width: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: selectedItems.contains(item)
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                              border: Border.all(
-                                color: selectedItems.contains(item)
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.background,
-                                width: 2,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                items1[index],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: selectedItems.contains(item)
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
-                  Divider(
-                    color: Theme.of(context).colorScheme.background,
-                    thickness: 3,
-                  ),
-                  SizedBox(height: 20),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
@@ -332,6 +178,22 @@ class _UpdateCustomerRoomState extends State<UpdateCustomerRoom> {
                     child: Column(
                       children: [
                         SizedBox(height: 5),
+                        CustomTextFormField(
+                          controller: nameController,
+                          hintText: 'Enter customer name',
+                          labelText: 'Customer Name',
+                          keyboardType: TextInputType.text,
+                          prefixIcon: Icons.person,
+                        ),
+                        SizedBox(height: 30),
+                        CustomTextFormField(
+                          controller: phoneController,
+                          hintText: 'Enter phone number',
+                          labelText: 'Phone Number',
+                          keyboardType: TextInputType.number,
+                          prefixIcon: Icons.phone_android,
+                        ),
+                        SizedBox(height: 30),
                         Container(
                           height: 63,
                           width: double.infinity,
@@ -374,19 +236,46 @@ class _UpdateCustomerRoomState extends State<UpdateCustomerRoom> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: 30),
                         CustomTextFormField(
                           controller: advanceAmountController,
                           hintText: 'Enter amount',
                           labelText: 'Advance Amount',
                           keyboardType: TextInputType.number,
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: 30),
+                        Row(
+                          children: [
+                            Checkbox(
+                                value: isCheckin,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isCheckin = value!;
+                                  });
+                                  print(isCheckin);
+                                }),
+                            Text(
+                              'Checkin now?',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 30),
                         CustomButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, Routes.confirmCheckin,arguments: PageType.checkin);
+                            isCheckin
+                                ? Navigator.pushNamed(
+                                    context,
+                                    Routes.choiceRooms,
+                                  )
+                                : Navigator.pushNamed(
+                                    context, Routes.confirmCheckin,
+                                    arguments: PageType.confirm);
                           },
-                          buttonText: 'Update',
+                          buttonText: 'Next',
                           width: double.infinity,
                         )
                       ],

@@ -41,3 +41,9 @@ extension StringCasingExtension on String {
       .map((str) => str.toCapitalized())
       .join(' ');
 }
+
+enum PageType {
+  checkin,
+  checkout,
+  confirm,
+}

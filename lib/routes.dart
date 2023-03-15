@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
@@ -12,6 +13,8 @@ import 'package:hotel_management/view/screens/checkout/checkout.dart';
 import 'package:hotel_management/view/screens/checkout/checkout_due.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 import 'package:hotel_management/view/screens/intro/intro.dart';
+import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
+import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
 import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
@@ -34,6 +37,8 @@ class Routes {
   static const String updateCustomerRoom = '/updateCustomerRoom';
   static const String checkout = '/checkout';
   static const String checkoutDue = '/checkoutDue';
+  static const String newBooking = '/newBooking';
+  static const String customerBookingInfo = '/customerBookingInfo';
 
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
@@ -79,8 +84,8 @@ class Routes {
         );
       case confirmCheckin:
         return MaterialPageRoute(
-          builder: (context) =>
-              ConfirmCheckingScreen(isCheckin: settings.arguments as bool),
+          builder: (context) => ConfirmCheckingScreen(
+              bookingStatus: settings.arguments as PageType),
         );
       case editCheckinInfo:
         return MaterialPageRoute(
@@ -97,6 +102,14 @@ class Routes {
       case checkoutDue:
         return MaterialPageRoute(
           builder: (context) => CheckoutDueScreen(),
+        );
+      case newBooking:
+        return MaterialPageRoute(
+          builder: (context) => NewBookingScreen(),
+        );
+      case customerBookingInfo:
+        return MaterialPageRoute(
+          builder: (context) => CustomerBookingInfoScreen(),
         );
       case addRoom:
         List<dynamic>? args = settings.arguments as List?;

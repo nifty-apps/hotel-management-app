@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
@@ -195,7 +196,7 @@ class CheckoutDueScreen extends StatelessWidget {
                 CustomButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, Routes.confirmCheckin,arguments: false);
+                      Navigator.pushNamed(context, Routes.confirmCheckin,arguments: PageType.checkout);
                     } else {
                       print('Invalid');
                     }

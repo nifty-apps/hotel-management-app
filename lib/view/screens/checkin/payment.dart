@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
@@ -236,7 +237,11 @@ class PaymentScreen extends StatelessWidget {
                     SizedBox(height: 200),
                     CustomButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.confirmCheckin,arguments: true);
+                        Navigator.pushNamed(
+                          context,
+                          Routes.confirmCheckin,
+                          arguments: PageType.checkin,
+                        );
                       },
                       buttonText: 'Payment',
                       width: double.infinity,
