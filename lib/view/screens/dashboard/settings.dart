@@ -73,7 +73,8 @@ class SettingsScreen extends StatelessWidget {
                 SettingsCard(
                   icon: 'assets/icons/customer.png',
                   title: 'Customer',
-                  onTap: () {},
+                  onTap: () =>
+                      Navigator.pushNamed(context, Routes.customerList),
                 ),
                 SizedBox(width: 20),
                 SettingsCard(
@@ -91,7 +92,9 @@ class SettingsScreen extends StatelessWidget {
                 SettingsCard(
                   icon: 'assets/icons/revenue.png',
                   title: 'Revenue',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.revenue);
+                  },
                 ),
               ],
             ),
