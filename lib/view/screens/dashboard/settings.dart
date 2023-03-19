@@ -43,7 +43,7 @@ class SettingsScreen extends StatelessWidget {
                 SettingsCard(
                   icon: 'assets/icons/room.png',
                   title: 'Room',
-                  onTap: () {},
+                  onTap: () => Navigator.pushNamed(context, Routes.roomList),
                 ),
               ],
             ),

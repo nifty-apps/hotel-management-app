@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
@@ -72,8 +71,7 @@ class AddRoomTypeScreen extends StatelessWidget {
                     buttonText: 'Back',
                     imagePath: 'assets/icons/successful.png',
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Routes.roomTypeList, (route) => false);
+                      Navigator.pop(context);
                     },
                   ),
                 );

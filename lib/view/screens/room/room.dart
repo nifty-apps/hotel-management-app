@@ -2,30 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/search_text_form_field.dart';
 
-class RoomTypeListScreen extends StatefulWidget {
-  RoomTypeListScreen({super.key});
+class RoomListScreen extends StatefulWidget {
+  RoomListScreen({super.key});
   @override
-  State<RoomTypeListScreen> createState() => _RoomTypeListScreenState();
+  State<RoomListScreen> createState() => _RoomListScreenState();
 }
 
-class _RoomTypeListScreenState extends State<RoomTypeListScreen> {
+class _RoomListScreenState extends State<RoomListScreen> {
   final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Room Type'),
+        title: Text('Rooms'),
         automaticallyImplyLeading: true,
       ),
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, Routes.addRoomType,
-              arguments: false),
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          )),
+        onPressed: () =>
+            Navigator.pushNamed(context, Routes.addRoom, arguments: false),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: Column(
@@ -64,7 +65,7 @@ class _RoomTypeListScreenState extends State<RoomTypeListScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
                       child: Text(
-                        'Room Type List',
+                        'Room List',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -82,13 +83,20 @@ class _RoomTypeListScreenState extends State<RoomTypeListScreen> {
                             ),
                             ListTile(
                               onTap: () => Navigator.pushNamed(
-                                  context, Routes.addRoomType,
+                                  context, Routes.addRoom,
                                   arguments: true),
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.green,
-                                radius: 20,
+                              leading: Container(
+                                height: 40,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.green,
+                                ),
                                 child: Center(
-                                  child: Text(index.toString()),
+                                  child: Text(
+                                    index.toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
                               trailing: Icon(
