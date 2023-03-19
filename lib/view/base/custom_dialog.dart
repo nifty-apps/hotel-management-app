@@ -23,7 +23,7 @@ class CustomDialog extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 220,
+            height: 240,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
@@ -45,6 +45,7 @@ class CustomDialog extends StatelessWidget {
                   SizedBox(height: 12),
                   Text(
                     title,
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   SizedBox(height: 14),

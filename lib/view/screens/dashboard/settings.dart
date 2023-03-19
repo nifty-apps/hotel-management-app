@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/settings_card.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -34,7 +35,9 @@ class SettingsScreen extends StatelessWidget {
                 SettingsCard(
                   icon: 'assets/icons/room_type.png',
                   title: 'Room Type',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.roomTypeList);
+                  },
                 ),
                 SizedBox(width: 20),
                 SettingsCard(
@@ -137,8 +140,6 @@ class SettingsScreen extends StatelessWidget {
                   icon: 'assets/icons/support.png',
                   title: 'Support',
                   onTap: () {},
-
-                  
                 ),
               ],
             ),

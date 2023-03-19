@@ -17,8 +17,10 @@ import 'package:hotel_management/view/screens/newBooking/customer_booking_info.d
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
 import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
+import 'package:hotel_management/view/screens/room/add_room_type.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room_booking.dart';
+import 'package:hotel_management/view/screens/room/room_type.dart';
 import 'package:hotel_management/view/screens/room/today_bookings.dart';
 import 'package:hotel_management/view/screens/room/total.dart';
 
@@ -39,6 +41,8 @@ class Routes {
   static const String checkoutDue = '/checkoutDue';
   static const String newBooking = '/newBooking';
   static const String customerBookingInfo = '/customerBookingInfo';
+  static const String roomTypeList = '/roomTypeList';
+  static const String addRoomType = '/addRoomType';
 
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
@@ -110,6 +114,16 @@ class Routes {
       case customerBookingInfo:
         return MaterialPageRoute(
           builder: (context) => CustomerBookingInfoScreen(),
+        );
+      case roomTypeList:
+        return MaterialPageRoute(
+          builder: (context) => RoomTypeListScreen(),
+        );
+      case addRoomType:
+        return MaterialPageRoute(
+          builder: (context) => AddRoomTypeScreen(
+            isUpdate: settings.arguments as bool,
+          ),
         );
       case addRoom:
         List<dynamic>? args = settings.arguments as List?;
