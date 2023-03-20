@@ -81,8 +81,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                   SizedBox(height: 10),
                                   Row(
                                     children: [
-                                      ImageIcon(
-                                          AssetImage('assets/icons/tk.png')),
+                                      Image.asset('assets/icons/tk.png'),
                                       SizedBox(width: 10),
                                       Text(
                                         '5',
@@ -120,8 +119,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                     SizedBox(height: 10),
                                     Row(
                                       children: [
-                                        ImageIcon(
-                                            AssetImage('assets/icons/tk.png')),
+                                        Image.asset('assets/icons/tk.png'),
                                         SizedBox(width: 10),
                                         Text(
                                           '2156',
@@ -266,14 +264,13 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                         SizedBox(height: 30),
                         CustomButton(
                           onPressed: () {
-                            isCheckin
-                                ? Navigator.pushNamed(
-                                    context,
-                                    Routes.choiceRooms,
-                                  )
-                                : Navigator.pushNamed(
-                                    context, Routes.confirmCheckin,
-                                    arguments: PageType.confirm);
+                            Navigator.pushNamed(
+                              context,
+                              Routes.confirmCheckin,
+                              arguments: isCheckin
+                                  ? PageType.checkin
+                                  : PageType.confirm,
+                            );
                           },
                           buttonText: 'Next',
                           width: double.infinity,

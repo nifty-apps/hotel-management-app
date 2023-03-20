@@ -159,7 +159,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 ),
                                 ListTile(
                                   onTap: () => Navigator.pushNamed(
-                                      context, Routes.choiceRooms),
+                                    context,
+                                    Routes.choiceRooms,
+                                    arguments: false,
+                                  ),
                                   leading: Icon(Icons.person),
                                   trailing: Icon(
                                     Icons.arrow_forward_ios,

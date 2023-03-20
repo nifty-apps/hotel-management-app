@@ -218,7 +218,11 @@ class _NewBookingScreenState extends State<NewBookingScreen> {
                   Spacer(),
                   CustomButton(
                     onPressed: () {
-                      showBottomSheet(selectedItems);
+                      Navigator.pushNamed(
+                        context,
+                        Routes.choiceRooms,
+                        arguments: true,
+                      );
                     },
                     buttonText: 'Select Category',
                     width: double.infinity,

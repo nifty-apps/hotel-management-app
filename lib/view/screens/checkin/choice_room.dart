@@ -1,9 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 
 class ChoiceRoomScreen extends StatefulWidget {
-  ChoiceRoomScreen({super.key});
+  final bool isnewBooking;
+  ChoiceRoomScreen({
+    Key? key,
+    required this.isnewBooking,
+  }) : super(key: key);
 
   @override
   State<ChoiceRoomScreen> createState() => _ChoiceRoomScreenState();
@@ -202,14 +207,16 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        InkWell(
-                          onTap: () => Navigator.pushNamed(
-                              context, Routes.editCheckinInfo),
-                          child: Icon(
-                            Icons.edit,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )
+                        widget.isnewBooking
+                            ? SizedBox()
+                            : InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.editCheckinInfo),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )
                       ],
                     ),
                     SizedBox(height: 20),
@@ -240,13 +247,15 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                           final item = items[index];
                           return InkWell(
                             onTap: () {
-                              setState(() {
-                                if (selectedItems.contains(item)) {
-                                  selectedItems.remove(item);
-                                } else {
-                                  selectedItems.add(item);
-                                }
-                              });
+                              widget.isnewBooking
+                                  ? setState(() {
+                                      if (selectedItems.contains(item)) {
+                                        selectedItems.remove(item);
+                                      } else {
+                                        selectedItems.add(item);
+                                      }
+                                    })
+                                  : print('Edit booking info');
                             },
                             child: Container(
                               margin: EdgeInsets.symmetric(
@@ -319,13 +328,15 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                           final item = items1[index];
                           return InkWell(
                             onTap: () {
-                              setState(() {
-                                if (selectedItems.contains(item)) {
-                                  selectedItems.remove(item);
-                                } else {
-                                  selectedItems.add(item);
-                                }
-                              });
+                              widget.isnewBooking
+                                  ? setState(() {
+                                      if (selectedItems.contains(item)) {
+                                        selectedItems.remove(item);
+                                      } else {
+                                        selectedItems.add(item);
+                                      }
+                                    })
+                                  : print('Edit booking info');
                             },
                             child: Container(
                               margin: EdgeInsets.symmetric(
@@ -378,7 +389,9 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
               CustomButton(
                 onPressed: () {
                   print(selectedItems);
-                  Navigator.pushNamed(context, Routes.payment);
+                  widget.isnewBooking
+                      ? Navigator.pushNamed(context, Routes.customerBookingInfo)
+                      : Navigator.pushNamed(context, Routes.payment);
                 },
                 buttonText: 'Next',
                 width: double.infinity,
@@ -394,5 +407,5 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
 
   List<String> items1 = ['201', '202', '203', '204', '205'];
 
-  List<String> selectedItems = [];
+  List<String> selectedItems = ['101', '104', '202', '205'];
 }

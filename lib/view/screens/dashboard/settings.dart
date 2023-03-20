@@ -68,7 +68,6 @@ class SettingsScreen extends StatelessWidget {
               height: 20,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SettingsCard(
                   icon: 'assets/icons/customer.png',
@@ -76,19 +75,15 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () =>
                       Navigator.pushNamed(context, Routes.customerList),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 30),
                 SettingsCard(
-                  icon: 'assets/icons/checkin.png',
-                  title: 'Check In',
-                  onTap: () {},
+                  icon: 'assets/icons/transaction.png',
+                  title: 'Transaction',
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.transaction);
+                  },
                 ),
-                SizedBox(width: 20),
-                SettingsCard(
-                  icon: 'assets/icons/checkout.png',
-                  title: 'Check Out',
-                  onTap: () {},
-                ),
-                SizedBox(width: 20),
+                SizedBox(width: 30),
                 SettingsCard(
                   icon: 'assets/icons/revenue.png',
                   title: 'Revenue',

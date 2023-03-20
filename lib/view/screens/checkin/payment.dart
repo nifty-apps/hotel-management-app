@@ -53,7 +53,7 @@ class PaymentScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Container(
-                    height: 60,
+                    height: 70,
                     child: Row(
                       children: [
                         Flexible(
@@ -71,8 +71,7 @@ class PaymentScreen extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    ImageIcon(
-                                        AssetImage('assets/icons/tk.png')),
+                                    Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
                                       '2156',
@@ -106,8 +105,7 @@ class PaymentScreen extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    ImageIcon(
-                                        AssetImage('assets/icons/tk.png')),
+                                    Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
                                       '2156',
@@ -141,8 +139,7 @@ class PaymentScreen extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    ImageIcon(
-                                        AssetImage('assets/icons/tk.png')),
+                                    Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
                                       '2156',

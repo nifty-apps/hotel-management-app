@@ -14,7 +14,12 @@ class ConfirmCheckingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            bookingStatus == PageType.checkin ? 'Confirm Checkin' : 'Checkout'),
+          bookingStatus == PageType.checkin
+              ? 'Confrim Check in'
+              : bookingStatus == PageType.checkout
+                  ? 'Checkout'
+                  : 'Confirm',
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),

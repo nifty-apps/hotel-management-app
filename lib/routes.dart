@@ -14,6 +14,7 @@ import 'package:hotel_management/view/screens/checkout/checkout_due.dart';
 import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 import 'package:hotel_management/view/screens/history/customer/customer_list.dart';
 import 'package:hotel_management/view/screens/history/revenue/revenue.dart';
+import 'package:hotel_management/view/screens/history/transaction/transaction.dart';
 import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
@@ -49,6 +50,7 @@ class Routes {
   static const String roomList = '/roomList';
   static const String customerList = '/customerList';
   static const String revenue = '/revenue';
+  static const String transaction = '/transaction';
 
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
@@ -86,7 +88,9 @@ class Routes {
         );
       case choiceRooms:
         return MaterialPageRoute(
-          builder: (context) => ChoiceRoomScreen(),
+          builder: (context) => ChoiceRoomScreen(
+            isnewBooking: settings.arguments as bool,
+          ),
         );
       case payment:
         return MaterialPageRoute(
@@ -153,6 +157,11 @@ class Routes {
         // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
           builder: (context) => RevenueScreen(),
+        );
+      case transaction:
+        // List<dynamic>? args = settings.arguments as List?;
+        return MaterialPageRoute(
+          builder: (context) => TransactionScreen(),
         );
       case totalRooms:
         return MaterialPageRoute(
