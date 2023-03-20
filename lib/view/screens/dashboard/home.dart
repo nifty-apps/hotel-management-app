@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Flexible(
-              flex: 3,
+              flex: 4,
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 24),
                 decoration: BoxDecoration(
@@ -28,32 +28,104 @@ class HomeScreen extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        child: Row(
                           children: [
-                            Text(
-                              'Today Collections',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image(
+                                          image: AssetImage(
+                                              'assets/icons/person.png'),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Text(
+                                          '100',
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Today Booked',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              '25,000 TK',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
+                            Container(
+                              height: double.infinity,
+                              width: 3,
+                              color: Theme.of(context).colorScheme.background,
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image(
+                                          image: AssetImage(
+                                              'assets/icons/checked_in.png'),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Text(
+                                          '75',
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Today Checked In',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Divider(
+                    Container(
+                      width: double.infinity,
+                      height: 3,
                       color: Theme.of(context).colorScheme.background,
-                      thickness: 3,
-                      indent: 10,
-                      endIndent: 10,
                     ),
                     Flexible(
                       flex: 1,
@@ -82,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                         SizedBox(width: 16),
                                         Text(
-                                          '125',
+                                          '25',
                                           style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700,
@@ -92,9 +164,9 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 10),
                                     Text(
-                                      'Booked Rooms',
+                                      'Remaining',
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -122,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         Image(
                                           image: AssetImage(
-                                              'assets/icons/checked_in.png'),
+                                              'assets/icons/available_rooms.png'),
                                         ),
                                         SizedBox(width: 16),
                                         Text(
@@ -136,53 +208,9 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 10),
                                     Text(
-                                      'Checked In',
+                                      'Available Rooms',
                                       style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            VerticalDivider(
-                              thickness: 3,
-                              color: Theme.of(context).colorScheme.background,
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Image(
-                                          image: AssetImage(
-                                              'assets/icons/checkin_icon.png'),
-                                        ),
-                                        SizedBox(width: 16),
-                                        Text(
-                                          '25',
-                                          style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      'Remaining',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -194,6 +222,42 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Container(
+                      width: double.infinity,
+                      height: 3,
+                      color: Theme.of(context).colorScheme.background,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: ListTile(
+                          title: Text(
+                            'Today Collections',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          trailing: Image.asset('assets/icons/arrow.png'),
+                          subtitle: Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icons/tk.png'),
+                                SizedBox(width: 10),
+                                Text(
+                                  '14200',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
