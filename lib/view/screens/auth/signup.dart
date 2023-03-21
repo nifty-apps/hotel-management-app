@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
@@ -18,7 +19,7 @@ class SignUpScreen extends ConsumerWidget {
     return Scaffold(
       body: Consumer(
         builder: (contex, ref, _) {
-          // final provider = ref.watch(authProvider);
+          final provider = ref.watch(authProvider);
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -114,25 +115,18 @@ class SignUpScreen extends ConsumerWidget {
                               }),
                           SizedBox(height: 70),
                           CustomButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                print('valid');
-                              } else {
-                                print('not valid');
+                                bool isSuccess = await provider.registration(
+                                  nameController.text,
+                                  emailController.text,
+                                  pasController.text,
+                                  context,
+                                );
+                                if (isSuccess) {
+                                  Navigator.pushNamed(context, Routes.addHotel);
+                                }
                               }
-                              // if (!_formKey.currentState!.validate()) {
-                              // RegistrationModel registration = RegistrationModel(
-                              //   name: nameController.text,
-                              //   email: emailController.text,
-                              //   phone: phoneController.text,
-                              //   role: roleController.text,
-                              //   password: pasController.text,
-                              // );
-                              // provider.registration(registration, contex).then((value) {
-                              //   if (value == true) {
-                              //     Navigator.pushNamed(context, Routes.addHotel);
-                              //   }
-                              // });
                             },
                             buttonText: 'Create Account',
                             width: double.infinity,

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/settings_card.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -154,9 +156,15 @@ class SettingsScreen extends StatelessWidget {
             Row(
               children: [
                 TextButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.logout),
-                    label: Text('Logout')),
+                  onPressed: () async {
+                    bool isSuccess = await ref.read(authProvider).logout();
+                    if (isSuccess) {
+                      Navigator.pushNamed(context, Routes.login);
+                    }
+                  },
+                  icon: Icon(Icons.logout),
+                  label: Text('Logout'),
+                ),
               ],
             ),
           ],

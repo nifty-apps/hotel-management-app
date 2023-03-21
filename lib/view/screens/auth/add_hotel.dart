@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/hotel.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
@@ -115,19 +116,20 @@ class AddHotelScreen extends ConsumerWidget {
                             SizedBox(height: 120),
                             CustomButton(
                               onPressed: () async {
-                                Navigator.pushReplacementNamed(
-                                    context, Routes.dashboard);
                                 if (_formKey.currentState!.validate()) {
-                                  print('valid');
-                                } else {
-                                  print('not valid');
+                                  Hotel? hotel = await provider.addHotel(
+                                    hotelNameController.text,
+                                    ownerNameController.text,
+                                    hotelAddressController.text,
+                                    contactNumberConteroller.text.trim(),
+                                  );
+                                  if (hotel?.id != null) {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      Routes.dashboard,
+                                    );
+                                  }
                                 }
-                                // await provider.addHotel(
-                                //   nameController.text.trim(),
-                                //   addressConteroller.text.trim(),
-                                // );
-                                // Navigator.pushReplacementNamed(
-                                //     context, Routes.login);
                               },
                               buttonText: 'Submit',
                               width: double.infinity,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/hotel.dart';
-import 'package:hotel_management/models/registration.dart';
 import 'package:hotel_management/models/user.dart';
 import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/util/app_constants.dart';
@@ -18,16 +17,20 @@ class AuthProvider extends ChangeNotifier {
   AuthProvider(this.ref);
 
   bool isLoading = false;
-   User? userData;
+  User? userData;
 
   // User registration
-  Future<bool> registration(
-      RegistrationModel userData, BuildContext context) async {
+  Future<bool> registration(String fullName, String email, String password,
+      BuildContext context) async {
     try {
-      final response = await ref.read(apiClientProvider).post(
-            AppConstants.registraionUrl,
-            data: userData.toJson(),
-          );
+      final response = await ref
+          .read(apiClientProvider)
+          .post(AppConstants.registraionUrl, data: {
+        'name': fullName,
+        'email': email,
+        'password': password,
+        'role': 'Owner',
+      });
       if (response.statusCode == 201) {
         String token = response.data['data']['token'];
         ref.read(apiClientProvider).updateToken(token);
@@ -73,13 +76,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // Add Hotel
-  Future<Hotel?> addHotel(String name, address) async {
+  Future<Hotel?> addHotel(
+      String name, ownerName, address, contactNumber) async {
     try {
       final response = await ref.read(apiClientProvider).post(
         AppConstants.hotelAddUrl,
         data: {
           'name': name,
+          'ownerName': ownerName,
           'address': address,
+          'contactNumber': contactNumber,
         },
       );
       if (response.statusCode == 200) {

@@ -25,7 +25,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       if (data.first.last == null) {
         return Navigator.pushReplacementNamed(context, Routes.addHotel);
       } else {
-        return Navigator.pushReplacementNamed(context, Routes.intro);
+        return Navigator.pushReplacementNamed(context, Routes.dashboard);
       }
     });
   }

@@ -6,7 +6,7 @@ class User {
   final String id;
   final String name;
   final String email;
-  final String phone;
+  final String? phone;
   final String role;
   final Hotel? hotel;
   User({
@@ -52,7 +52,7 @@ class User {
       id: map['_id'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
-      phone: map['phone'] as String,
+      phone: map['phone'],
       role: map['role'] as String,
       hotel: map['hotel'] != null
           ? Hotel.fromMap(map['hotel'] as Map<String, dynamic>)
