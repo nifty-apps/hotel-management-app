@@ -14,8 +14,6 @@ class ManageEmployeeScreen extends ConsumerStatefulWidget {
 }
 
 class _ManageEmployeeScreenState extends ConsumerState<ManageEmployeeScreen> {
-  bool _didChangeSettings = false;
-
   @override
   Widget build(BuildContext contextf) {
     final provider = ref.read(employeeProvider);

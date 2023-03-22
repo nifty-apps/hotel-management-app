@@ -1,26 +1,53 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/room_type.dart';
+import 'package:hotel_management/provider/room_type.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
-class AddRoomTypeScreen extends StatelessWidget {
-  final bool isUpdate;
+class AddRoomTypeScreen extends ConsumerWidget {
+  final RoomType roomType;
   AddRoomTypeScreen({
     Key? key,
-    required this.isUpdate,
+    required this.roomType,
   }) : super(key: key);
+
   final TextEditingController typeController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
+  final TextEditingController rentController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void setinfo() {
+    typeController.text = roomType.type;
+    rentController.text = roomType.rent.toString();
+    descriptionController.text = roomType.description;
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (roomType.id.isNotEmpty) {
+      setinfo();
+    }
+    setinfo();
+    final provider = ref.read(roomTypeProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(isUpdate ? 'Edit Room type' : 'Add Room Type'),
+        title:
+            Text(roomType.id.isNotEmpty ? 'Edit Room type' : 'Add Room Type'),
         actions: [
-          isUpdate
-              ? IconButton(onPressed: () {}, icon: Icon(Icons.delete))
+          roomType.id.isNotEmpty
+              ? IconButton(
+                  onPressed: () {
+                    ref
+                        .read(roomTypeProvider)
+                        .deleteRoomType(roomType.id, context);
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.delete),
+                )
               : SizedBox(),
         ],
       ),
@@ -36,49 +63,86 @@ class AddRoomTypeScreen extends StatelessWidget {
           ),
           color: Theme.of(context).colorScheme.primaryContainer,
         ),
-        child: Column(
-          children: [
-            CustomTextFormField(
-              controller: typeController,
-              hintText: 'Room type',
-              labelText: 'Room Type',
-              keyboardType: TextInputType.text,
-            ),
-            SizedBox(height: 30),
-            CustomTextFormField(
-              controller: priceController,
-              hintText: 'Price',
-              labelText: 'Price',
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 30),
-            CustomTextFormField(
-              controller: descriptionController,
-              hintText: 'Description',
-              labelText: 'Description',
-              keyboardType: TextInputType.text,
-            ),
-            Spacer(),
-            CustomButton(
-              width: double.infinity,
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => CustomDialog(
-                    title: isUpdate
-                        ? 'The room type has been successfully updated!'
-                        : 'The room type has been successfully added!',
-                    buttonText: 'Back',
-                    imagePath: 'assets/icons/successful.png',
-                    onTap: () {
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              CustomTextFormField(
+                controller: typeController,
+                hintText: 'Room type',
+                labelText: 'Room Type',
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter room type';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 30),
+              CustomTextFormField(
+                controller: rentController,
+                hintText: 'rent',
+                labelText: 'rent',
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter rent';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 30),
+              CustomTextFormField(
+                controller: descriptionController,
+                hintText: 'Description',
+                labelText: 'Description',
+                keyboardType: TextInputType.text,
+              ),
+              Spacer(),
+              CustomButton(
+                width: double.infinity,
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    late bool isSuccess;
+                    if (roomType.id.isNotEmpty) {
+                      isSuccess = await provider.updateRoomType(
+                          roomType.id,
+                          context,
+                          typeController.text,
+                          int.parse(rentController.text),
+                          descriptionController.text);
+                    } else {
+                      isSuccess = await provider.addRoomType(
+                        typeController.text,
+                        int.parse(rentController.text),
+                        descriptionController.text,
+                        context,
+                      );
+                    }
+
+                    if (isSuccess) {
                       Navigator.pop(context);
-                    },
-                  ),
-                );
-              },
-              buttonText: isUpdate ? 'Update' : 'Add Room Type',
-            )
-          ],
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomDialog(
+                          title: roomType.id.isNotEmpty
+                              ? 'The room type has been updated successfully!'
+                              : 'The room type has been added successfully !',
+                          buttonText: 'Back',
+                          imagePath: 'assets/icons/successful.png',
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      );
+                    }
+                  }
+                },
+                buttonText: roomType.id.isNotEmpty ? 'Update' : 'Add Room Type',
+              )
+            ],
+          ),
         ),
       ),
     );

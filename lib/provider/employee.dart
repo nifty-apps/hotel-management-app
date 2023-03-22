@@ -14,7 +14,6 @@ class EmployeeProvider with ChangeNotifier {
 
   Future<bool> addEmployee(
       Employee employee, String password, BuildContext context) async {
-    print(employee.name);
     final response = await ref.read(apiClientProvider).post(
         AppConstants.employee,
         data: {...employee.toMap(), 'password': password});

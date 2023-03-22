@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/models/employee.dart';
+import 'package:hotel_management/models/room_type.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/add_employee.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
@@ -137,7 +138,7 @@ class Routes {
       case addRoomType:
         return MaterialPageRoute(
           builder: (context) => AddRoomTypeScreen(
-            isUpdate: settings.arguments as bool,
+            roomType: settings.arguments as RoomType,
           ),
         );
       case roomList:

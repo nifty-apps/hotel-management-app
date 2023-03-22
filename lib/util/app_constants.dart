@@ -26,6 +26,7 @@ class AppConstants {
   static const bookingUpdate = '$baseUrl/admin/room/booking/update';
   static const adminProfile = '$baseUrl/admin/profile';
   static const employee = '$baseUrl/users';
+  static const roomType = '$baseUrl/room/type';
 
   // final Map<String, String> roomTypes = {
   //   'single': 'Single',
