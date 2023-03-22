@@ -133,7 +133,9 @@ class SettingsScreen extends ConsumerWidget {
                 SettingsCard(
                   icon: 'assets/icons/employee.png',
                   title: 'Employee',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.manageEmployee);
+                  },
                 ),
                 SizedBox(width: 20),
                 SettingsCard(

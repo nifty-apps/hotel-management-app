@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/models/employee.dart';
 import 'package:hotel_management/util/app_constants.dart';
+import 'package:hotel_management/view/screens/account/employeeManage/add_employee.dart';
+import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
@@ -51,6 +54,8 @@ class Routes {
   static const String customerList = '/customerList';
   static const String revenue = '/revenue';
   static const String transaction = '/transaction';
+  static const String manageEmployee = '/manageEmployee';
+  static const String addEmployee = '/addEmployee';
 
   static const String addRoom = '/addRoom';
   static const String totalRooms = '/totalRooms';
@@ -162,6 +167,16 @@ class Routes {
         // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
           builder: (context) => TransactionScreen(),
+        );
+      case manageEmployee:
+        return MaterialPageRoute(
+          builder: (context) => ManageEmployeeScreen(),
+        );
+      case addEmployee:
+        return MaterialPageRoute(
+          builder: (context) => EmployeeAddScreen(
+            employee: settings.arguments as Employee,
+          ),
         );
       case totalRooms:
         return MaterialPageRoute(
