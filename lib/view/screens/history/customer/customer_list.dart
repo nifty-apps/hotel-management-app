@@ -21,10 +21,11 @@ class CustomerListScreen extends StatelessWidget {
               child: Container(
                 child: Column(
                   children: [
-                    SearchTextFormField(
-                      controller: searchController,
-                      hintText: 'Enter booking name or number',
-                    ),
+                    // SearchTextFormField(
+                    //   controller: searchController,
+                    //   hintText: 'Enter booking name or number',
+                    //   onEditingComplete: (){},
+                    // ),
                     SizedBox(height: 20),
                   ],
                 ),

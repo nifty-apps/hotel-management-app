@@ -3,25 +3,30 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
-import 'package:hotel_management/models/add_room.dart';
 import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
-class RoomProvider {
+class RoomProvider extends ChangeNotifier {
   final Ref ref;
   RoomProvider(this.ref);
+  bool isLoading = false;
+  List<Room> _rooms = [];
+  List<Room> get rooms => _rooms;
 
-  late List<Room> rooms;
   late List<Booking> recentBookings;
   late List<Booking> todayBookings;
+
   // add room
   Future<bool> addRoom(
-      AddRoom room, String hotelId, BuildContext context) async {
+      String roomNumber, String roomTypeId, BuildContext context) async {
     final response = await ref
         .read(apiClientProvider)
-        .post('${AppConstants.addroomUrl}/rooms', data: room);
+        .post('${AppConstants.addroomUrl}/rooms', data: {
+      'number': roomNumber,
+      'roomType': roomTypeId,
+    });
     if (response.statusCode == 201) {
       final message = response.data['message'];
       showSnackBarMethod(context, message, true);
@@ -33,16 +38,25 @@ class RoomProvider {
   }
 
   // add room
-  Future<List<Room>?> getRoomList() async {
-    final response =
-        await ref.read(apiClientProvider).get(AppConstants.totalRoom);
+  Future<bool> getRoomList(String? roomNumber) async {
+    isLoading = true;
+    notifyListeners();
+    String url = AppConstants.totalRoom;
+    if (roomNumber != null) {
+      url = '${AppConstants.totalRoom}?roomNumber=$roomNumber';
+    }
+
+    final response = await ref.read(apiClientProvider).get(url);
     if (response.statusCode == 200) {
-      rooms = response.data['data'].map<Room>((room) {
+      _rooms = response.data['data'].map<Room>((room) {
         return Room.fromMap(room);
       }).toList();
-      return rooms;
+      print(_rooms.length);
+      isLoading = false;
+      notifyListeners();
+      return true;
     }
-    return null;
+    return false;
   }
 
   // room booking
@@ -95,10 +109,17 @@ class RoomProvider {
 
   // update room information
   Future<bool> updateRoomInfo(
-      String roomId, AddRoom room, BuildContext context) async {
+    String roomNumber,
+    String roomTypeId,
+    String roomId,
+    BuildContext context,
+  ) async {
     final response = await ref
         .read(apiClientProvider)
-        .put('${AppConstants.updateRoomInfo}/$roomId', data: room.toJson());
+        .put('${AppConstants.updateRoomInfo}/$roomId', data: {
+      "number": roomNumber,
+      "roomType": roomTypeId,
+    });
     final message = response.data['message'];
     if (response.statusCode == 200) {
       showSnackBarMethod(context, message, true);
@@ -123,4 +144,4 @@ class RoomProvider {
   }
 }
 
-final roomProvider = Provider((ref) => RoomProvider(ref));
+final roomProvider = ChangeNotifierProvider((ref) => RoomProvider(ref));

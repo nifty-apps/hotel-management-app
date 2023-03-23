@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/models/room_type.dart';
+import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/provider/room_type.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
@@ -21,29 +21,28 @@ class AddRoomTypeScreen extends ConsumerWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void setinfo() {
-    typeController.text = roomType.type;
+    typeController.text = roomType.room.toString();
     rentController.text = roomType.rent.toString();
-    descriptionController.text = roomType.description;
+    descriptionController.text = roomType.description!;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (roomType.id.isNotEmpty) {
+    if (roomType.id!.isNotEmpty) {
       setinfo();
     }
     setinfo();
-    final provider = ref.read(roomTypeProvider);
+  final provider = ref.read(roomTypeProvider);
     return Scaffold(
       appBar: AppBar(
         title:
-            Text(roomType.id.isNotEmpty ? 'Edit Room type' : 'Add Room Type'),
+            Text(roomType.id!.isNotEmpty ? 'Edit Room type' : 'Add Room Type'),
         actions: [
-          roomType.id.isNotEmpty
+          roomType.id!.isNotEmpty
               ? IconButton(
                   onPressed: () {
-                    ref
-                        .read(roomTypeProvider)
-                        .deleteRoomType(roomType.id, context);
+                    provider
+                        .deleteRoomType(roomType.id.toString(), context);
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.delete),
@@ -105,9 +104,9 @@ class AddRoomTypeScreen extends ConsumerWidget {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     late bool isSuccess;
-                    if (roomType.id.isNotEmpty) {
+                    if (roomType.id!.isNotEmpty) {
                       isSuccess = await provider.updateRoomType(
-                          roomType.id,
+                          roomType.id.toString(),
                           context,
                           typeController.text,
                           int.parse(rentController.text),
@@ -126,7 +125,7 @@ class AddRoomTypeScreen extends ConsumerWidget {
                       showDialog(
                         context: context,
                         builder: (context) => CustomDialog(
-                          title: roomType.id.isNotEmpty
+                          title: roomType.id!.isNotEmpty
                               ? 'The room type has been updated successfully!'
                               : 'The room type has been added successfully !',
                           buttonText: 'Back',
@@ -139,7 +138,8 @@ class AddRoomTypeScreen extends ConsumerWidget {
                     }
                   }
                 },
-                buttonText: roomType.id.isNotEmpty ? 'Update' : 'Add Room Type',
+                buttonText:
+                    roomType.id!.isNotEmpty ? 'Update' : 'Add Room Type',
               )
             ],
           ),

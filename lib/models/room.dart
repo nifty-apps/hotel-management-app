@@ -1,90 +1,65 @@
-import 'dart:convert';
-
 class Room {
-  final String id;
-  final String floor;
-  final String number;
-  final String roomType;
-  final int rent;
-  final String hotel;
-  Room({
-    required this.id,
-    required this.floor,
-    required this.number,
-    required this.roomType,
-    required this.rent,
-    required this.hotel,
-  });
+  String? id;
+  String? number;
+  RoomType? roomType;
+  String? hotel;
+  String? createdAt;
+  String? updatedAt;
 
-  Room copyWith({
-    String? id,
-    String? floor,
-    String? number,
-    String? roomType,
-    int? rent,
-    String? hotel,
-  }) {
-    return Room(
-      id: id ?? this.id,
-      floor: floor ?? this.floor,
-      number: number ?? this.number,
-      roomType: roomType ?? this.roomType,
-      rent: rent ?? this.rent,
-      hotel: hotel ?? this.hotel,
-    );
+  Room(
+      {this.id,
+      this.number,
+      this.roomType,
+      this.hotel,
+      this.createdAt,
+      this.updatedAt});
+
+  Room.fromMap(Map<String, dynamic> json) {
+    id = json['_id'];
+    number = json['number'];
+    roomType = json['roomType'] != null
+        ? new RoomType.fromMap(json['roomType'])
+        : null;
+    hotel = json['hotel'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      '_id': id,
-      'floor': floor,
-      'number': number,
-      'roomType': roomType,
-      'rent': rent,
-      'hotel': hotel,
-    };
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['number'] = this.number;
+    if (this.roomType != null) {
+      data['roomType'] = this.roomType!.toMap();
+    }
+    data['hotel'] = this.hotel;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
+
+class RoomType {
+  String? id;
+  String? room;
+  int? rent;
+  String? description;
+
+  RoomType({this.id, this.room, this.rent, this.description});
+
+  RoomType.fromMap(Map<String, dynamic> json) {
+    id = json['_id'];
+    room = json['room'];
+    rent = json['rent'];
+    description = json['description'];
   }
 
-  factory Room.fromMap(Map<String, dynamic> map) {
-    return Room(
-      id: map['_id'] as String,
-      floor: map['floor'] as String,
-      number: map['number'] as String,
-      roomType: map['roomType'] as String,
-      rent: map['rent'].toInt() as int,
-      hotel: map['hotel'] as String,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Room.fromJson(String source) =>
-      Room.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'Room(id: $id, floor: $floor, number: $number, roomType: $roomType, rent: $rent, hotel: $hotel)';
-  }
-
-  @override
-  bool operator ==(covariant Room other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.floor == floor &&
-        other.number == number &&
-        other.roomType == roomType &&
-        other.rent == rent &&
-        other.hotel == hotel;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        floor.hashCode ^
-        number.hashCode ^
-        roomType.hashCode ^
-        rent.hashCode ^
-        hotel.hashCode;
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['room'] = this.room;
+    data['rent'] = this.rent;
+    data['description'] = this.description;
+    return data;
   }
 }

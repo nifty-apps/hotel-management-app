@@ -9,15 +9,21 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final bool isPassword;
+  final bool readOnly;
+  final bool isSuffixIcon;
+  final void Function()? suffixButtonAction;
   const CustomTextFormField({
     Key? key,
     required this.controller,
     required this.hintText,
     required this.labelText,
-      this.prefixIcon,
+    this.prefixIcon,
     required this.keyboardType,
-     this.validator,
+    this.validator,
     this.isPassword = false,
+    this.readOnly = false,
+    this.isSuffixIcon = false,
+    this.suffixButtonAction,
   }) : super(key: key);
 
   @override
@@ -35,18 +41,24 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintText: widget.hintText,
         labelText: widget.labelText,
         prefixIcon: Icon(widget.prefixIcon),
-        suffixIcon: widget.isPassword
+        suffixIcon: widget.isSuffixIcon
             ? IconButton(
-                icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: Theme.of(context).hintColor.withOpacity(0.3)),
-                onPressed: _toggle,
+                onPressed: widget.suffixButtonAction,
+                icon: Icon(Icons.arrow_drop_down),
               )
-            : null,
+            : widget.isPassword
+                ? IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Theme.of(context).hintColor.withOpacity(0.3)),
+                    onPressed: _toggle,
+                  )
+                : null,
         border: OutlineInputBorder(),
       ),
       keyboardType: TextInputType.emailAddress,
       validator: widget.validator,
+      readOnly: widget.readOnly,
     );
   }
 

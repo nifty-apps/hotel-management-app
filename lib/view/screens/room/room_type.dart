@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/models/room_type.dart';
+import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/provider/room_type.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:shimmer/shimmer.dart';
@@ -26,7 +26,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
           onPressed: () {
             RoomType roomType = RoomType(
               id: '',
-              type: '',
+              room: '',
               rent: 0,
               description: '',
             );
@@ -99,7 +99,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                                     onTap: () {
                                       RoomType roomType = RoomType(
                                         id: roomTypes[index].id,
-                                        type: roomTypes[index].type,
+                                        room: roomTypes[index].room,
                                         rent: roomTypes[index].rent,
                                         description:
                                             roomTypes[index].description,
@@ -124,7 +124,8 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                     ),
-                                    title: Text(roomTypes[index].type),
+                                    title:
+                                        Text(roomTypes[index].room.toString()),
                                   ),
                                 ],
                               ),

@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
-import 'package:hotel_management/models/room_type.dart';
+import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
 class RoomTypeProvider extends ChangeNotifier {
   final Ref ref;
   RoomTypeProvider({required this.ref});
+  bool isLoading = false;
 
   List<RoomType> _roomType = [];
   List<RoomType> get roomType => _roomType;
 
   Future<bool> addRoomType(
-      String type, int rent, String description, BuildContext context) async {
+      String room, int rent, String description, BuildContext context) async {
     final response =
         await ref.read(apiClientProvider).post(AppConstants.roomType, data: {
-      'roomType': type,
+      'room': room,
       'rent': rent,
       'description': description,
     });
@@ -28,20 +29,26 @@ class RoomTypeProvider extends ChangeNotifier {
 
   Future<List<RoomType>?> getRoomTypeList() async {
     try {
+      isLoading = true;
+      notifyListeners();
       final response =
           await ref.read(apiClientProvider).get(AppConstants.roomType);
       print(response.data);
       if (response.statusCode == 200) {
+        isLoading = false;
         _roomType = response.data['data'].map<RoomType>((roomType) {
           return RoomType.fromMap(roomType);
         }).toList();
+        isLoading = false;
         notifyListeners();
         return _roomType;
       }
     } catch (error) {
-      print(error);
+      isLoading = false;
+      notifyListeners();
     }
-
+    isLoading = false;
+    notifyListeners();
     return null;
   }
 

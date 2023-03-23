@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/models/employee.dart';
-import 'package:hotel_management/models/room_type.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/add_employee.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
@@ -31,6 +30,8 @@ import 'package:hotel_management/view/screens/room/room_booking.dart';
 import 'package:hotel_management/view/screens/room/room_type.dart';
 import 'package:hotel_management/view/screens/room/today_bookings.dart';
 import 'package:hotel_management/view/screens/room/total.dart';
+
+import 'models/room.dart';
 
 class Routes {
   static const String splash = '/';
@@ -151,7 +152,7 @@ class Routes {
         // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
           builder: (context) => AddRoomScreen(
-            isUpdate: settings.arguments as bool,
+            roomData: settings.arguments as Room,
           ),
         );
       case customerList:

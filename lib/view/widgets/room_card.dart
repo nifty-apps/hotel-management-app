@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/room.dart';
-import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
-import 'package:hotel_management/util/app_constants.dart';
 
 class RoomCard extends ConsumerWidget {
   final Room room;
@@ -26,7 +24,7 @@ class RoomCard extends ConsumerWidget {
             ),
             child: Center(
               child: Text(
-                room.number,
+                'room.number',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                     fontWeight: FontWeight.bold),
@@ -41,14 +39,14 @@ class RoomCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  room.roomType.toTitleCase(),
+                  'room.roomType',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 5),
                 Text(
-                  room.floor,
+                  ' room.floor',
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
@@ -56,7 +54,7 @@ class RoomCard extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'BDT ${room.rent}',
+                  'BDT ',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w500),
@@ -70,7 +68,7 @@ class RoomCard extends ConsumerWidget {
               children: [
                 IconButton(
                   onPressed: () async {
-                    await ref.read(roomProvider).deleteRoom(room.id, context);
+                    // await ref.read(roomProvider).deleteRoom(room.id, context);
                     Navigator.pushNamed(context, Routes.dashboard);
                   },
                   icon: Icon(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
+import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/settings_card.dart';
 
@@ -45,7 +46,10 @@ class SettingsScreen extends ConsumerWidget {
                 SettingsCard(
                   icon: 'assets/icons/room.png',
                   title: 'Room',
-                  onTap: () => Navigator.pushNamed(context, Routes.roomList),
+                  onTap: () {
+                    ref.read(roomProvider).getRoomList(null);
+                    Navigator.pushNamed(context, Routes.roomList);
+                  },
                 ),
               ],
             ),

@@ -34,10 +34,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: Container(
                     child: Column(
                       children: [
-                        SearchTextFormField(
-                          controller: searchController,
-                          hintText: 'Enter booking name or number ',
-                        ),
+                        // SearchTextFormField(
+                        //   controller: searchController,
+                        //   hintText: 'Enter booking name or number ',
+                        //   onEditingComplete: (){},
+                        // ),
                         SizedBox(height: 20),
                         Container(
                           padding: EdgeInsets.symmetric(
