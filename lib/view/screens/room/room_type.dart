@@ -23,25 +23,29 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
       ),
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            RoomType roomType = RoomType(
-              id: '',
-              room: '',
-              rent: 0,
-              description: '',
-            );
-            Navigator.pushNamed(
-              context,
-              Routes.addRoomType,
-              arguments: roomType,
-            ).then((_) {
-              setState(() {});
-            });
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          )),
+        onPressed: () async {
+          RoomType roomType = RoomType(
+            id: '',
+            room: '',
+            rent: 0,
+            description: '',
+          );
+          final result = await Navigator.pushNamed(
+            context,
+            Routes.addRoomType,
+            arguments: roomType,
+          );
+          print(result);
+          if (result == true) {
+            setState(() {});
+            print('call update');
+          }
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: Column(
@@ -96,7 +100,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                                     thickness: 3,
                                   ),
                                   ListTile(
-                                    onTap: () {
+                                    onTap: () async {
                                       RoomType roomType = RoomType(
                                         id: roomTypes[index].id,
                                         room: roomTypes[index].room,
@@ -104,13 +108,14 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                                         description:
                                             roomTypes[index].description,
                                       );
-                                      Navigator.pushNamed(
+                                      final result = await Navigator.pushNamed(
                                         context,
                                         Routes.addRoomType,
                                         arguments: roomType,
-                                      ).then(
-                                        (_) => setState(() {}),
                                       );
+                                      if (result == true) {
+                                        setState(() {});
+                                      }
                                     },
                                     leading: CircleAvatar(
                                       backgroundColor: Colors.green,
@@ -136,7 +141,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                     ),
                   );
                 }
-                return shimmerWidget();
+                return Center(child: CircularProgressIndicator());
               },
             )
           ],

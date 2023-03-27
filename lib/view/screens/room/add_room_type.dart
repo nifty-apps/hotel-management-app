@@ -32,7 +32,7 @@ class AddRoomTypeScreen extends ConsumerWidget {
       setinfo();
     }
     setinfo();
-  final provider = ref.read(roomTypeProvider);
+    final provider = ref.read(roomTypeProvider);
     return Scaffold(
       appBar: AppBar(
         title:
@@ -41,9 +41,8 @@ class AddRoomTypeScreen extends ConsumerWidget {
           roomType.id!.isNotEmpty
               ? IconButton(
                   onPressed: () {
-                    provider
-                        .deleteRoomType(roomType.id.toString(), context);
-                    Navigator.pop(context);
+                    provider.deleteRoomType(roomType.id.toString(), context);
+                    Navigator.pop(context, true);
                   },
                   icon: Icon(Icons.delete),
                 )
@@ -121,7 +120,7 @@ class AddRoomTypeScreen extends ConsumerWidget {
                     }
 
                     if (isSuccess) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                       showDialog(
                         context: context,
                         builder: (context) => CustomDialog(
@@ -131,7 +130,7 @@ class AddRoomTypeScreen extends ConsumerWidget {
                           buttonText: 'Back',
                           imagePath: 'assets/icons/successful.png',
                           onTap: () {
-                            Navigator.pop(context);
+                            Navigator.pop(context, true);
                           },
                         ),
                       );

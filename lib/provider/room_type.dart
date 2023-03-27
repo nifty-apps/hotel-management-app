@@ -29,8 +29,6 @@ class RoomTypeProvider extends ChangeNotifier {
 
   Future<List<RoomType>?> getRoomTypeList() async {
     try {
-      isLoading = true;
-      notifyListeners();
       final response =
           await ref.read(apiClientProvider).get(AppConstants.roomType);
       print(response.data);
@@ -39,16 +37,11 @@ class RoomTypeProvider extends ChangeNotifier {
         _roomType = response.data['data'].map<RoomType>((roomType) {
           return RoomType.fromMap(roomType);
         }).toList();
-        isLoading = false;
-        notifyListeners();
         return _roomType;
       }
     } catch (error) {
-      isLoading = false;
-      notifyListeners();
+      return null;
     }
-    isLoading = false;
-    notifyListeners();
     return null;
   }
 
