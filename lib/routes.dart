@@ -207,16 +207,16 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => AvailableRoomScreen(),
         );
-      case todayBookingsRoom:
-        return MaterialPageRoute(
-          builder: (context) => TodayBookingsScreen(),
-        );
-      case bookingRoom:
-        return MaterialPageRoute(
-          builder: (context) => RoomBooking(
-            roomId: settings.arguments.toString(),
-          ),
-        );
+      // case todayBookingsRoom:
+      //   return MaterialPageRoute(
+      //     builder: (context) => TodayBookingsScreen(),
+      //   );
+      // case bookingRoom:
+      //   return MaterialPageRoute(
+      //     builder: (context) => RoomBooking(
+      //       roomId: settings.arguments.toString(),
+      //     ),
+      //   );
       case profile:
         return MaterialPageRoute(builder: (context) => ProfileScreen());
     }

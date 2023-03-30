@@ -11,7 +11,7 @@ class AppConstants {
   static const totalRoom = '$baseUrl/rooms';
   static const availableRooms = '$baseUrl/rooms/available';
   static const roomBooking = '$baseUrl/rooms/bookings';
-  static const recentBookingRooms = '$baseUrl/rooms/recent/bookings';
+  static const recenRoombookins = '$baseUrl/rooms/bookings/recent';
   static const todayBookingRooms = '$baseUrl/rooms/todays/bookings';
   static const updateRoomInfo = '$baseUrl/rooms';
   static const deleteRoom = '$baseUrl/rooms';

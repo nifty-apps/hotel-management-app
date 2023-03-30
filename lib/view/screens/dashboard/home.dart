@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/booking.dart';
+import 'package:hotel_management/provider/bookings.dart';
+import 'package:shimmer/shimmer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -262,59 +266,151 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(
-              flex: 4,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Text(
-                        'Recent Booking',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+            FutureBuilder(
+              future: ref.read(bookingProvider).getRecentBookings(),
+              builder: (context, AsyncSnapshot<List<RecentBooking>?> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  final bookingList = snapshot.data;
+                  if (bookingList!.length == 0) {
+                    return SizedBox();
+                  }
+                  return Flexible(
+                    flex: 4,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) => Column(
-                          children: [
-                            Divider(
-                              color: Theme.of(context).colorScheme.background,
-                              thickness: 3,
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.person),
-                              trailing: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Theme.of(context).colorScheme.primary,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Text(
+                              'Recent Booking',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
                               ),
-                              title: Text('Abu Taher Molla'),
-                              subtitle: Text('0172653987'),
                             ),
-                          ],
+                          ),
+                          Flexible(
+                            child: ListView.builder(
+                              itemCount: bookingList.length,
+                              itemBuilder: (context, index) => Column(
+                                children: [
+                                  Divider(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    thickness: 3,
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.person),
+                                    trailing: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    title:
+                                        Text(bookingList[index].customer.name),
+                                    subtitle:
+                                        Text(bookingList[index].customer.phone),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return shimmerWidget(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget shimmerWidget(BuildContext context) {
+    return Flexible(
+      flex: 4,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Shimmer.fromColors(
+              baseColor: Theme.of(context).colorScheme.background,
+              highlightColor: Theme.of(context).highlightColor,
+              child: Container(
+                margin: EdgeInsets.all(20),
+                height: 10,
+                width: 100,
+                color: Theme.of(context).colorScheme.background,
+              ),
+            ),
+            Flexible(
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Theme.of(context).colorScheme.background,
+                      highlightColor: Theme.of(context).highlightColor,
+                      child: Divider(
+                        color: Theme.of(context).colorScheme.background,
+                        thickness: 3,
+                      ),
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Theme.of(context).colorScheme.background,
+                      highlightColor: Theme.of(context).highlightColor,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 20,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        title: Container(
+                          height: 10,
+                          width: 200,
+                          color: Theme.of(context).colorScheme.background,
+                        ),
+                        subtitle: Container(
+                          height: 10,
+                          width: 100,
+                          color: Theme.of(context).colorScheme.background,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
                   ],
                 ),
               ),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),

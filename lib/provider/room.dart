@@ -15,8 +15,8 @@ class RoomProvider extends ChangeNotifier {
   List<Room> _rooms = [];
   List<Room> get rooms => _rooms;
 
-  late List<Booking> recentBookings;
-  late List<Booking> todayBookings;
+  // late List<Booking> recentBookings;
+  // late List<Booking> todayBookings;
 
   // add room
   Future<bool> addRoom(
@@ -60,52 +60,39 @@ class RoomProvider extends ChangeNotifier {
   }
 
   // room booking
-  Future<bool> bookRoom(
-    String roomId,
-    Booking bookingData,
-    BuildContext context,
-  ) async {
-    final response = await ref.read(apiClientProvider).post(
-          '${AppConstants.roomBooking}/$roomId/bookings',
-          data: jsonEncode(
-            bookingData.toMap()..remove('room'),
-          ),
-        );
+  // Future<bool> bookRoom(
+  //   String roomId,
+  //   Booking bookingData,
+  //   BuildContext context,
+  // ) async {
+  //   final response = await ref.read(apiClientProvider).post(
+  //         '${AppConstants.roomBooking}/$roomId/bookings',
+  //         data: jsonEncode(
+  //           bookingData.toMap()..remove('room'),
+  //         ),
+  //       );
 
-    final message = response.data['message'];
-    if (response.statusCode == 201) {
-      showSnackBarMethod(context, message, true);
-      return true;
-    }
-    showSnackBarMethod(context, message, true);
-    return false;
-  }
-
-  // get recent booking rooms
-  Future<List<Booking>?> recentBookingRooms() async {
-    final response =
-        await ref.read(apiClientProvider).get(AppConstants.todayBookingRooms);
-    if (response.statusCode == 200) {
-      recentBookings = response.data['data'].map<Booking>((booking) {
-        return Booking.fromMap(booking);
-      }).toList();
-      return recentBookings;
-    }
-    return null;
-  }
+  //   final message = response.data['message'];
+  //   if (response.statusCode == 201) {
+  //     showSnackBarMethod(context, message, true);
+  //     return true;
+  //   }
+  //   showSnackBarMethod(context, message, true);
+  //   return false;
+  // }
 
   // get recent booking rooms
-  Future<List<Booking>?> todayBookingRooms() async {
-    final response =
-        await ref.read(apiClientProvider).get(AppConstants.recentBookingRooms);
-    if (response.statusCode == 200) {
-      todayBookings = response.data['data'].map<Booking>((booking) {
-        return Booking.fromMap(booking);
-      }).toList();
-      return recentBookings;
-    }
-    return null;
-  }
+  // Future<List<Booking>?> recentBookingRooms() async {
+  //   final response =
+  //       await ref.read(apiClientProvider).get(AppConstants.todayBookingRooms);
+  //   if (response.statusCode == 200) {
+  //     recentBookings = response.data['data'].map<Booking>((booking) {
+  //       return Booking.fromMap(booking);
+  //     }).toList();
+  //     return recentBookings;
+  //   }
+  //   return null;
+  // }
 
   // update room information
   Future<bool> updateRoomInfo(
@@ -142,6 +129,8 @@ class RoomProvider extends ChangeNotifier {
     showSnackBarMethod(context, message, false);
     return false;
   }
+
+  todayBookingRooms() {}
 }
 
 final roomProvider = ChangeNotifierProvider((ref) => RoomProvider(ref));

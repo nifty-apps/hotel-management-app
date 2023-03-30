@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/available_room.dart';
+import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
@@ -12,6 +13,9 @@ class BookingProvider extends ChangeNotifier {
   List<AvailableRoom> _availableRooms = [];
   List<AvailableRoom> get availableRooms => _availableRooms;
 
+  List<RecentBooking> _recentBookings = [];
+  List<RecentBooking> get recentBookings => _recentBookings;
+  
   bool _isLoading = true;
   bool get isLoading => _isLoading;
   // Booking
@@ -34,8 +38,8 @@ class BookingProvider extends ChangeNotifier {
       "rooms": rooms,
       "checkIn": checkIn,
       "checkOut": checkOut,
-      "total":total,
-      "discount":discount,
+      "total": total,
+      "discount": discount,
       "status": status
     });
     if (response.statusCode == 201) {
@@ -63,6 +67,19 @@ class BookingProvider extends ChangeNotifier {
       notifyListeners();
     }
     return false;
+  }
+
+  // Get Recent Bookings List
+  Future<List<RecentBooking>?> getRecentBookings() async {
+    final response =
+        await ref.read(apiClientProvider).get(AppConstants.recenRoombookins);
+    if (response.statusCode == 200) {
+      _recentBookings = response.data['data']
+          .map<RecentBooking>((booking) => RecentBooking.fromMap(booking))
+          .toList();
+      return _recentBookings;
+    } 
+    return null;
   }
 }
 
