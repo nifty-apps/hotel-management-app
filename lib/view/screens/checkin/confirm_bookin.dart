@@ -1,16 +1,39 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/available_room.dart';
+import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 
-class ConfirmCheckingScreen extends StatelessWidget {
+class ConfirmBookin extends ConsumerWidget {
   final PageType bookingStatus;
-  ConfirmCheckingScreen({super.key, required this.bookingStatus});
+  final DateTime checkinDate;
+  final DateTime checkoutDate;
+  final String name;
+  final String phone;
+  final int discount;
+  final int advance;
+  final List<Room> rooms;
+  ConfirmBookin({
+    Key? key,
+    required this.bookingStatus,
+    required this.checkinDate,
+    required this.checkoutDate,
+    required this.name,
+    required this.phone,
+    required this.discount,
+    required this.advance,
+    required this.rooms,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    print(bookingStatus);
+  Widget build(BuildContext context, WidgetRef ref) {
+    subTotal();
+    payable();
+    getRooms();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,14 +66,14 @@ class ConfirmCheckingScreen extends StatelessWidget {
                       size: 60,
                     ),
                     title: Text(
-                      'Abu Taher Mollah',
+                      name,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     subtitle: Text(
-                      '0176526685',
+                      phone,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -98,56 +121,42 @@ class ConfirmCheckingScreen extends StatelessWidget {
                             TableCell(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text('Name'),
+                                child: Text('Serial'),
                               ),
                             ),
                             TableCell(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text('Price'),
+                                child: Text('Type'),
                               ),
                             ),
                             TableCell(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text('Qty'),
-                              ),
-                            ),
-                            TableCell(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('Total'),
+                                child: Text('Rent'),
                               ),
                             ),
                           ],
                         ),
-                        ..._products.map(
-                          (product) => TableRow(
+                        ...rooms.map(
+                          (room) => TableRow(
                             children: [
                               TableCell(
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(product['name']),
+                                  child: Text(rooms.indexOf(room).toString()),
                                 ),
                               ),
                               TableCell(
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                      '${product['price'].toStringAsFixed(2)}'),
+                                  child: Text('Single Room'),
                                 ),
                               ),
                               TableCell(
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(product['qty'].toString()),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                      '${(product['price'] * product['qty']).toStringAsFixed(2)}'),
+                                  child: Text(room.rent.toString()),
                                 ),
                               ),
                             ],
@@ -161,7 +170,7 @@ class ConfirmCheckingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Sub Total'),
-                      Text('TK. 100.0'),
+                      Text('TK. $total'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -169,7 +178,7 @@ class ConfirmCheckingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Discount'),
-                      Text('TK. 100.0'),
+                      Text('TK. $discount'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -177,7 +186,7 @@ class ConfirmCheckingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Advance'),
-                      Text('TK. 100.0'),
+                      Text('TK. $advance'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -185,14 +194,14 @@ class ConfirmCheckingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Total',
+                        'Payable',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
-                        'TK. 100.0',
+                        'TK. $payableAmount',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -205,18 +214,31 @@ class ConfirmCheckingScreen extends StatelessWidget {
             ),
             Spacer(),
             CustomButton(
-              onPressed: () {
+              onPressed: () async {
                 if (bookingStatus == PageType.confirm) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomDialog(
-                      onTap: () =>
-                          Navigator.pushNamed(context, Routes.dashboard),
-                      title: 'Successfully booked!',
-                      buttonText: 'Back To Home',
-                      imagePath: 'assets/icons/successful.png',
-                    ),
-                  );
+                  bool isSuccess = await ref.read(bookingProvider).roomBooking(
+                        name,
+                        phone,
+                        roomsId,
+                        checkinDate.toIso8601String(),
+                        checkoutDate.toIso8601String(),
+                        total,
+                        discount,
+                        'booked',
+                        context,
+                      );
+                  if (isSuccess) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomDialog(
+                        onTap: () =>
+                            Navigator.pushNamed(context, Routes.dashboard),
+                        title: 'Successfully booked!',
+                        buttonText: 'Back To Home',
+                        imagePath: 'assets/icons/successful.png',
+                      ),
+                    );
+                  }
                 } else if (bookingStatus == PageType.checkin) {
                   showDialog(
                     context: context,
@@ -254,8 +276,27 @@ class ConfirmCheckingScreen extends StatelessWidget {
     );
   }
 
-  List<Map<String, dynamic>> _products = [
-    {'name': 'Single Room', 'price': 10000, 'qty': 2},
-    {'name': 'Double Room', 'price': 7000, 'qty': 1},
-  ];
+  int total = 0;
+
+  subTotal() {
+    for (var room in rooms) {
+      total += room.rent;
+    }
+    print(total);
+    return total;
+  }
+
+  int payableAmount = 0;
+  payable() {
+    payableAmount = total - discount - advance;
+    print(payableAmount);
+    return payableAmount;
+  }
+
+  List<String> roomsId = [];
+  getRooms() {
+    rooms.forEach((room) {
+      roomsId.add(room.id);
+    });
+  }
 }

@@ -166,11 +166,17 @@ class _RoomListScreenState extends ConsumerState<RoomListScreen> {
                                           ),
                                           title: Text(
                                             ref
-                                                .read(roomProvider)
-                                                .rooms[index]
-                                                .roomType!
-                                                .room
-                                                .toString(),
+                                                        .read(roomProvider)
+                                                        .rooms[index]
+                                                        .roomType!
+                                                        .type !=
+                                                    null
+                                                ? ref
+                                                    .read(roomProvider)
+                                                    .rooms[index]
+                                                    .roomType!
+                                                    .type!
+                                                : '',
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,

@@ -21,7 +21,7 @@ class AddRoomTypeScreen extends ConsumerWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void setinfo() {
-    typeController.text = roomType.room.toString();
+    typeController.text = roomType.type.toString();
     rentController.text = roomType.rent.toString();
     descriptionController.text = roomType.description!;
   }

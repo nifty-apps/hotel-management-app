@@ -26,7 +26,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
         onPressed: () async {
           RoomType roomType = RoomType(
             id: '',
-            room: '',
+            type: '',
             rent: 0,
             description: '',
           );
@@ -103,7 +103,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                                     onTap: () async {
                                       RoomType roomType = RoomType(
                                         id: roomTypes[index].id,
-                                        room: roomTypes[index].room,
+                                        type: roomTypes[index].type,
                                         rent: roomTypes[index].rent,
                                         description:
                                             roomTypes[index].description,
@@ -130,7 +130,7 @@ class _RoomTypeListScreenState extends ConsumerState<RoomTypeListScreen> {
                                           Theme.of(context).colorScheme.primary,
                                     ),
                                     title:
-                                        Text(roomTypes[index].room.toString()),
+                                        Text(roomTypes[index].type.toString()),
                                   ),
                                 ],
                               ),

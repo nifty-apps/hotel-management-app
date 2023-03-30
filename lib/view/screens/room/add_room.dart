@@ -187,11 +187,11 @@ class _AddRoomScreenState extends ConsumerState<AddRoomScreen> {
                               thickness: 3,
                             ),
                             ListTile(
-                              title: Text(roomType[index].room.toString()),
+                              title: Text(roomType[index].type.toString()),
                               onTap: () {
                                 setState(() {
                                   typeController.text =
-                                      roomType[index].room.toString();
+                                      roomType[index].type.toString();
                                   rentConteroller.text =
                                       roomType[index].rent.toString();
                                   descriptionController.text =
@@ -235,7 +235,7 @@ class _AddRoomScreenState extends ConsumerState<AddRoomScreen> {
       print('data is not null');
       setState(() {
         numbercontroller.text = widget.roomData.number.toString();
-        typeController.text = widget.roomData.roomType!.room.toString();
+        typeController.text = widget.roomData.roomType!.type.toString();
         rentConteroller.text = widget.roomData.roomType!.rent.toString();
         descriptionController.text =
             widget.roomData.roomType!.description.toString();

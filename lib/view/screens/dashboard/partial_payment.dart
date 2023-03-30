@@ -18,6 +18,7 @@ class PartialPaymentScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Partial Payment'),
+          automaticallyImplyLeading: false,
         ),
         body: Center(
           child: Container(

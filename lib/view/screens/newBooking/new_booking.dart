@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/available_room.dart';
+import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 import 'package:hotel_management/view/base/date_picker_button.dart';
 import 'package:hotel_management/view/base/search_button.dart';
+import 'package:intl/intl.dart';
 
-class NewBookingScreen extends StatefulWidget {
+class NewBookingScreen extends ConsumerStatefulWidget {
   NewBookingScreen({super.key});
 
   @override
-  State<NewBookingScreen> createState() => _NewBookingScreenState();
+  ConsumerState<NewBookingScreen> createState() => _NewBookingScreenState();
 }
 
-class _NewBookingScreenState extends State<NewBookingScreen> {
+class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   DateTime? fromDate = DateTime.now();
   DateTime? toDate = DateTime.now();
 
+  List<AvailableRoom> selectedRooms = [];
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(bookingProvider).getAvailableRooms(
+        DateFormat('yyyy-MM-dd').format(fromDate!),
+        DateFormat('yyyy-MM-dd').format(toDate!));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final availableRooms = ref.watch(bookingProvider).availableRooms;
     return Scaffold(
       appBar: AppBar(
         title: Text('New Booking'),
@@ -102,134 +117,158 @@ class _NewBookingScreenState extends State<NewBookingScreen> {
                   ),
                   SizedBox(height: 20),
                   SearchButton(
-                    onPressed: () {
-                      print('something went wrong');
-                      showDialog(
-                        context: context,
-                        builder: (context) => CustomDialog(
-                          title: 'Room not available !',
-                          buttonText: 'Search Again',
-                          imagePath: 'assets/icons/warning.png',
-                          onTap: () => Navigator.pop(context),
-                        ),
-                      );
+                    onPressed: () async {
+                      selectedRooms.clear();
+                      bool isSuccess =
+                          await ref.read(bookingProvider).getAvailableRooms(
+                                DateFormat('yyyy-MM-dd').format(fromDate!),
+                                DateFormat('yyyy-MM-dd').format(toDate!),
+                              );
+                      if (isSuccess) {
+                        availableRooms.length != 0
+                            ? print('rooms available')
+                            : showDialog(
+                                context: context,
+                                builder: (context) => CustomDialog(
+                                  title: 'Room not available !',
+                                  buttonText: 'Search Again',
+                                  imagePath: 'assets/icons/warning.png',
+                                  onTap: () => Navigator.pop(context),
+                                ),
+                              );
+                      }
+                      // print('something went wrong');
                     },
                   )
                 ],
               ),
             ),
             Spacer(),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Available Rooms',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+            availableRooms.length != 0
+                ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                      color: Theme.of(context).colorScheme.primaryContainer,
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 250,
-                    child: GridView.builder(
-                      scrollDirection: Axis.horizontal,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      itemCount: items.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final item = items[index]['roomType'];
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (selectedItems.contains(item)) {
-                                selectedItems.remove(item);
-                              } else {
-                                selectedItems.add(item);
-                              }
-                            });
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
-                            margin: EdgeInsets.all(5),
-                            height: 100,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color: selectedItems.contains(item)
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Color(0xFF2DCC70),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  items[index]['roomType'],
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                    overflow: TextOverflow.ellipsis,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Room Types',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          height: 250,
+                          child: GridView.builder(
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemCount: availableRooms.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              // final item = items[index]['roomType'];
+                              final AvailableRoom room = availableRooms[index];
+
+                              return GestureDetector(
+                                onTap: () {
+                                  print(room.type);
+                                  setState(() {
+                                    if (selectedRooms.contains(room)) {
+                                      selectedRooms.remove(room);
+                                    } else {
+                                      selectedRooms.add(room);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 10,
+                                  ),
+                                  margin: EdgeInsets.all(5),
+                                  height: 100,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: selectedRooms.contains(room)
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Color(0xFF2DCC70),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        availableRooms[index].type,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          ImageIcon(
+                                            AssetImage('assets/icons/bed.png'),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            availableRooms[index]
+                                                .count
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage('assets/icons/bed.png'),
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primaryContainer,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      items[index]['number'].toString(),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                        Spacer(),
+                        selectedRooms.length != 0
+                            ? CustomButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.choiceRooms,
+                                    arguments: [
+                                      selectedRooms,
+                                      fromDate,
+                                      toDate
+                                    ],
+                                  );
+                                },
+                                buttonText: 'Next',
+                                width: double.infinity,
+                              )
+                            : SizedBox(),
+                      ],
                     ),
-                  ),
-                  Spacer(),
-                  CustomButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.choiceRooms,
-                        arguments: true,
-                      );
-                    },
-                    buttonText: 'Select Category',
-                    width: double.infinity,
-                  ),
-                ],
-              ),
-            )
+                  )
+                : SizedBox(),
           ],
         ),
       ),
@@ -390,15 +429,3 @@ class _NewBookingScreenState extends State<NewBookingScreen> {
         });
   }
 }
-
-final List<Map<String, dynamic>> items = [
-  {'roomType': 'Single Bed', 'number': 5, 'pricePerRoom': 50},
-  {'roomType': 'Double Bed', 'number': 10, 'pricePerRoom': 80},
-  {'roomType': 'Suite Bed', 'number': 2, 'pricePerRoom': 200},
-  {'roomType': 'Penthouse Bed', 'number': 1, 'pricePerRoom': 500},
-  {'roomType': 'Single Bed', 'number': 5, 'pricePerRoom': 50},
-  {'roomType': 'Double Bed', 'number': 10, 'pricePerRoom': 80},
-  {'roomType': 'Suite Bed', 'number': 2, 'pricePerRoom': 200},
-  {'roomType': 'Penthouse Bed', 'number': 1, 'pricePerRoom': 500},
-];
-List<String> selectedItems = [];

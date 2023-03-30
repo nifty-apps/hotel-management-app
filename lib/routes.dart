@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/models/available_room.dart' as rooms;
 import 'package:hotel_management/models/employee.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/add_employee.dart';
@@ -7,8 +8,7 @@ import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
 import 'package:hotel_management/view/screens/checkin/checkin.dart';
-import 'package:hotel_management/view/screens/checkin/choice_room.dart';
-import 'package:hotel_management/view/screens/checkin/confirm_checking.dart';
+import 'package:hotel_management/view/screens/checkin/confirm_bookin.dart';
 import 'package:hotel_management/view/screens/checkin/edit_checking_info.dart';
 import 'package:hotel_management/view/screens/checkin/payment.dart';
 import 'package:hotel_management/view/screens/checkin/update_customer_room.dart';
@@ -19,6 +19,7 @@ import 'package:hotel_management/view/screens/history/customer/customer_list.dar
 import 'package:hotel_management/view/screens/history/revenue/revenue.dart';
 import 'package:hotel_management/view/screens/history/transaction/transaction.dart';
 import 'package:hotel_management/view/screens/intro/intro.dart';
+import 'package:hotel_management/view/screens/newBooking/choice_new_room.dart';
 import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
 import 'package:hotel_management/view/screens/profile/profile.dart';
@@ -94,9 +95,12 @@ class Routes {
           builder: (context) => CheckinScreen(),
         );
       case choiceRooms:
+        List<dynamic> args = settings.arguments as List<dynamic>;
         return MaterialPageRoute(
           builder: (context) => ChoiceRoomScreen(
-            isnewBooking: settings.arguments as bool,
+            availableRooms: args[0] as List<rooms.AvailableRoom>,
+            checkinDate: args[1] as DateTime,
+            checkoutDate: args[2] as DateTime,
           ),
         );
       case payment:
@@ -104,9 +108,18 @@ class Routes {
           builder: (context) => PaymentScreen(),
         );
       case confirmCheckin:
+        List<dynamic> args = settings.arguments as List<dynamic>;
         return MaterialPageRoute(
-          builder: (context) => ConfirmCheckingScreen(
-              bookingStatus: settings.arguments as PageType),
+          builder: (context) => ConfirmBookin(
+            bookingStatus: args[0] as PageType,
+            checkinDate: args[1],
+            checkoutDate: args[2],
+            name: args[3],
+            phone: args[4],
+            discount: args[5],
+            advance: args[6],
+            rooms: args[7],
+          ),
         );
       case editCheckinInfo:
         return MaterialPageRoute(
@@ -129,8 +142,14 @@ class Routes {
           builder: (context) => NewBookingScreen(),
         );
       case customerBookingInfo:
+        List<dynamic> args = settings.arguments as List<dynamic>;
         return MaterialPageRoute(
-          builder: (context) => CustomerBookingInfoScreen(),
+          builder: (context) => CustomerBookingInfoScreen(
+            rooms: args[0],
+            checkinDate: args[1],
+            checkoutDate: args[2],
+            amount: args[3],
+          ),
         );
       case roomTypeList:
         return MaterialPageRoute(

@@ -41,15 +41,15 @@ class Room {
 
 class RoomType {
   String? id;
-  String? room;
+  String? type;
   int? rent;
   String? description;
 
-  RoomType({this.id, this.room, this.rent, this.description});
+  RoomType({this.id, this.type, this.rent, this.description});
 
   RoomType.fromMap(Map<String, dynamic> json) {
     id = json['_id'];
-    room = json['room'];
+    type = json['type'];
     rent = json['rent'];
     description = json['description'];
   }
@@ -57,7 +57,7 @@ class RoomType {
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.id;
-    data['room'] = this.room;
+    data['type'] = this.type;
     data['rent'] = this.rent;
     data['description'] = this.description;
     return data;

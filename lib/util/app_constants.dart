@@ -2,14 +2,15 @@ class AppConstants {
   static const String APP_NAME = 'Hotel Management';
   static const int APP_VERSION = 1;
   // static const baseUrl = 'http://13.212.32.168/api';
-  static const baseUrl = 'http://192.168.0.174:4001/api';
+  static const baseUrl = 'http://192.168.0.173:4001/api';
   static const registraionUrl = '$baseUrl/auth/registration';
   static const loginUrl = '$baseUrl/auth/login';
   static const hotelAddUrl = '$baseUrl/hotels';
   static const dashboardInfo = '$baseUrl/dashboard/info';
   static const addroomUrl = '$baseUrl';
   static const totalRoom = '$baseUrl/rooms';
-  static const roomBooking = '$baseUrl/rooms';
+  static const availableRooms = '$baseUrl/rooms/available';
+  static const roomBooking = '$baseUrl/rooms/bookings';
   static const recentBookingRooms = '$baseUrl/rooms/recent/bookings';
   static const todayBookingRooms = '$baseUrl/rooms/todays/bookings';
   static const updateRoomInfo = '$baseUrl/rooms';

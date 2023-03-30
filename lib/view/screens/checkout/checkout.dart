@@ -3,7 +3,6 @@ import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/date_picker_button.dart';
 import 'package:hotel_management/view/base/search_button.dart';
-import 'package:hotel_management/view/base/search_text_form_field.dart';
 
 class CheckoutScreen extends StatefulWidget {
   CheckoutScreen({super.key});

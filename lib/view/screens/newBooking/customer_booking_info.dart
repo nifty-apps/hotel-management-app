@@ -1,11 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:hotel_management/models/available_room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
+import 'package:intl/intl.dart';
 
 class CustomerBookingInfoScreen extends StatefulWidget {
-  CustomerBookingInfoScreen({super.key});
+  final List<Room> rooms;
+  final DateTime checkinDate;
+  final DateTime checkoutDate;
+  final double amount;
+  CustomerBookingInfoScreen({
+    Key? key,
+    required this.rooms,
+    required this.checkinDate,
+    required this.checkoutDate,
+    required this.amount,
+  }) : super(key: key);
 
   @override
   State<CustomerBookingInfoScreen> createState() =>
@@ -49,10 +62,10 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                       Icon(Icons.calendar_month),
                       SizedBox(width: 10),
                       Text(
-                        'Checkin 18 Wed, Feb 22',
+                        '${DateFormat('d EEE,MMM yy').format(widget.checkinDate)} to ${DateFormat('d EEE,MMM yy').format(widget.checkoutDate)}',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w700,
                         ),
                       )
                     ],
@@ -84,7 +97,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                       Image.asset('assets/icons/tk.png'),
                                       SizedBox(width: 10),
                                       Text(
-                                        '5',
+                                        widget.rooms.length.toString(),
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
@@ -101,7 +114,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                             color: Theme.of(context).colorScheme.background,
                           ),
                           Flexible(
-                            flex: 1,
+                            flex: 2,
                             child: Container(
                               child: Padding(
                                 padding: EdgeInsets.only(left: 60),
@@ -122,7 +135,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                         Image.asset('assets/icons/tk.png'),
                                         SizedBox(width: 10),
                                         Text(
-                                          '2156',
+                                          widget.amount.toString(),
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700,
@@ -203,7 +216,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                   height: 70,
                                   width: 220,
                                   child: CustomTextFormField(
-                                    controller: advanceAmountController,
+                                    controller: discountAmountController,
                                     hintText: 'Enter amount',
                                     labelText: 'Discount',
                                     keyboardType: TextInputType.number,
@@ -264,13 +277,19 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                         SizedBox(height: 30),
                         CustomButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.confirmCheckin,
-                              arguments: isCheckin
-                                  ? PageType.checkin
-                                  : PageType.confirm,
-                            );
+                            Navigator.pushNamed(context, Routes.confirmCheckin,
+                                arguments: [
+                                  isCheckin
+                                      ? PageType.checkin
+                                      : PageType.confirm,
+                                  widget.checkinDate,
+                                  widget.checkoutDate,
+                                  nameController.text,
+                                  phoneController.text,
+                                  int.parse(discountAmountController.text),
+                                  int.parse(advanceAmountController.text),
+                                  widget.rooms
+                                ]);
                           },
                           buttonText: 'Next',
                           width: double.infinity,
@@ -286,10 +305,4 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
       ),
     );
   }
-
-  List<String> items = ['101', '102', '103', '104', '105'];
-
-  List<String> items1 = ['201', '202', '203', '204', '205'];
-
-  List<String> selectedItems = [];
 }

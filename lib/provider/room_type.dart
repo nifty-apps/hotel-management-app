@@ -17,7 +17,7 @@ class RoomTypeProvider extends ChangeNotifier {
       String room, int rent, String description, BuildContext context) async {
     final response =
         await ref.read(apiClientProvider).post(AppConstants.roomType, data: {
-      'room': room,
+      'type': room,
       'rent': rent,
       'description': description,
     });
