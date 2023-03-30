@@ -268,7 +268,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             FutureBuilder(
               future: ref.read(bookingProvider).getRecentBookings(),
-              builder: (context, AsyncSnapshot<List<RecentBooking>?> snapshot) {
+              builder: (context, AsyncSnapshot<List<Bookings>?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final bookingList = snapshot.data;
                   if (bookingList!.length == 0) {

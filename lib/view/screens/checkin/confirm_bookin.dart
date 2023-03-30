@@ -31,6 +31,7 @@ class ConfirmBookin extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(bookingStatus);
     subTotal();
     payable();
     getRooms();
@@ -215,48 +216,32 @@ class ConfirmBookin extends ConsumerWidget {
             Spacer(),
             CustomButton(
               onPressed: () async {
-                if (bookingStatus == PageType.confirm) {
-                  bool isSuccess = await ref.read(bookingProvider).roomBooking(
-                        name,
-                        phone,
-                        roomsId,
-                        checkinDate.toIso8601String(),
-                        checkoutDate.toIso8601String(),
-                        total,
-                        discount,
-                        'booked',
-                        context,
-                      );
-                  if (isSuccess) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => CustomDialog(
-                        onTap: () =>
-                            Navigator.pushNamed(context, Routes.dashboard),
-                        title: 'Successfully booked!',
-                        buttonText: 'Back To Home',
-                        imagePath: 'assets/icons/successful.png',
-                      ),
+                bool isSuccess = await ref.read(bookingProvider).roomBooking(
+                      name,
+                      phone,
+                      roomsId,
+                      checkinDate.toIso8601String(),
+                      checkoutDate.toIso8601String(),
+                      total,
+                      discount,
+                      bookingStatus == PageType.confirm
+                          ? 'booked'
+                          : bookingStatus == PageType.checkin
+                              ? 'checkIn'
+                              : 'checkOut',
+                      context,
                     );
-                  }
-                } else if (bookingStatus == PageType.checkin) {
+                if (isSuccess) {
                   showDialog(
                     context: context,
                     builder: (context) => CustomDialog(
                       onTap: () =>
                           Navigator.pushNamed(context, Routes.dashboard),
-                      title: 'Successfully checked in!',
-                      buttonText: 'Back To Home',
-                      imagePath: 'assets/icons/successful.png',
-                    ),
-                  );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomDialog(
-                      onTap: () =>
-                          Navigator.pushNamed(context, Routes.dashboard),
-                      title: 'Successfully checked out!',
+                      title: bookingStatus == PageType.confirm
+                          ? 'Successfully booked!'
+                          : bookingStatus == PageType.checkin
+                              ? 'Successfully checked in!'
+                              : 'Successfully checked out!',
                       buttonText: 'Back To Home',
                       imagePath: 'assets/icons/successful.png',
                     ),
@@ -282,14 +267,12 @@ class ConfirmBookin extends ConsumerWidget {
     for (var room in rooms) {
       total += room.rent;
     }
-    print(total);
     return total;
   }
 
   int payableAmount = 0;
   payable() {
     payableAmount = total - discount - advance;
-    print(payableAmount);
     return payableAmount;
   }
 

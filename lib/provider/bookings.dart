@@ -13,10 +13,10 @@ class BookingProvider extends ChangeNotifier {
   List<AvailableRoom> _availableRooms = [];
   List<AvailableRoom> get availableRooms => _availableRooms;
 
-  List<RecentBooking> _recentBookings = [];
-  List<RecentBooking> get recentBookings => _recentBookings;
-  
-  bool _isLoading = true;
+  List<Bookings> _bookingList = [];
+  List<Bookings> get bookingList => _bookingList;
+
+  bool _isLoading = false;
   bool get isLoading => _isLoading;
   // Booking
   Future<bool> roomBooking(
@@ -58,28 +58,45 @@ class BookingProvider extends ChangeNotifier {
       _availableRooms = response.data['data']
           .map<AvailableRoom>((room) => AvailableRoom.fromMap(room))
           .toList();
-      print(_availableRooms.length);
-      _isLoading = false;
-      notifyListeners();
       return true;
-    } else {
-      _isLoading = false;
-      notifyListeners();
     }
     return false;
   }
 
   // Get Recent Bookings List
-  Future<List<RecentBooking>?> getRecentBookings() async {
+  Future<List<Bookings>?> getRecentBookings() async {
     final response =
         await ref.read(apiClientProvider).get(AppConstants.recenRoombookins);
     if (response.statusCode == 200) {
-      _recentBookings = response.data['data']
-          .map<RecentBooking>((booking) => RecentBooking.fromMap(booking))
+      _bookingList = response.data['data']
+          .map<Bookings>((booking) => Bookings.fromMap(booking))
           .toList();
-      return _recentBookings;
-    } 
+      return _bookingList;
+    }
     return null;
+  }
+
+  // Get Bookings List
+  Future<List<Bookings>> getBookingsList(
+    DateTime checkinDate,
+    DateTime checkoutDate,
+    String status,
+  ) async {
+    _isLoading = true;
+    notifyListeners();
+    final response = await ref.read(apiClientProvider).get(
+        "${AppConstants.getRoomBookings}?checkInDate=$checkinDate&checkOutDate=$checkoutDate&status=$status");
+    if (response.statusCode == 200) {
+      _bookingList = response.data['data']
+          .map<Bookings>((booking) => Bookings.fromMap(booking))
+          .toList();
+      _isLoading = false;
+      notifyListeners();
+      return _bookingList;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return [];
   }
 }
 
