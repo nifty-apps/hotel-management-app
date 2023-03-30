@@ -52,14 +52,20 @@ class BookingProvider extends ChangeNotifier {
 
   // Get Available Rooms
   Future<bool> getAvailableRooms(String fromDate, String toDate) async {
+    _isLoading = true;
+    notifyListeners();
     final response = await ref.read(apiClientProvider).get(
         '${AppConstants.availableRooms}?fromDate=$fromDate&toDate=$toDate');
     if (response.statusCode == 200) {
       _availableRooms = response.data['data']
           .map<AvailableRoom>((room) => AvailableRoom.fromMap(room))
           .toList();
+      _isLoading = false;
+      notifyListeners();
       return true;
     }
+    _isLoading = false;
+    notifyListeners();
     return false;
   }
 
@@ -68,11 +74,14 @@ class BookingProvider extends ChangeNotifier {
     final response =
         await ref.read(apiClientProvider).get(AppConstants.recenRoombookins);
     if (response.statusCode == 200) {
+      _isLoading = false;
       _bookingList = response.data['data']
           .map<Bookings>((booking) => Bookings.fromMap(booking))
           .toList();
+
       return _bookingList;
     }
+
     return null;
   }
 
