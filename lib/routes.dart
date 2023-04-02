@@ -11,6 +11,7 @@ import 'package:hotel_management/view/screens/checkin/checkin.dart';
 import 'package:hotel_management/view/screens/checkin/confirm_bookin.dart';
 import 'package:hotel_management/view/screens/checkin/edit_checking_info.dart';
 import 'package:hotel_management/view/screens/checkin/payment.dart';
+import 'package:hotel_management/view/screens/checkin/selected_rooms.dart';
 import 'package:hotel_management/view/screens/checkin/update_customer_room.dart';
 import 'package:hotel_management/view/screens/checkout/checkout.dart';
 import 'package:hotel_management/view/screens/checkout/checkout_due.dart';
@@ -27,9 +28,7 @@ import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/add_room_type.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room.dart';
-import 'package:hotel_management/view/screens/room/room_booking.dart';
 import 'package:hotel_management/view/screens/room/room_type.dart';
-import 'package:hotel_management/view/screens/room/today_bookings.dart';
 import 'package:hotel_management/view/screens/room/total.dart';
 
 import 'models/room.dart';
@@ -42,6 +41,7 @@ class Routes {
   static const String addHotel = '/addHotel';
   static const String dashboard = '/dashboard';
   static const String checkin = '/checkin';
+  static const String selectedRoom = '/selectedRoom';
   static const String choiceRooms = '/choiceRooms';
   static const String payment = '/payment';
   static const String confirmCheckin = '/confirmCheckin';
@@ -132,6 +132,12 @@ class Routes {
       case checkout:
         return MaterialPageRoute(
           builder: (context) => CheckoutScreen(),
+        );
+      case selectedRoom:
+        return MaterialPageRoute(
+          builder: (context) => SelectedRooms(
+            bookingId: settings.arguments as String,
+          ),
         );
       case checkoutDue:
         return MaterialPageRoute(

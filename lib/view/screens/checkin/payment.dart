@@ -1,14 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/booking_details.dart';
+import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends ConsumerWidget {
   PaymentScreen({super.key});
   final TextEditingController advanceAmountController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    BookingDetails bookingDetails = ref.watch(bookingProvider).bookingDetails;
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment'),
@@ -29,8 +34,8 @@ class PaymentScreen extends StatelessWidget {
                     Icons.person,
                     size: 50,
                   ),
-                  title: Text('Abu Taher Mollah'),
-                  subtitle: Text('01738536102'),
+                  title: Text(bookingDetails.customer.name),
+                  subtitle: Text(bookingDetails.customer.phone),
                 ),
                 SizedBox(height: 16),
                 Padding(
@@ -40,10 +45,10 @@ class PaymentScreen extends StatelessWidget {
                       Icon(Icons.calendar_month),
                       SizedBox(width: 10),
                       Text(
-                        'Checkin 18 Wed, Feb 22',
+                        '${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(bookingDetails.checkIn))} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(bookingDetails.checkOut))}',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w700,
                         ),
                       )
                     ],
@@ -74,7 +79,7 @@ class PaymentScreen extends StatelessWidget {
                                     Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
-                                      '2156',
+                                      "${(bookingDetails.total - bookingDetails.discount)}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -234,11 +239,10 @@ class PaymentScreen extends StatelessWidget {
                     SizedBox(height: 200),
                     CustomButton(
                       onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.confirmCheckin,
-                          arguments: PageType.checkin,
-                        );
+                        Navigator.pushNamed(context, Routes.confirmCheckin,
+                            arguments: [
+                              PageType.checkin,
+                            ]);
                       },
                       buttonText: 'Payment',
                       width: double.infinity,

@@ -8,7 +8,7 @@ import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
 
-class ConfirmBookin extends ConsumerWidget {
+class ConfirmBookin extends ConsumerStatefulWidget {
   final PageType bookingStatus;
   final DateTime checkinDate;
   final DateTime checkoutDate;
@@ -30,17 +30,26 @@ class ConfirmBookin extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    print(bookingStatus);
+  ConsumerState<ConfirmBookin> createState() => _ConfirmBookinState();
+}
+
+class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
+  @override
+  void initState() {
+    super.initState();
+    getRooms();
     subTotal();
     payable();
-    getRooms();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          bookingStatus == PageType.checkin
+          widget.bookingStatus == PageType.checkin
               ? 'Confrim Check in'
-              : bookingStatus == PageType.checkout
+              : widget.bookingStatus == PageType.checkout
                   ? 'Checkout'
                   : 'Confirm',
         ),
@@ -67,14 +76,14 @@ class ConfirmBookin extends ConsumerWidget {
                       size: 60,
                     ),
                     title: Text(
-                      name,
+                      widget.name,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     subtitle: Text(
-                      phone,
+                      widget.phone,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -139,13 +148,14 @@ class ConfirmBookin extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        ...rooms.map(
+                        ...widget.rooms.map(
                           (room) => TableRow(
                             children: [
                               TableCell(
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(rooms.indexOf(room).toString()),
+                                  child: Text(
+                                      widget.rooms.indexOf(room).toString()),
                                 ),
                               ),
                               TableCell(
@@ -179,7 +189,7 @@ class ConfirmBookin extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Discount'),
-                      Text('TK. $discount'),
+                      Text('TK. ${widget.discount}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -187,7 +197,7 @@ class ConfirmBookin extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Advance'),
-                      Text('TK. $advance'),
+                      Text('TK. ${widget.advance}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -217,16 +227,16 @@ class ConfirmBookin extends ConsumerWidget {
             CustomButton(
               onPressed: () async {
                 bool isSuccess = await ref.read(bookingProvider).roomBooking(
-                      name,
-                      phone,
+                      widget.name,
+                      widget.phone,
                       roomsId,
-                      checkinDate.toIso8601String(),
-                      checkoutDate.toIso8601String(),
+                      widget.checkinDate.toIso8601String(),
+                      widget.checkoutDate.toIso8601String(),
                       total,
-                      discount,
-                      bookingStatus == PageType.confirm
+                      widget.discount,
+                      widget.bookingStatus == PageType.confirm
                           ? 'booked'
-                          : bookingStatus == PageType.checkin
+                          : widget.bookingStatus == PageType.checkin
                               ? 'checkIn'
                               : 'checkOut',
                       context,
@@ -237,9 +247,9 @@ class ConfirmBookin extends ConsumerWidget {
                     builder: (context) => CustomDialog(
                       onTap: () =>
                           Navigator.pushNamed(context, Routes.dashboard),
-                      title: bookingStatus == PageType.confirm
+                      title: widget.bookingStatus == PageType.confirm
                           ? 'Successfully booked!'
-                          : bookingStatus == PageType.checkin
+                          : widget.bookingStatus == PageType.checkin
                               ? 'Successfully checked in!'
                               : 'Successfully checked out!',
                       buttonText: 'Back To Home',
@@ -248,9 +258,9 @@ class ConfirmBookin extends ConsumerWidget {
                   );
                 }
               },
-              buttonText: bookingStatus == PageType.checkin
+              buttonText: widget.bookingStatus == PageType.checkin
                   ? 'Confrim Check in'
-                  : bookingStatus == PageType.checkout
+                  : widget.bookingStatus == PageType.checkout
                       ? 'Checkout'
                       : 'Confirm',
               width: double.infinity,
@@ -264,21 +274,23 @@ class ConfirmBookin extends ConsumerWidget {
   int total = 0;
 
   subTotal() {
-    for (var room in rooms) {
+    for (var room in widget.rooms) {
       total += room.rent;
     }
     return total;
   }
 
   int payableAmount = 0;
+
   payable() {
-    payableAmount = total - discount - advance;
+    payableAmount = total - widget.discount - widget.advance;
     return payableAmount;
   }
 
   List<String> roomsId = [];
+
   getRooms() {
-    rooms.forEach((room) {
+    widget.rooms.forEach((room) {
       roomsId.add(room.id);
     });
   }

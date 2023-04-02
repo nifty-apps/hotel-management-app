@@ -15,6 +15,7 @@ class CheckinScreen extends ConsumerStatefulWidget {
 
 class _CheckinScreenState extends ConsumerState<CheckinScreen> {
   final TextEditingController searchController = TextEditingController();
+
   DateTime? fromDate = DateTime.now();
   DateTime? toDate = DateTime.now();
   @override
@@ -201,8 +202,11 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                                             ListTile(
                                               onTap: () => Navigator.pushNamed(
                                                 context,
-                                                Routes.choiceRooms,
-                                                arguments: false,
+                                                Routes.selectedRoom,
+                                                arguments: ref
+                                                    .watch(bookingProvider)
+                                                    .bookingList[index]
+                                                    .id,
                                               ),
                                               leading: Icon(Icons.person),
                                               trailing: Icon(
@@ -211,8 +215,16 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                                                     .colorScheme
                                                     .primary,
                                               ),
-                                              title: Text('Abu Taher Molla'),
-                                              subtitle: Text('0172653987'),
+                                              title: Text(ref
+                                                  .read(bookingProvider)
+                                                  .bookingList[index]
+                                                  .customer
+                                                  .name),
+                                              subtitle: Text(ref
+                                                  .read(bookingProvider)
+                                                  .bookingList[index]
+                                                  .customer
+                                                  .phone),
                                             ),
                                           ],
                                         ),

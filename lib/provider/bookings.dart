@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/available_room.dart';
 import 'package:hotel_management/models/booking.dart';
+import 'package:hotel_management/models/booking_details.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
@@ -15,6 +16,9 @@ class BookingProvider extends ChangeNotifier {
 
   List<Bookings> _bookingList = [];
   List<Bookings> get bookingList => _bookingList;
+
+  late BookingDetails _bookingDetails;
+  BookingDetails get bookingDetails => _bookingDetails;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -91,6 +95,9 @@ class BookingProvider extends ChangeNotifier {
     DateTime checkoutDate,
     String status,
   ) async {
+    print(checkinDate);
+    print(checkoutDate);
+    print(status);
     _isLoading = true;
     notifyListeners();
     final response = await ref.read(apiClientProvider).get(
@@ -106,6 +113,25 @@ class BookingProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
     return [];
+  }
+
+  // Get Booking Details
+  Future<bool> getBookingDetails(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    final response = await ref
+        .read(apiClientProvider)
+        .get('${AppConstants.getBookingDetails}/$id');
+    if (response.statusCode == 200) {
+      _bookingDetails = BookingDetails.fromMap(response.data['data']);
+      print(_bookingDetails);
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return false;
   }
 }
 
