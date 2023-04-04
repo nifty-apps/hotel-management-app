@@ -3,9 +3,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/available_room.dart' as booking;
+import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 
 class SelectedRooms extends ConsumerStatefulWidget {
@@ -25,6 +27,9 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(bookingProvider).getBookingDetails(widget.bookingId);
+      await ref
+          .read(transactionProvider)
+          .getTransactionList(widget.bookingId, true);
       final bookingDetails = ref.read(bookingProvider).bookingDetails;
       ref.read(bookingProvider).nameController.text =
           bookingDetails.customer.name;
@@ -35,12 +40,11 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
       ref.read(bookingProvider).discountController.text =
           bookingDetails.discount.toString();
       ref.read(bookingProvider).checkIn =
-          DateTime.parse(bookingDetails.checkIn);
+         bookingDetails.checkIn;
       ref.read(bookingProvider).checkIn =
-          DateTime.parse(bookingDetails.checkOut);
+        bookingDetails.checkOut;
       ref.read(bookingProvider).allRoom =
           bookingDetails.rooms.cast<booking.Room>();
-          
       ref.read(bookingProvider).status = bookingDetails.status;
     });
   }
@@ -178,7 +182,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                             Icon(Icons.calendar_month),
                             SizedBox(width: 10),
                             Text(
-                              '${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(ref.read(bookingProvider).bookingDetails.checkIn))} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(ref.read(bookingProvider).bookingDetails.checkOut))}',
+                              '${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -301,107 +305,35 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                           color: Theme.of(context).colorScheme.background,
                           thickness: 3,
                         ),
-                        SizedBox(
-                          height: 10,
-                        )
-                        // SizedBox(height: 20),
-                        // Expanded(
-                        //   child: Container(
-                        //     child: ListView.builder(
-                        //       itemCount: 5,
-                        //       itemBuilder: (context, index) {
-                        //         return Container(
-                        //           child: Column(
-                        //             children: [
-                        //               Row(
-                        //                 children: [
-                        //                   ImageIcon(AssetImage(
-                        //                       'assets/icons/bed.png')),
-                        //                   SizedBox(width: 14),
-                        //                   Text(
-                        //                     'type',
-                        //                     style: TextStyle(
-                        //                       fontSize: 16,
-                        //                       fontWeight: FontWeight.w400,
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               SizedBox(height: 10),
-                        //               Divider(
-                        //                 color: Theme.of(context)
-                        //                     .colorScheme
-                        //                     .background,
-                        //                 thickness: 3,
-                        //               ),
-                        //               Container(
-                        //                 height: 70,
-                        //                 child: ListView.builder(
-                        //                   scrollDirection: Axis.horizontal,
-                        //                   itemCount: 2,
-                        //                   itemBuilder: ((context, roomindex) {
-                        //                     return InkWell(
-                        //                       onTap: () {},
-                        //                       child: Container(
-                        //                         margin: EdgeInsets.symmetric(
-                        //                           horizontal: 10,
-                        //                           vertical: 5,
-                        //                         ),
-                        //                         width: 60,
-                        //                         decoration: BoxDecoration(
-                        //                           borderRadius:
-                        //                               BorderRadius.circular(
-                        //                                   5),
-                        //                           color: Theme.of(context)
-                        //                               .colorScheme
-                        //                               .primary,
-                        //                           border: Border.all(
-                        //                             color: Theme.of(context)
-                        //                                 .colorScheme
-                        //                                 .primary,
-                        //                             width: 2,
-                        //                           ),
-                        //                         ),
-                        //                         child: Center(
-                        //                           child: Text(
-                        //                             '5',
-                        //                             style: TextStyle(
-                        //                               fontSize: 16,
-                        //                               fontWeight:
-                        //                                   FontWeight.w700,
-                        //                               color: Colors.white,
-                        //                             ),
-                        //                           ),
-                        //                         ),
-                        //                       ),
-                        //                     );
-                        //                   }),
-                        //                 ),
-                        //               ),
-                        //               Divider(
-                        //                 color: Theme.of(context)
-                        //                     .colorScheme
-                        //                     .background,
-                        //                 thickness: 3,
-                        //               ),
-                        //               SizedBox(height: 10),
-                        //             ],
-                        //           ),
-                        //         );
-                        //       },
-                        //     ),
-                        //   ),
-                        // ),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),
                   Spacer(),
                   CustomButton(
-                    onPressed: () {
-                      ref
-                          .read(transactionProvider)
-                          .getTransactionList(widget.bookingId, true);
-                      Navigator.pushNamed(context, Routes.payment);
+                    onPressed: () async {
+                      final double data = getTotalAdvanceAmount(
+                          ref.read(transactionProvider).transaction);
+                      int payable = (ref
+                              .read(bookingProvider)
+                              .bookingDetails
+                              .total -
+                          ref.read(bookingProvider).bookingDetails.discount);
+                      if (payable == data.toInt()) {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.confirmCheckin,
+                          arguments: [
+                            PageType.checkin,
+                          ],
+                        );
+                      } else {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.payment,
+                          arguments: data.toInt(),
+                        );
+                      }
                     },
                     buttonText: 'Next',
                     width: double.infinity,
@@ -410,5 +342,13 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
               ),
             ),
     );
+  }
+
+  getTotalAdvanceAmount(List<Transaction> transactions) {
+    double total = 0;
+    for (var i = 0; i < transactions.length; i++) {
+      total += transactions[i].amount;
+    }
+    return total;
   }
 }

@@ -17,15 +17,14 @@ class AppConstants {
   static const updateRoomInfo = '$baseUrl/rooms';
   static const deleteRoom = '$baseUrl/rooms';
   static const getBookingDetails = '$baseUrl/rooms/bookings/details';
+  static const updateBookingInfo = '$baseUrl/rooms/bookings';
   static const transaction = '$baseUrl/transactions';
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
-  // static const roomBooking = '$baseUrl/admin/room/booking/store';
   static const searchRoom = '$baseUrl/admin/room/searching';
   static const collectionsReport = "$baseUrl/admin/report/collection";
   static const paymentUpdate =
       '$baseUrl/admin/room/booking/update/payment_and_status';
   static const getRooms = '$baseUrl/admin/room/type_wise/available';
-  static const bookingUpdate = '$baseUrl/admin/room/booking/update';
   static const adminProfile = '$baseUrl/admin/profile';
   static const employee = '$baseUrl/users';
   static const roomType = '$baseUrl/room/type';

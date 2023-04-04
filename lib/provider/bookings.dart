@@ -73,6 +73,7 @@ class BookingProvider extends ChangeNotifier {
         await ref.read(apiClientProvider).get(AppConstants.recenRoombookins);
     if (response.statusCode == 200) {
       _isLoading = false;
+      print(response.data['data']);
       _bookingList = response.data['data']
           .map<Bookings>((booking) => Bookings.fromMap(booking))
           .toList();
@@ -125,6 +126,32 @@ class BookingProvider extends ChangeNotifier {
     }
     _isLoading = false;
     notifyListeners();
+    return false;
+  }
+
+  // Update Booking Status
+  Future<bool> updateBookingStatus(
+      {required String id, required String status}) async {
+    final response = await ref.read(apiClientProvider).put(
+      '${AppConstants.updateBookingInfo}/$id',
+      data: {'status': status},
+    );
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  // Update payment status
+  Future<bool> updatePaymentStatus(
+      {required String id, required String status}) async {
+    final response = await ref.read(apiClientProvider).put(
+      '${AppConstants.updateBookingInfo}/$id',
+      data: {'paymentStatus': status},
+    );
+    if (response.statusCode == 200) {
+      return true;
+    }
     return false;
   }
 }

@@ -105,7 +105,9 @@ class Routes {
         );
       case payment:
         return MaterialPageRoute(
-          builder: (context) => PaymentScreen(),
+          builder: (context) => PaymentScreen(
+            advance: settings.arguments as int,
+          ),
         );
       case confirmCheckin:
         List<dynamic> args = settings.arguments as List<dynamic>;
@@ -134,7 +136,9 @@ class Routes {
         );
       case checkoutDue:
         return MaterialPageRoute(
-          builder: (context) => CheckoutDueScreen(),
+          builder: (context) => CheckoutDueScreen(
+            advanceAmount: settings.arguments as int,
+          ),
         );
       case newBooking:
         return MaterialPageRoute(

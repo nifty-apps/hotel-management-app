@@ -1,8 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/booking_details.dart';
-import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
@@ -11,14 +11,15 @@ import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 
 class PaymentScreen extends ConsumerWidget {
-  PaymentScreen({super.key});
+  final int advance;
+  PaymentScreen({
+    required this.advance,
+  });
   final TextEditingController discountController = TextEditingController();
   final TextEditingController advanceAmountController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BookingDetails bookingDetails = ref.watch(bookingProvider).bookingDetails;
-    final advance =
-        getTotalAdvanceAmount(ref.read(transactionProvider).transaction);
     final int totalAmount = bookingDetails.total - bookingDetails.discount;
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +52,7 @@ class PaymentScreen extends ConsumerWidget {
                       Icon(Icons.calendar_month),
                       SizedBox(width: 10),
                       Text(
-                        '${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(bookingDetails.checkIn))} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(bookingDetails.checkOut))}',
+                        '${DateFormat('dd EEE, MMM yy', 'en_US').format(bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(bookingDetails.checkOut.toLocal())}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -281,13 +282,5 @@ class PaymentScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  getTotalAdvanceAmount(List<Transaction> transactions) {
-    double total = 0;
-    for (var i = 0; i < transactions.length; i++) {
-      total += transactions[i].amount;
-    }
-    return total;
   }
 }

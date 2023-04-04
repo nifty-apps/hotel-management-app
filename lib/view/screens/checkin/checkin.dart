@@ -25,7 +25,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
       ref.read(bookingProvider).getBookingsList(
             fromDate!.toUtc(),
             toDate!.toUtc(),
-            'checkIn',
+            'booked',
           );
     });
   }
@@ -241,11 +241,11 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
             top: 245,
             child: SearchButton(
               onPressed: () {
-                print(fromDate);
+                // Date filtering bug
                 ref.read(bookingProvider).getBookingsList(
                       fromDate!.toUtc(),
                       toDate!.toUtc(),
-                      'checkIn',
+                      'booked',
                     );
               },
             ),

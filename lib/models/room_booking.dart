@@ -10,6 +10,7 @@ class RoomBooking {
   final int total;
   final int discount;
   final String status;
+  final String paymentStatus;
   RoomBooking({
     required this.customer,
     required this.rooms,
@@ -18,6 +19,7 @@ class RoomBooking {
     required this.total,
     required this.discount,
     required this.status,
+    required this.paymentStatus,
   });
 
   RoomBooking copyWith({
@@ -28,6 +30,7 @@ class RoomBooking {
     int? total,
     int? discount,
     String? status,
+    String? paymentStatus,
   }) {
     return RoomBooking(
       customer: customer ?? this.customer,
@@ -37,6 +40,7 @@ class RoomBooking {
       total: total ?? this.total,
       discount: discount ?? this.discount,
       status: status ?? this.status,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
     );
   }
 
@@ -49,6 +53,7 @@ class RoomBooking {
       'total': total,
       'discount': discount,
       'status': status,
+      'paymentStatus': paymentStatus,
     };
   }
 
@@ -61,6 +66,7 @@ class RoomBooking {
       total: map['total'].toInt() as int,
       discount: map['discount'].toInt() as int,
       status: map['status'] as String,
+      paymentStatus: map['paymentStatus'] as String,
     );
   }
 
@@ -71,7 +77,7 @@ class RoomBooking {
 
   @override
   String toString() {
-    return 'RoomBooking(customer: $customer, rooms: $rooms, checkIn: $checkIn, checkOut: $checkOut, total: $total, discount: $discount, status: $status)';
+    return 'RoomBooking(customer: $customer, rooms: $rooms, checkIn: $checkIn, checkOut: $checkOut, total: $total, discount: $discount, status: $status, paymentStatus: $paymentStatus)';
   }
 
   @override

@@ -3,17 +3,21 @@ import 'dart:convert';
 class Bookings {
   final String id;
   final Customer customer;
+  final String paymentStatus;
   Bookings({
     required this.id,
+    required this.paymentStatus,
     required this.customer,
   });
 
   Bookings copyWith({
     String? id,
     Customer? customer,
+    String? paymentStatus,
   }) {
     return Bookings(
       id: id ?? this.id,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
       customer: customer ?? this.customer,
     );
   }
@@ -22,6 +26,7 @@ class Bookings {
     return <String, dynamic>{
       '_id': id,
       'customer': customer.toMap(),
+      'paymentStatus': paymentStatus,
     };
   }
 
@@ -29,6 +34,7 @@ class Bookings {
     return Bookings(
       id: map['_id'] as String,
       customer: Customer.fromMap(map['customer'] as Map<String, dynamic>),
+      paymentStatus: map['paymentStatus'] as String,
     );
   }
 
@@ -38,7 +44,8 @@ class Bookings {
       Bookings.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'RecentBooking(_id: $id, customer: $customer)';
+  String toString() =>
+      'RecentBooking(_id: $id, customer: $customer , paymentStatus: $paymentStatus)';
 
   @override
   bool operator ==(covariant Bookings other) {

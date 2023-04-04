@@ -38,10 +38,10 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
       appBar: AppBar(
         title: Text(
           widget.bookingStatus == PageType.checkin
-              ? 'Confrim Check in'
+              ? 'Confrim Checkin'
               : widget.bookingStatus == PageType.checkout
-                  ? 'Checkout'
-                  : 'Confirm',
+                  ? 'Confirm Checkout'
+                  : 'Booking Confirm',
         ),
       ),
       body: Padding(
@@ -237,8 +237,11 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                   status: widget.bookingStatus == PageType.confirm
                       ? 'booked'
                       : widget.bookingStatus == PageType.checkin
-                          ? 'checkIn'
-                          : 'checkOut',
+                          ? 'checkedIn'
+                          : 'checkedOut',
+                  paymentStatus: payableAmount == 0 || payableAmount < 0
+                      ? 'paid'
+                      : 'unpaid',
                 );
                 if (widget.bookingStatus == PageType.confirm) {
                   String? bookingId =
@@ -256,9 +259,13 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                           ),
                         );
                   }
-                }else{
-                  // update booking
-                  
+                } else {
+                  await ref.read(bookingProvider).updateBookingStatus(
+                        id: ref.read(bookingProvider).bookingDetails.id,
+                        status: widget.bookingStatus == PageType.checkin
+                            ? 'checkIn'
+                            : 'checkOut',
+                      );
                 }
                 showDialog(
                   context: context,
