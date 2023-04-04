@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/available_room.dart' as booking;
-import 'package:hotel_management/models/booking_details.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
@@ -25,7 +24,6 @@ class ChoiceRoomScreen extends ConsumerStatefulWidget {
 class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.checkinDate);
     return Scaffold(
       appBar: AppBar(
         title: Text('Choice Room'),

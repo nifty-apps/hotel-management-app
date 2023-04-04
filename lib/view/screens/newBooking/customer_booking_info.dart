@@ -263,7 +263,6 @@ class _CustomerBookingInfoScreenState
                                   setState(() {
                                     isCheckin = value!;
                                   });
-                                  print(isCheckin);
                                 }),
                             Text(
                               'Checkin now?',

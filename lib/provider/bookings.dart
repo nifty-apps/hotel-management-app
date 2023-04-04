@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/available_room.dart' as booking;
 import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/models/booking_details.dart';
@@ -34,18 +33,17 @@ class BookingProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   // Booking
-  Future<bool> roomBooking(
+  Future<String?> roomBooking(
       RoomBooking bookingInfo, BuildContext context) async {
     final response = await ref.read(apiClientProvider).post(
           AppConstants.roomBooking,
           data: bookingInfo.toMap(),
         );
     if (response.statusCode == 201) {
-      return true;
+      final String bookingId = response.data['data']['_id'];
+      return bookingId;
     }
-    final message = response.data['message'];
-    showSnackBarMethod(context, message, false);
-    return false;
+    return null;
   }
 
   // Get Available Rooms

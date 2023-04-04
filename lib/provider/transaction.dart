@@ -13,8 +13,12 @@ class TransactionProvider extends ChangeNotifier {
   List<Transaction> _transaction = [];
   List<Transaction> get transaction => _transaction;
 
-  Future<bool> addTransaction(String paymentMethod, String bookingId,
-      int amount, BuildContext context) async {
+  Future<bool> addTransaction(
+    BuildContext context, {
+    required String paymentMethod,
+    required String bookingId,
+    required int amount,
+  }) async {
     final response = await ref
         .read(apiClientProvider)
         .post(AppConstants.transaction + '/$bookingId', data: {
@@ -23,7 +27,7 @@ class TransactionProvider extends ChangeNotifier {
     });
     if (response.statusCode == 200) {
       final message = response.data['message'];
-      showSnackBarMethod(context, message, false);
+      showSnackBarMethod(context, message, true);
       return true;
     }
     final message = response.data['message'];

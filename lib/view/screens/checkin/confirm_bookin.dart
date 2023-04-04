@@ -229,9 +229,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                 RoomBooking bookingInfo = RoomBooking(
                   customer: customer,
                   rooms: roomsId,
-                  checkIn: ref.read(bookingProvider).checkIn!.toIso8601String(),
-                  checkOut:
-                      ref.read(bookingProvider).checkOut!.toIso8601String(),
+                  checkIn: ref.read(bookingProvider).checkIn!.toUtc(),
+                  checkOut: ref.read(bookingProvider).checkOut!.toUtc(),
                   total: total,
                   discount: int.parse(
                       ref.read(bookingProvider).discountController.text),
@@ -241,26 +240,39 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                           ? 'checkIn'
                           : 'checkOut',
                 );
-                bool isSuccess = await ref.read(bookingProvider).roomBooking(
-                      bookingInfo,
-                      context,
-                    );
-                if (isSuccess) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomDialog(
-                      onTap: () =>
-                          Navigator.pushNamed(context, Routes.dashboard),
-                      title: widget.bookingStatus == PageType.confirm
-                          ? 'Successfully booked!'
-                          : widget.bookingStatus == PageType.checkin
-                              ? 'Successfully checked in!'
-                              : 'Successfully checked out!',
-                      buttonText: 'Back To Home',
-                      imagePath: 'assets/icons/successful.png',
-                    ),
-                  );
+                if (widget.bookingStatus == PageType.confirm) {
+                  String? bookingId =
+                      await ref.read(bookingProvider).roomBooking(
+                            bookingInfo,
+                            context,
+                          );
+                  if (bookingId != null) {
+                    await ref.read(transactionProvider).addTransaction(
+                          context,
+                          paymentMethod: 'cash',
+                          bookingId: bookingId,
+                          amount: int.parse(
+                            ref.read(bookingProvider).advanceController.text,
+                          ),
+                        );
+                  }
+                }else{
+                  // update booking
+                  
                 }
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomDialog(
+                    onTap: () => Navigator.pushNamed(context, Routes.dashboard),
+                    title: widget.bookingStatus == PageType.confirm
+                        ? 'Successfully booked!'
+                        : widget.bookingStatus == PageType.checkin
+                            ? 'Successfully checked in!'
+                            : 'Successfully checked out!',
+                    buttonText: 'Back To Home',
+                    imagePath: 'assets/icons/successful.png',
+                  ),
+                );
               },
               buttonText: widget.bookingStatus == PageType.checkin
                   ? 'Confrim Check in'
@@ -303,9 +315,18 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   int payableAmount = 0;
 
   payable() {
-    int amount = int.parse(ref.read(bookingProvider).discountController.text) +
-        advancAmount;
-    payableAmount = total - amount;
+    if (widget.bookingStatus == PageType.confirm) {
+      int amount =
+          int.parse(ref.read(bookingProvider).discountController.text) +
+              int.parse(ref.read(bookingProvider).advanceController.text);
+      payableAmount = total - amount;
+    } else {
+      int amount =
+          int.parse(ref.read(bookingProvider).discountController.text) +
+              advancAmount;
+      payableAmount = total - amount;
+    }
+
     return payableAmount;
   }
 }

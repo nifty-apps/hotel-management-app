@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 class RoomBooking {
   final Customer customer;
   final List<String> rooms;
-  final String checkIn;
-  final String checkOut;
+  final DateTime checkIn;
+  final DateTime checkOut;
   final int total;
   final int discount;
   final String status;
@@ -23,8 +23,8 @@ class RoomBooking {
   RoomBooking copyWith({
     Customer? customer,
     List<String>? rooms,
-    String? checkIn,
-    String? checkOut,
+    DateTime? checkIn,
+    DateTime? checkOut,
     int? total,
     int? discount,
     String? status,
@@ -44,8 +44,8 @@ class RoomBooking {
     return <String, dynamic>{
       'customer': customer.toMap(),
       'rooms': rooms,
-      'checkIn': checkIn,
-      'checkOut': checkOut,
+      'checkIn': checkIn.toIso8601String(),
+      'checkOut': checkOut.toIso8601String(),
       'total': total,
       'discount': discount,
       'status': status,
@@ -56,8 +56,8 @@ class RoomBooking {
     return RoomBooking(
       customer: Customer.fromMap(map['customer'] as Map<String, dynamic>),
       rooms: List<String>.from((map['rooms'] as List<String>)),
-      checkIn: map['checkIn'] as String,
-      checkOut: map['checkOut'] as String,
+      checkIn: map['checkIn'] as DateTime,
+      checkOut: map['checkOut'] as DateTime,
       total: map['total'].toInt() as int,
       discount: map['discount'].toInt() as int,
       status: map['status'] as String,

@@ -271,9 +271,9 @@ class HomeScreen extends ConsumerWidget {
               builder: (context, AsyncSnapshot<List<Bookings>?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final bookingList = snapshot.data;
-                  if (bookingList!.length == 0) {
-                    return SizedBox();
-                  }
+                  // if (bookingList!.length == 0) {
+                  //   return SizedBox();
+                  // }
                   return Flexible(
                     flex: 4,
                     child: Container(
@@ -285,51 +285,63 @@ class HomeScreen extends ConsumerWidget {
                           topRight: Radius.circular(16),
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            child: Text(
-                              'Recent Booking',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
+                      child: bookingList!.length == 0
+                          ? Center(
+                              child: Text(
+                                'No booking found!',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ),
-                          Flexible(
-                            child: ListView.builder(
-                              itemCount: bookingList.length,
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  Divider(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                    thickness: 3,
-                                  ),
-                                  ListTile(
-                                    leading: Icon(Icons.person),
-                                    trailing: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  child: Text(
+                                    'Recent Booking',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    title:
-                                        Text(bookingList[index].customer.name),
-                                    subtitle:
-                                        Text(bookingList[index].customer.phone),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Flexible(
+                                  child: ListView.builder(
+                                    itemCount: bookingList.length,
+                                    itemBuilder: (context, index) => Column(
+                                      children: [
+                                        Divider(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          thickness: 3,
+                                        ),
+                                        ListTile(
+                                          leading: Icon(Icons.person),
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          title: Text(
+                                              bookingList[index].customer.name),
+                                          subtitle: Text(bookingList[index]
+                                              .customer
+                                              .phone),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                        ],
-                      ),
                     ),
                   );
                 }

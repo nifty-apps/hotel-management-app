@@ -250,13 +250,15 @@ class PaymentScreen extends ConsumerWidget {
                               discountController.text;
                         }
                         if (advanceAmountController.text.isNotEmpty) {
-                          ref.read(transactionProvider).addTransaction(
-                                "Cash",
-                                bookingDetails.id,
-                                int.parse(advanceAmountController.text.trim()),
+                          await ref.read(transactionProvider).addTransaction(
                                 context,
+                                paymentMethod: "cash",
+                                bookingId: bookingDetails.id,
+                                amount: int.parse(
+                                  advanceAmountController.text.trim(),
+                                ),
                               );
-                          ref
+                          await ref
                               .read(transactionProvider)
                               .getTransactionList(bookingDetails.id, true);
                         }
