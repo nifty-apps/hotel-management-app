@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
-import 'package:hotel_management/models/available_room.dart';
+import 'package:hotel_management/models/available_room.dart' as booking;
 import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/models/booking_details.dart';
+import 'package:hotel_management/models/room_booking.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
@@ -11,8 +12,18 @@ class BookingProvider extends ChangeNotifier {
   final Ref ref;
   BookingProvider(this.ref);
 
-  List<AvailableRoom> _availableRooms = [];
-  List<AvailableRoom> get availableRooms => _availableRooms;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  TextEditingController advanceController = TextEditingController();
+  List<booking.Room> allRoom = [];
+  DateTime? checkIn = DateTime.now();
+  DateTime? checkOut = DateTime.now();
+  int total = 0;
+  String status = '';
+
+  List<booking.AvailableRoom> _availableRooms = [];
+  List<booking.AvailableRoom> get availableRooms => _availableRooms;
 
   List<Bookings> _bookingList = [];
   List<Bookings> get bookingList => _bookingList;
@@ -24,28 +35,11 @@ class BookingProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   // Booking
   Future<bool> roomBooking(
-      String name,
-      String phone,
-      List<String> rooms,
-      String checkIn,
-      String checkOut,
-      int total,
-      int discount,
-      String status,
-      BuildContext context) async {
-    final response =
-        await ref.read(apiClientProvider).post(AppConstants.roomBooking, data: {
-      "customer": {
-        "name": name,
-        "phone": phone,
-      },
-      "rooms": rooms,
-      "checkIn": checkIn,
-      "checkOut": checkOut,
-      "total": total,
-      "discount": discount,
-      "status": status
-    });
+      RoomBooking bookingInfo, BuildContext context) async {
+    final response = await ref.read(apiClientProvider).post(
+          AppConstants.roomBooking,
+          data: bookingInfo.toMap(),
+        );
     if (response.statusCode == 201) {
       return true;
     }
@@ -61,8 +55,10 @@ class BookingProvider extends ChangeNotifier {
     final response = await ref.read(apiClientProvider).get(
         '${AppConstants.availableRooms}?fromDate=$fromDate&toDate=$toDate');
     if (response.statusCode == 200) {
+      print(response.data['data']);
       _availableRooms = response.data['data']
-          .map<AvailableRoom>((room) => AvailableRoom.fromMap(room))
+          .map<booking.AvailableRoom>(
+              (room) => booking.AvailableRoom.fromMap(room))
           .toList();
       _isLoading = false;
       notifyListeners();

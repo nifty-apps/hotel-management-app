@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_management/models/available_room.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/models/available_room.dart' as booking;
+import 'package:hotel_management/models/booking_details.dart';
+import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:intl/intl.dart';
 
-class ChoiceRoomScreen extends StatefulWidget {
-  final List<AvailableRoom> availableRooms;
+class ChoiceRoomScreen extends ConsumerStatefulWidget {
+  final List<booking.AvailableRoom> availableRooms;
   final DateTime checkinDate;
   final DateTime checkoutDate;
   ChoiceRoomScreen({
@@ -16,10 +19,10 @@ class ChoiceRoomScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ChoiceRoomScreen> createState() => _ChoiceRoomScreenState();
+  ConsumerState<ChoiceRoomScreen> createState() => _ChoiceRoomScreenState();
 }
 
-class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
+class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
   @override
   Widget build(BuildContext context) {
     print(widget.checkinDate);
@@ -198,10 +201,10 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                                           setState(() {
                                             if (selectedItems.contains(room)) {
                                               selectedItems.remove(room);
-                                              totalAmount -= room.rent;
+                                              totalAmount -= room.roomType.rent;
                                             } else {
                                               selectedItems.add(room);
-                                              totalAmount += room.rent;
+                                              totalAmount += room.roomType.rent;
                                             }
                                           });
                                         },
@@ -270,7 +273,6 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
             SizedBox(height: 30),
             CustomButton(
               onPressed: () {
-                print(selectedItems);
                 Navigator.pushNamed(context, Routes.customerBookingInfo,
                     arguments: [
                       selectedItems,
@@ -281,7 +283,10 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
                 selectedItems.forEach((element) {
                   roomId.add(element.id);
                 });
-                print(selectedItems);
+                ref.read(bookingProvider).checkIn = widget.checkinDate;
+                ref.read(bookingProvider).checkOut = widget.checkoutDate;
+                ref.read(bookingProvider).allRoom = selectedItems;
+                ref.read(bookingProvider).total = totalAmount;
               },
               buttonText: 'Next',
               width: double.infinity,
@@ -292,7 +297,7 @@ class _ChoiceRoomScreenState extends State<ChoiceRoomScreen> {
     );
   }
 
-  List<Room> selectedItems = [];
-  double totalAmount = 0;
+  List<booking.Room> selectedItems = [];
+  int totalAmount = 0;
   List<String> roomId = [];
 }

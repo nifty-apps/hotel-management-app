@@ -112,13 +112,6 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => ConfirmBookin(
             bookingStatus: args[0] as PageType,
-            checkinDate: args[1],
-            checkoutDate: args[2],
-            name: args[3],
-            phone: args[4],
-            discount: args[5],
-            advance: args[6],
-            rooms: args[7],
           ),
         );
       case editCheckinInfo:

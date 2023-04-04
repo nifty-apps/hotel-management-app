@@ -241,6 +241,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
             top: 245,
             child: SearchButton(
               onPressed: () {
+                print(fromDate);
                 ref.read(bookingProvider).getBookingsList(
                       fromDate!.toUtc(),
                       toDate!.toUtc(),

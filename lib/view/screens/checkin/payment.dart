@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/booking_details.dart';
+import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/provider/bookings.dart';
+import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
@@ -10,10 +12,14 @@ import 'package:hotel_management/view/base/text_form_field.dart';
 
 class PaymentScreen extends ConsumerWidget {
   PaymentScreen({super.key});
+  final TextEditingController discountController = TextEditingController();
   final TextEditingController advanceAmountController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BookingDetails bookingDetails = ref.watch(bookingProvider).bookingDetails;
+    final advance =
+        getTotalAdvanceAmount(ref.read(transactionProvider).transaction);
+    final int totalAmount = bookingDetails.total - bookingDetails.discount;
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment'),
@@ -79,7 +85,7 @@ class PaymentScreen extends ConsumerWidget {
                                     Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
-                                      "${(bookingDetails.total - bookingDetails.discount)}",
+                                      "$totalAmount",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -113,7 +119,7 @@ class PaymentScreen extends ConsumerWidget {
                                     Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
-                                      '2156',
+                                      advance.toString(),
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -147,7 +153,7 @@ class PaymentScreen extends ConsumerWidget {
                                     Image.asset('assets/icons/tk.png'),
                                     SizedBox(width: 10),
                                     Text(
-                                      '2156',
+                                      '${totalAmount - advance}',
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -198,7 +204,7 @@ class PaymentScreen extends ConsumerWidget {
                               height: 70,
                               width: 220,
                               child: CustomTextFormField(
-                                controller: advanceAmountController,
+                                controller: discountController,
                                 hintText: 'Enter amount',
                                 labelText: 'Discount',
                                 keyboardType: TextInputType.number,
@@ -238,11 +244,29 @@ class PaymentScreen extends ConsumerWidget {
                     ),
                     SizedBox(height: 200),
                     CustomButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.confirmCheckin,
-                            arguments: [
-                              PageType.checkin,
-                            ]);
+                      onPressed: () async {
+                        if (discountController.text.isNotEmpty) {
+                          ref.read(bookingProvider).discountController.text =
+                              discountController.text;
+                        }
+                        if (advanceAmountController.text.isNotEmpty) {
+                          ref.read(transactionProvider).addTransaction(
+                                "Cash",
+                                bookingDetails.id,
+                                int.parse(advanceAmountController.text.trim()),
+                                context,
+                              );
+                          ref
+                              .read(transactionProvider)
+                              .getTransactionList(bookingDetails.id, true);
+                        }
+                        Navigator.pushNamed(
+                          context,
+                          Routes.confirmCheckin,
+                          arguments: [
+                            PageType.checkin,
+                          ],
+                        );
                       },
                       buttonText: 'Payment',
                       width: double.infinity,
@@ -255,5 +279,13 @@ class PaymentScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  getTotalAdvanceAmount(List<Transaction> transactions) {
+    double total = 0;
+    for (var i = 0; i < transactions.length; i++) {
+      total += transactions[i].amount;
+    }
+    return total;
   }
 }

@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/models/available_room.dart';
+import 'package:hotel_management/models/room_booking.dart' as booking;
+import 'package:hotel_management/models/room_booking.dart';
 import 'package:hotel_management/provider/bookings.dart';
+import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
@@ -10,23 +12,10 @@ import 'package:hotel_management/view/base/custom_dialog.dart';
 
 class ConfirmBookin extends ConsumerStatefulWidget {
   final PageType bookingStatus;
-  final DateTime checkinDate;
-  final DateTime checkoutDate;
-  final String name;
-  final String phone;
-  final int discount;
-  final int advance;
-  final List<Room> rooms;
+
   ConfirmBookin({
     Key? key,
     required this.bookingStatus,
-    required this.checkinDate,
-    required this.checkoutDate,
-    required this.name,
-    required this.phone,
-    required this.discount,
-    required this.advance,
-    required this.rooms,
   }) : super(key: key);
 
   @override
@@ -39,6 +28,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     super.initState();
     getRooms();
     subTotal();
+    getTotalAdvanceAmount();
     payable();
   }
 
@@ -76,14 +66,14 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                       size: 60,
                     ),
                     title: Text(
-                      widget.name,
+                      ref.read(bookingProvider).nameController.text,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     subtitle: Text(
-                      widget.phone,
+                      ref.read(bookingProvider).phoneController.text,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -148,31 +138,35 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                             ),
                           ],
                         ),
-                        ...widget.rooms.map(
-                          (room) => TableRow(
-                            children: [
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                      widget.rooms.indexOf(room).toString()),
-                                ),
+                        ...ref.read(bookingProvider).allRoom.map(
+                              (room) => TableRow(
+                                children: [
+                                  TableCell(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(ref
+                                          .read(bookingProvider)
+                                          .allRoom
+                                          .indexOf(room)
+                                          .toString()),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(room.roomType.type),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child:
+                                          Text(room.roomType.rent.toString()),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text('Single Room'),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(room.rent.toString()),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
                       ],
                     ),
                   ),
@@ -189,7 +183,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Discount'),
-                      Text('TK. ${widget.discount}'),
+                      Text(
+                          'TK. ${ref.read(bookingProvider).discountController.text.toString()}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -197,7 +192,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Advance'),
-                      Text('TK. ${widget.advance}'),
+                      Text(
+                          'TK. ${widget.bookingStatus == PageType.confirm ? ref.read(bookingProvider).advanceController.text.toString() : advancAmount.toString()}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -226,19 +222,27 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
             Spacer(),
             CustomButton(
               onPressed: () async {
+                booking.Customer customer = booking.Customer(
+                  name: ref.read(bookingProvider).nameController.text,
+                  phone: ref.read(bookingProvider).phoneController.text,
+                );
+                RoomBooking bookingInfo = RoomBooking(
+                  customer: customer,
+                  rooms: roomsId,
+                  checkIn: ref.read(bookingProvider).checkIn!.toIso8601String(),
+                  checkOut:
+                      ref.read(bookingProvider).checkOut!.toIso8601String(),
+                  total: total,
+                  discount: int.parse(
+                      ref.read(bookingProvider).discountController.text),
+                  status: widget.bookingStatus == PageType.confirm
+                      ? 'booked'
+                      : widget.bookingStatus == PageType.checkin
+                          ? 'checkIn'
+                          : 'checkOut',
+                );
                 bool isSuccess = await ref.read(bookingProvider).roomBooking(
-                      widget.name,
-                      widget.phone,
-                      roomsId,
-                      widget.checkinDate.toIso8601String(),
-                      widget.checkoutDate.toIso8601String(),
-                      total,
-                      widget.discount,
-                      widget.bookingStatus == PageType.confirm
-                          ? 'booked'
-                          : widget.bookingStatus == PageType.checkin
-                              ? 'checkIn'
-                              : 'checkOut',
+                      bookingInfo,
                       context,
                     );
                 if (isSuccess) {
@@ -274,24 +278,34 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   int total = 0;
 
   subTotal() {
-    for (var room in widget.rooms) {
-      total += room.rent;
+    for (var room in ref.read(bookingProvider).allRoom) {
+      total += room.roomType.rent;
     }
     return total;
-  }
-
-  int payableAmount = 0;
-
-  payable() {
-    payableAmount = total - widget.discount - widget.advance;
-    return payableAmount;
   }
 
   List<String> roomsId = [];
 
   getRooms() {
-    widget.rooms.forEach((room) {
+    ref.read(bookingProvider).allRoom.forEach((room) {
       roomsId.add(room.id);
     });
+  }
+
+  int advancAmount = 0;
+  getTotalAdvanceAmount() {
+    for (var i = 0; i < ref.read(transactionProvider).transaction.length; i++) {
+      advancAmount += ref.read(transactionProvider).transaction[i].amount;
+    }
+    return advancAmount;
+  }
+
+  int payableAmount = 0;
+
+  payable() {
+    int amount = int.parse(ref.read(bookingProvider).discountController.text) +
+        advancAmount;
+    payableAmount = total - amount;
+    return payableAmount;
   }
 }

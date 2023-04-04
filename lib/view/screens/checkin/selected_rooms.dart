@@ -2,8 +2,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/models/booking_details.dart';
+import 'package:hotel_management/models/available_room.dart' as booking;
 import 'package:hotel_management/provider/bookings.dart';
+import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 
@@ -22,16 +23,30 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(bookingProvider).getBookingDetails(widget.bookingId);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(bookingProvider).getBookingDetails(widget.bookingId);
+      final bookingDetails = ref.read(bookingProvider).bookingDetails;
+      ref.read(bookingProvider).nameController.text =
+          bookingDetails.customer.name;
+      ref.read(bookingProvider).phoneController.text =
+          bookingDetails.customer.phone;
+      ref.read(bookingProvider).phoneController.text =
+          bookingDetails.customer.phone;
+      ref.read(bookingProvider).discountController.text =
+          bookingDetails.discount.toString();
+      ref.read(bookingProvider).checkIn =
+          DateTime.parse(bookingDetails.checkIn);
+      ref.read(bookingProvider).checkIn =
+          DateTime.parse(bookingDetails.checkOut);
+      ref.read(bookingProvider).allRoom =
+          bookingDetails.rooms.cast<booking.Room>();
+          
+      ref.read(bookingProvider).status = bookingDetails.status;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    late BookingDetails bookingDetails =
-        ref.read(bookingProvider).bookingDetails;
-    print(bookingDetails.status);
     return Scaffold(
       appBar: AppBar(
         title: Text('Booking Details'),
@@ -54,12 +69,20 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                       children: [
                         ListTile(
                           title: Text(
-                            bookingDetails.customer.name,
+                            ref
+                                .read(bookingProvider)
+                                .bookingDetails
+                                .customer
+                                .name,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          subtitle: Text(bookingDetails.customer.phone),
+                          subtitle: Text(ref
+                              .read(bookingProvider)
+                              .bookingDetails
+                              .customer
+                              .phone),
                           leading: Icon(
                             Icons.person,
                             size: 40,
@@ -88,7 +111,12 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                                       ),
                                       SizedBox(width: 10),
                                       Text(
-                                        bookingDetails.rooms.length.toString(),
+                                        ref
+                                            .read(bookingProvider)
+                                            .bookingDetails
+                                            .rooms
+                                            .length
+                                            .toString(),
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -124,7 +152,11 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                                       ),
                                       SizedBox(width: 10),
                                       Text(
-                                        bookingDetails.total.toString(),
+                                        ref
+                                            .read(bookingProvider)
+                                            .bookingDetails
+                                            .total
+                                            .toString(),
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -146,7 +178,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                             Icon(Icons.calendar_month),
                             SizedBox(width: 10),
                             Text(
-                              '${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(bookingDetails.checkIn))} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(bookingDetails.checkOut))}',
+                              '${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(ref.read(bookingProvider).bookingDetails.checkIn))} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(DateTime.parse(ref.read(bookingProvider).bookingDetails.checkOut))}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -185,7 +217,11 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                           height: 100,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: bookingDetails.rooms.length,
+                            itemCount: ref
+                                .read(bookingProvider)
+                                .bookingDetails
+                                .rooms
+                                .length,
                             itemBuilder: ((context, roomindex) {
                               return InkWell(
                                 onTap: () {},
@@ -213,14 +249,26 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          bookingDetails.rooms[roomindex]
-                                                  .roomType.type
+                                          ref
+                                                  .read(bookingProvider)
+                                                  .bookingDetails
+                                                  .rooms[roomindex]
+                                                  .roomType
+                                                  .type
                                                   .contains('Room')
-                                              ? bookingDetails.rooms[roomindex]
-                                                  .roomType.type
+                                              ? ref
+                                                  .read(bookingProvider)
+                                                  .bookingDetails
+                                                  .rooms[roomindex]
+                                                  .roomType
+                                                  .type
                                                   .replaceAll('Room', '')
-                                              : bookingDetails.rooms[roomindex]
-                                                  .roomType.type,
+                                              : ref
+                                                  .read(bookingProvider)
+                                                  .bookingDetails
+                                                  .rooms[roomindex]
+                                                  .roomType
+                                                  .type,
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
@@ -229,7 +277,11 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                                         ),
                                         SizedBox(height: 10),
                                         Text(
-                                          bookingDetails.rooms[roomindex].number
+                                          ref
+                                              .read(bookingProvider)
+                                              .bookingDetails
+                                              .rooms[roomindex]
+                                              .number
                                               .toString(),
                                           style: TextStyle(
                                             fontSize: 16,
@@ -346,10 +398,9 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                   Spacer(),
                   CustomButton(
                     onPressed: () {
-                      // selectedItems.forEach((element) {
-                      //   roomId.add(element.id);
-                      // });
-                      // print(selectedItems);
+                      ref
+                          .read(transactionProvider)
+                          .getTransactionList(widget.bookingId, true);
                       Navigator.pushNamed(context, Routes.payment);
                     },
                     buttonText: 'Next',
