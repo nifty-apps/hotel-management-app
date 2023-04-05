@@ -263,8 +263,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                   await ref.read(bookingProvider).updateBookingStatus(
                         id: ref.read(bookingProvider).bookingDetails.id,
                         status: widget.bookingStatus == PageType.checkin
-                            ? 'checkIn'
-                            : 'checkOut',
+                            ? 'checkedIn'
+                            : 'checkedOut',
                       );
                 }
                 showDialog(

@@ -7,7 +7,6 @@ import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/date_picker_button.dart';
 import 'package:hotel_management/view/base/search_button.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class NewBookingScreen extends ConsumerStatefulWidget {
@@ -30,8 +29,8 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider).getAvailableRooms(
-            DateFormat('yyyy-MM-dd').format(fromDate!),
-            DateFormat('yyyy-MM-dd').format(toDate!),
+            fromDate: fromDate!..subtract(Duration(days: 1)),
+            toDate: toDate!,
           );
     });
   }
@@ -122,8 +121,8 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
                     onPressed: () async {
                       selectedRooms.clear();
                       ref.read(bookingProvider).getAvailableRooms(
-                            DateFormat('yyyy-MM-dd').format(fromDate!),
-                            DateFormat('yyyy-MM-dd').format(toDate!),
+                            fromDate: fromDate!.subtract(Duration(days: 1)),
+                            toDate: toDate!,
                           );
                     },
                   )

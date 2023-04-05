@@ -24,9 +24,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider).getBookingsList(
-            fromDate!.toUtc(),
-            toDate!.toUtc(),
-            'checkIn',
+            checkinDate: fromDate!.subtract(Duration(days: 1)).toUtc(),
+            checkoutDate: toDate!.toUtc(),
+            status: 'checkedIn',
           );
     });
   }
@@ -279,9 +279,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             child: SearchButton(
               onPressed: () {
                 ref.read(bookingProvider).getBookingsList(
-                      fromDate!.toUtc(),
-                      toDate!.toUtc(),
-                      'checkIn',
+                      checkinDate: fromDate!.subtract(Duration(days: 1)),
+                      checkoutDate: toDate!.toUtc(),
+                      status: 'checkedIn',
                     );
               },
             ),

@@ -47,13 +47,13 @@ class BookingProvider extends ChangeNotifier {
   }
 
   // Get Available Rooms
-  Future<bool> getAvailableRooms(String fromDate, String toDate) async {
+  Future<bool> getAvailableRooms(
+      {required DateTime fromDate, required DateTime toDate}) async {
     _isLoading = true;
     notifyListeners();
     final response = await ref.read(apiClientProvider).get(
-        '${AppConstants.availableRooms}?fromDate=$fromDate&toDate=$toDate');
+        '${AppConstants.availableRooms}?fromDate=${fromDate.toUtc()}&toDate=${toDate.toUtc()}');
     if (response.statusCode == 200) {
-      print(response.data['data']);
       _availableRooms = response.data['data']
           .map<booking.AvailableRoom>(
               (room) => booking.AvailableRoom.fromMap(room))
@@ -72,8 +72,6 @@ class BookingProvider extends ChangeNotifier {
     final response =
         await ref.read(apiClientProvider).get(AppConstants.recenRoombookins);
     if (response.statusCode == 200) {
-      _isLoading = false;
-      print(response.data['data']);
       _bookingList = response.data['data']
           .map<Bookings>((booking) => Bookings.fromMap(booking))
           .toList();
@@ -85,14 +83,11 @@ class BookingProvider extends ChangeNotifier {
   }
 
   // Get Bookings List
-  Future<List<Bookings>> getBookingsList(
-    DateTime checkinDate,
-    DateTime checkoutDate,
-    String status,
-  ) async {
-    print(checkinDate);
-    print(checkoutDate);
-    print(status);
+  Future<List<Bookings>> getBookingsList({
+    required DateTime checkinDate,
+    required DateTime checkoutDate,
+    required String status,
+  }) async {
     _isLoading = true;
     notifyListeners();
     final response = await ref.read(apiClientProvider).get(

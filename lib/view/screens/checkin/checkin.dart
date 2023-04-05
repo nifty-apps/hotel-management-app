@@ -23,9 +23,9 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider).getBookingsList(
-            fromDate!.toUtc(),
-            toDate!.toUtc(),
-            'booked',
+            checkinDate: fromDate!.subtract(Duration(days: 1)).toUtc(),
+            checkoutDate: toDate!.toUtc(),
+            status: 'booked',
           );
     });
   }
@@ -243,9 +243,10 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
               onPressed: () {
                 // Date filtering bug
                 ref.read(bookingProvider).getBookingsList(
-                      fromDate!.toUtc(),
-                      toDate!.toUtc(),
-                      'booked',
+                      checkinDate:
+                          fromDate!.subtract(Duration(days: 1)).toUtc(),
+                      checkoutDate: toDate!.toUtc(),
+                      status: 'checkedIn',
                     );
               },
             ),
