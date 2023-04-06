@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/available_room.dart' as booking;
 import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/models/booking_details.dart';
+import 'package:hotel_management/models/customer.dart';
 import 'package:hotel_management/models/room_booking.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
@@ -26,6 +27,9 @@ class BookingProvider extends ChangeNotifier {
 
   List<Bookings> _bookingList = [];
   List<Bookings> get bookingList => _bookingList;
+
+  List<CustomerInfo> _listOfCustomer = [];
+  List<CustomerInfo> get listOfCustomer => _listOfCustomer;
 
   late BookingDetails _bookingDetails;
   BookingDetails get bookingDetails => _bookingDetails;
@@ -145,6 +149,29 @@ class BookingProvider extends ChangeNotifier {
       data: {'paymentStatus': status},
     );
     if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  // get list of customer
+  Future<bool> getListOfCustomer(String? phoneNumber) async {
+    print(phoneNumber);
+    _isLoading = true;
+    notifyListeners();
+    String url = AppConstants.getListOfCustomer;
+    if (phoneNumber != '') {
+      url = '${AppConstants.getListOfCustomer}?customerPhone=$phoneNumber';
+    }
+    final response = await ref.read(apiClientProvider).get(
+          url,
+        );
+    if (response.statusCode == 200) {
+      _listOfCustomer = response.data['data']
+          .map<CustomerInfo>((customer) => CustomerInfo.fromMap(customer))
+          .toList();
+      _isLoading = false;
+      notifyListeners();
       return true;
     }
     return false;

@@ -22,11 +22,11 @@ class AppConstants {
   static const getBookingDetails = '$baseUrl/rooms/bookings/details';
   static const updateBookingInfo = '$baseUrl/rooms/bookings';
   static const transaction = '$baseUrl/transactions';
+  static const getListOfCustomer = '$baseUrl/rooms/bookings/customers';
+
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
   static const searchRoom = '$baseUrl/admin/room/searching';
   static const collectionsReport = "$baseUrl/admin/report/collection";
-  static const paymentUpdate =
-      '$baseUrl/admin/room/booking/update/payment_and_status';
   static const getRooms = '$baseUrl/admin/room/type_wise/available';
   static const adminProfile = '$baseUrl/admin/profile';
   static const employee = '$baseUrl/users';
