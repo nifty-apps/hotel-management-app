@@ -8,7 +8,8 @@ import 'package:hotel_management/utils/api_client.dart';
 class TransactionProvider extends ChangeNotifier {
   final Ref ref;
   TransactionProvider({required this.ref});
-  bool isLoading = false;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   List<Transaction> _transaction = [];
   List<Transaction> get transaction => _transaction;
@@ -37,8 +38,6 @@ class TransactionProvider extends ChangeNotifier {
 
   Future<List<Transaction>?> getTransactionList(
       String? bookingId, bool singleBooking) async {
-    print(bookingId);
-    print(singleBooking);
     try {
       final response = await ref.read(apiClientProvider).get(singleBooking
           ? AppConstants.transaction + '/?bookingId=$bookingId'
@@ -49,6 +48,29 @@ class TransactionProvider extends ChangeNotifier {
           return Transaction.fromMap(transaction);
         }).toList();
         print(_transaction);
+        return _transaction;
+      }
+    } catch (error) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<List<Transaction>?> getTransactionHistory(
+      {required DateTime fromDate, required DateTime toDate}) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final response = await ref.read(apiClientProvider).get(
+            AppConstants.transaction + "/?fromDate=$fromDate&toDate=$toDate",
+          );
+      if (response.statusCode == 200) {
+        _transaction = response.data['data'].map<Transaction>((transaction) {
+          return Transaction.fromMap(transaction);
+        }).toList();
+        print(_transaction);
+        _isLoading = false;
+        notifyListeners();
         return _transaction;
       }
     } catch (error) {
