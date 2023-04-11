@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/hotel.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
@@ -79,13 +81,28 @@ class _HotelInfoScreenState extends ConsumerState<HotelInfoScreen> {
               keyboardType: TextInputType.name,
             ),
             Spacer(),
-            CustomButton(
-              width: double.infinity,
-              onPressed: () {
-                
-              },
-              buttonText: 'Save',
-            )
+            ref.read(authProvider).userData!.role == 'Owner'
+                ? CustomButton(
+                    width: double.infinity,
+                    onPressed: () async {
+                      Hotel hotelInfo = Hotel(
+                        id: ref.read(authProvider).userData!.hotel!.id,
+                        name: nameController.text,
+                        ownerName: ownerNameController.text,
+                        contactNumber: phoneController.text,
+                        address: addressController.text,
+                      );
+                      String message = await ref
+                          .read(authProvider)
+                          .updateHotelInfo(
+                            hotelInfo: hotelInfo,
+                            hotelId: ref.read(authProvider).userData!.hotel!.id,
+                          );
+                      showSnackBarMethod(context, message, true);
+                    },
+                    buttonText: 'Save',
+                  )
+                : SizedBox()
           ],
         ),
       ),

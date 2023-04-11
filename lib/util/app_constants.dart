@@ -29,6 +29,7 @@ class AppConstants {
   static const adminProfile = '$baseUrl/admin/profile';
   static const employee = '$baseUrl/users';
   static const roomType = '$baseUrl/room/type';
+  static const updateHotelInfo = '$baseUrl/hotels';
 }
 
 extension StringCasingExtension on String {
