@@ -246,7 +246,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                       checkinDate:
                           fromDate!.subtract(Duration(days: 1)).toUtc(),
                       checkoutDate: toDate!.toUtc(),
-                      status: 'checkedIn',
+                      status: 'booked',
                     );
               },
             ),

@@ -4,6 +4,7 @@ import 'package:hotel_management/models/employee.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/add_employee.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
+import 'package:hotel_management/view/screens/account/hotel/hotel_info.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
@@ -23,7 +24,6 @@ import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/newBooking/choice_new_room.dart';
 import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
-import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/add_room_type.dart';
 import 'package:hotel_management/view/screens/room/available.dart';
@@ -32,6 +32,7 @@ import 'package:hotel_management/view/screens/room/room_type.dart';
 import 'package:hotel_management/view/screens/room/total.dart';
 
 import 'models/room.dart';
+import 'view/screens/account/hotel/profile.dart';
 
 class Routes {
   static const String splash = '/';
@@ -65,7 +66,8 @@ class Routes {
   static const String availableRoom = '/availableRoom';
   static const String todayBookingsRoom = '/todayBookingsRoom';
   static const String bookingRoom = '/bookingRoom';
-  static const String profile = '/profile';
+  static const String employeeProfile = '/employeeProfile';
+  static const String hotelInfoScreen = '/hotelInfoScreen';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -220,8 +222,10 @@ class Routes {
       //       roomId: settings.arguments.toString(),
       //     ),
       //   );
-      case profile:
+      case employeeProfile:
         return MaterialPageRoute(builder: (context) => ProfileScreen());
+      case hotelInfoScreen:
+        return MaterialPageRoute(builder: (context) => HotelInfoScreen());
     }
     return null;
   }
