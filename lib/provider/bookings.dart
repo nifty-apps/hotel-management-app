@@ -36,6 +36,7 @@ class BookingProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  
   // Booking
   Future<String?> roomBooking(
       RoomBooking bookingInfo, BuildContext context) async {

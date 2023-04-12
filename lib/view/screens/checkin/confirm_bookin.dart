@@ -12,11 +12,11 @@ import 'package:hotel_management/view/base/custom_dialog.dart';
 
 class ConfirmBookin extends ConsumerStatefulWidget {
   final PageType bookingStatus;
+  final bool checkinNow;
 
-  ConfirmBookin({
-    Key? key,
-    required this.bookingStatus,
-  }) : super(key: key);
+  ConfirmBookin(
+      {Key? key, required this.bookingStatus, required this.checkinNow})
+      : super(key: key);
 
   @override
   ConsumerState<ConfirmBookin> createState() => _ConfirmBookinState();
@@ -193,7 +193,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                     children: [
                       Text('Advance'),
                       Text(
-                          'TK. ${widget.bookingStatus == PageType.confirm ? ref.read(bookingProvider).advanceController.text.toString() : advancAmount.toString()}'),
+                          'TK. ${advancAmount != 0 ? advancAmount.toString() : ref.read(bookingProvider).advanceController.text.toString()}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -243,7 +243,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                       ? 'paid'
                       : 'unpaid',
                 );
-                if (widget.bookingStatus == PageType.confirm) {
+                if (widget.bookingStatus == PageType.confirm ||
+                    widget.checkinNow == true) {
                   String? bookingId =
                       await ref.read(bookingProvider).roomBooking(
                             bookingInfo,
@@ -322,7 +323,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   int payableAmount = 0;
 
   payable() {
-    if (widget.bookingStatus == PageType.confirm) {
+    if (widget.bookingStatus == PageType.confirm ||
+        widget.bookingStatus == PageType.checkin) {
       int amount =
           int.parse(ref.read(bookingProvider).discountController.text) +
               int.parse(ref.read(bookingProvider).advanceController.text);

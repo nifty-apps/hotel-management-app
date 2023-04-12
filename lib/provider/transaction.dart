@@ -78,29 +78,6 @@ class TransactionProvider extends ChangeNotifier {
     }
     return null;
   }
-
-  // Future<bool> updateTransaction(String id, BuildContext context, String paymentMethod, int amount) async{
-  //   final response = await ref.read(apiClientProvider).put(AppConstants.transaction + '/$id', data: {
-  //     'paymentMethod': paymentMethod,
-  //     'amount': amount,
-  //   });
-  //   if(response.statusCode == 200){
-  //     final message = response.data['message'];
-  //     showSnackBarMethod(context, message, true);
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // Future<bool> deleteTransaction(String id, BuildContext context) async{
-  //   final response = await ref.read(apiClientProvider).delete(AppConstants.transaction + '/$id');
-  //   if(response.statusCode == 200){
-  //     final message = response.data['message'];
-  //     showSnackBarMethod(context, message, true);
-  //     return true;
-  //   }
-  //   return false;
-  // }
 }
 
 final transactionProvider = ChangeNotifierProvider<TransactionProvider>(

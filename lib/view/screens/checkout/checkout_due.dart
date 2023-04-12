@@ -270,7 +270,7 @@ class CheckoutDueScreen extends ConsumerWidget {
                               Navigator.pushNamed(
                                 context,
                                 Routes.confirmCheckin,
-                                arguments: [PageType.checkout],
+                                arguments: [PageType.checkout, false],
                               );
                             });
                           } else {

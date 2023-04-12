@@ -134,4 +134,3 @@ class AuthProvider extends ChangeNotifier {
 }
 
 final authProvider = ChangeNotifierProvider((ref) => AuthProvider(ref));
-// final authProvider = Provider((ref) => AuthProvider(ref));

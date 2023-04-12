@@ -266,9 +266,7 @@ class PaymentScreen extends ConsumerWidget {
                         Navigator.pushNamed(
                           context,
                           Routes.confirmCheckin,
-                          arguments: [
-                            PageType.checkin,
-                          ],
+                          arguments: [PageType.checkin, false],
                         );
                       },
                       buttonText: 'Payment',

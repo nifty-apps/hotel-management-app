@@ -276,12 +276,11 @@ class _CustomerBookingInfoScreenState
                         SizedBox(height: 30),
                         CustomButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, Routes.confirmCheckin,
-                                arguments: [
-                                  isCheckin
-                                      ? PageType.checkin
-                                      : PageType.confirm,
-                                ]);
+                            Navigator.pushNamed(
+                                context, Routes.confirmCheckin, arguments: [
+                              isCheckin ? PageType.checkin : PageType.confirm,
+                              isCheckin
+                            ]);
                           },
                           buttonText: 'Next',
                           width: double.infinity,

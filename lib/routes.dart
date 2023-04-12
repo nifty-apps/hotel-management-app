@@ -26,10 +26,8 @@ import 'package:hotel_management/view/screens/newBooking/customer_booking_info.d
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/add_room_type.dart';
-import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room.dart';
 import 'package:hotel_management/view/screens/room/room_type.dart';
-import 'package:hotel_management/view/screens/room/total.dart';
 
 import 'models/room.dart';
 import 'view/screens/account/hotel/profile.dart';
@@ -62,8 +60,6 @@ class Routes {
   static const String addEmployee = '/addEmployee';
 
   static const String addRoom = '/addRoom';
-  static const String totalRooms = '/totalRooms';
-  static const String availableRoom = '/availableRoom';
   static const String todayBookingsRoom = '/todayBookingsRoom';
   static const String bookingRoom = '/bookingRoom';
   static const String employeeProfile = '/employeeProfile';
@@ -116,6 +112,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => ConfirmBookin(
             bookingStatus: args[0] as PageType,
+            checkinNow: args[1] as bool,
           ),
         );
       case editCheckinInfo:
@@ -204,14 +201,7 @@ class Routes {
             employee: settings.arguments as Employee,
           ),
         );
-      case totalRooms:
-        return MaterialPageRoute(
-          builder: (context) => TotalRoomSrceen(),
-        );
-      case availableRoom:
-        return MaterialPageRoute(
-          builder: (context) => AvailableRoomScreen(),
-        );
+
       // case todayBookingsRoom:
       //   return MaterialPageRoute(
       //     builder: (context) => TodayBookingsScreen(),
