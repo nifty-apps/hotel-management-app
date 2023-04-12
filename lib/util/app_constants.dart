@@ -21,6 +21,7 @@ class AppConstants {
   static const updateBookingInfo = '$baseUrl/rooms/bookings';
   static const transaction = '$baseUrl/transactions';
   static const getListOfCustomer = '$baseUrl/rooms/bookings/customers';
+  static const getListOfCustomerBookings = '$baseUrl/rooms/bookings/customer/list';
 
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
   static const searchRoom = '$baseUrl/admin/room/searching';

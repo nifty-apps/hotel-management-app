@@ -26,7 +26,7 @@ class TransactionProvider extends ChangeNotifier {
       'paymentMethod': paymentMethod,
       'amount': amount,
     });
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final message = response.data['message'];
       showSnackBarMethod(context, message, true);
       return true;

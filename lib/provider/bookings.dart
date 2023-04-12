@@ -36,7 +36,7 @@ class BookingProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  
+
   // Booking
   Future<String?> roomBooking(
       RoomBooking bookingInfo, BuildContext context) async {
@@ -163,6 +163,29 @@ class BookingProvider extends ChangeNotifier {
     String url = AppConstants.getListOfCustomer;
     if (phoneNumber != '') {
       url = '${AppConstants.getListOfCustomer}?customerPhone=$phoneNumber';
+    }
+    final response = await ref.read(apiClientProvider).get(
+          url,
+        );
+    if (response.statusCode == 200) {
+      _listOfCustomer = response.data['data']
+          .map<CustomerInfo>((customer) => CustomerInfo.fromMap(customer))
+          .toList();
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> getListOfCustomerBookings(String? phoneNumber) async {
+    print('call API');
+    _isLoading = true;
+    notifyListeners();
+    String url = AppConstants.getListOfCustomerBookings;
+    if (phoneNumber != '') {
+      url =
+          '${AppConstants.getListOfCustomerBookings}?customerPhone=$phoneNumber';
     }
     final response = await ref.read(apiClientProvider).get(
           url,
