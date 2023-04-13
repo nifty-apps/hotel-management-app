@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/transaction.dart';
+import 'package:hotel_management/models/transaction_history.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
@@ -13,6 +14,9 @@ class TransactionProvider extends ChangeNotifier {
 
   List<Transaction> _transaction = [];
   List<Transaction> get transaction => _transaction;
+
+  HotelRevenue? _hotelRevenue;
+  HotelRevenue? get hotelRevenue => _hotelRevenue;
 
   Future<bool> addTransaction(
     BuildContext context, {
@@ -77,6 +81,26 @@ class TransactionProvider extends ChangeNotifier {
       return null;
     }
     return null;
+  }
+
+  Future<bool> getRevenue({required String timeRange}) async {
+    print(timeRange);
+
+    _isLoading = true;
+    notifyListeners();
+    final response = await ref.read(apiClientProvider).get(
+          AppConstants.getRevenue + "?timeRange=$timeRange",
+        );
+    if (response.statusCode == 200) {
+      _hotelRevenue = HotelRevenue.fromMap(response.data['data']);
+      print(_hotelRevenue);
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return false;
   }
 }
 

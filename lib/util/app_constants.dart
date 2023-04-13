@@ -2,7 +2,7 @@ class AppConstants {
   static const String APP_NAME = 'Hotel Management';
   static const int APP_VERSION = 1;
   // static const baseUrl = 'http://13.212.32.168/api';
-  static const baseUrl = 'http://192.168.0.174:4001/api';
+  static const baseUrl = 'http://192.168.0.173:4001/api';
   static const registraionUrl = '$baseUrl/auth/registration';
   static const loginUrl = '$baseUrl/auth/login';
   static const hotelAddUrl = '$baseUrl/hotels';
@@ -20,6 +20,7 @@ class AppConstants {
   static const getBookingDetails = '$baseUrl/rooms/bookings/details';
   static const updateBookingInfo = '$baseUrl/rooms/bookings';
   static const transaction = '$baseUrl/transactions';
+  static const getRevenue = '$baseUrl/transactions/history';
   static const getListOfCustomer = '$baseUrl/rooms/bookings/customers';
   static const getListOfCustomerBookings = '$baseUrl/rooms/bookings/customer/list';
 
