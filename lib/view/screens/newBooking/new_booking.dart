@@ -76,9 +76,11 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
                               InkWell(
                                   onTap: () async {
                                     final date = await selectDate(context);
-                                    setState(() {
-                                      fromDate = date;
-                                    });
+                                    if (date != null) {
+                                      setState(() {
+                                        fromDate = date;
+                                      });
+                                    }
                                   },
                                   child: DatePickerButton(date: fromDate)),
                             ],
@@ -104,9 +106,11 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
                               InkWell(
                                 onTap: () async {
                                   final date = await selectDate(context);
-                                  setState(() {
-                                    toDate = date;
-                                  });
+                                  if (date != null) {
+                                    setState(() {
+                                      toDate = date;
+                                    });
+                                  }
                                 },
                                 child: DatePickerButton(date: toDate),
                               ),

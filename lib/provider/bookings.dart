@@ -155,6 +155,20 @@ class BookingProvider extends ChangeNotifier {
     return false;
   }
 
+// Update checkout date
+  Future<bool> updateCheckoutDate(
+      {required String id, required DateTime date}) async {
+    print(date);
+    final response = await ref.read(apiClientProvider).put(
+      '${AppConstants.updateBookingInfo}/$id',
+      data: {'checkOut': date.toUtc().toIso8601String()},
+    );
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   // get list of customer
   Future<bool> getListOfCustomer(String? phoneNumber) async {
     print(phoneNumber);
@@ -199,6 +213,40 @@ class BookingProvider extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  // check rooms availability
+  Future<List<booking.Room>> checkRoomsAvailability(
+      {required DateTime checkoutDate,
+      required DateTime extendsCheckoutDate,
+      required List<String> roomIds}) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final response = await ref
+          .read(apiClientProvider)
+          .get(AppConstants.checkRooms, query: {
+        'checkoutDate': checkoutDate.toUtc().toIso8601String(),
+        'extendsCheckoutDate': extendsCheckoutDate.toUtc().toIso8601String(),
+        'roomIds': roomIds,
+      });
+      if (response.statusCode == 200) {
+        _isLoading = false;
+        notifyListeners();
+        final data = response.data['data']
+            .map<booking.Room>((room) => booking.Room.fromMap(room))
+            .toList();
+        print(data);
+        return data;
+      } else if (response.statusCode == 404) {
+        print(response.data['message']);
+        _isLoading = false;
+      }
+      return [];
+    } catch (error) {
+      _isLoading = false;
+      return [];
+    }
   }
 }
 

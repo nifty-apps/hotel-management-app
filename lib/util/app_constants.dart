@@ -2,7 +2,7 @@ class AppConstants {
   static const String APP_NAME = 'Hotel Management';
   static const int APP_VERSION = 1;
   // static const baseUrl = 'http://13.212.32.168/api';
-  static const baseUrl = 'http://192.168.0.173:4001/api';
+  static const baseUrl = 'http://192.168.0.174:4001/api';
   static const registraionUrl = '$baseUrl/auth/registration';
   static const loginUrl = '$baseUrl/auth/login';
   static const hotelAddUrl = '$baseUrl/hotels';
@@ -10,6 +10,7 @@ class AppConstants {
   static const addroomUrl = '$baseUrl';
   static const totalRoom = '$baseUrl/rooms';
   static const availableRooms = '$baseUrl/rooms/available';
+  static const checkRooms = '$baseUrl/rooms/available/check';
   static const roomBooking = '$baseUrl/rooms/bookings';
   static const recenRoombookins = '$baseUrl/rooms/bookings/recent';
   static const getRoomBookings = '$baseUrl/rooms/bookings/checkin';
@@ -22,7 +23,8 @@ class AppConstants {
   static const transaction = '$baseUrl/transactions';
   static const getRevenue = '$baseUrl/transactions/history';
   static const getListOfCustomer = '$baseUrl/rooms/bookings/customers';
-  static const getListOfCustomerBookings = '$baseUrl/rooms/bookings/customer/list';
+  static const getListOfCustomerBookings =
+      '$baseUrl/rooms/bookings/customer/list';
 
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
   static const searchRoom = '$baseUrl/admin/room/searching';

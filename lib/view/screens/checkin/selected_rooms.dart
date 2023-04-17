@@ -22,11 +22,13 @@ class SelectedRooms extends ConsumerStatefulWidget {
 }
 
 class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
+  List<String> roomsId = [];
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(bookingProvider).getBookingDetails(widget.bookingId);
+      getRooms();
       await ref
           .read(transactionProvider)
           .getTransactionList(widget.bookingId, true);
@@ -39,10 +41,8 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
           bookingDetails.customer.phone;
       ref.read(bookingProvider).discountController.text =
           bookingDetails.discount.toString();
-      ref.read(bookingProvider).checkIn =
-         bookingDetails.checkIn;
-      ref.read(bookingProvider).checkIn =
-        bookingDetails.checkOut;
+      ref.read(bookingProvider).checkIn = bookingDetails.checkIn;
+      ref.read(bookingProvider).checkIn = bookingDetails.checkOut;
       ref.read(bookingProvider).allRoom =
           bookingDetails.rooms.cast<booking.Room>();
       ref.read(bookingProvider).status = bookingDetails.status;
@@ -184,10 +184,30 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                             Text(
                               '${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                               ),
-                            )
+                            ),
+                            SizedBox(width: 20),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, Routes.updateBooking,
+                                    arguments: [
+                                      widget.bookingId,
+                                      ref
+                                          .read(bookingProvider)
+                                          .bookingDetails
+                                          .checkOut
+                                          .toLocal(),
+                                      roomsId
+                                    ]);
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -350,5 +370,12 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
       total += transactions[i].amount;
     }
     return total;
+  }
+
+  getRooms() {
+    ref.watch(bookingProvider).allRoom.forEach((room) {
+      roomsId.add(room.id);
+    });
+    print(roomsId);
   }
 }

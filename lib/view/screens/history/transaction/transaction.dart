@@ -67,9 +67,11 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
                               InkWell(
                                   onTap: () async {
                                     final date = await selectDate(context);
-                                    setState(() {
-                                      fromDate = date;
-                                    });
+                                    if (date != null) {
+                                      setState(() {
+                                        fromDate = date;
+                                      });
+                                    }
                                   },
                                   child: DatePickerButton(date: fromDate)),
                             ],
@@ -95,9 +97,11 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
                               InkWell(
                                 onTap: () async {
                                   final date = await selectDate(context);
-                                  setState(() {
-                                    toDate = date;
-                                  });
+                                  if (date != null) {
+                                    setState(() {
+                                      toDate = date;
+                                    });
+                                  }
                                 },
                                 child: DatePickerButton(date: toDate),
                               ),

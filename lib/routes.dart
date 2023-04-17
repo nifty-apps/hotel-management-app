@@ -31,6 +31,7 @@ import 'package:hotel_management/view/screens/room/room_type.dart';
 
 import 'models/room.dart';
 import 'view/screens/account/hotel/profile.dart';
+import 'view/screens/update/update_bookings.dart';
 
 class Routes {
   static const String splash = '/';
@@ -44,6 +45,8 @@ class Routes {
   static const String choiceRooms = '/choiceRooms';
   static const String payment = '/payment';
   static const String confirmCheckin = '/confirmCheckin';
+  static const String updateBooking = '/updateBooking';
+
   static const String editCheckinInfo = '/editCheckinInfo';
   static const String updateCustomerRoom = '/updateCustomerRoom';
   static const String checkout = '/checkout';
@@ -113,6 +116,15 @@ class Routes {
           builder: (context) => ConfirmBookin(
             bookingStatus: args[0] as PageType,
             checkinNow: args[1] as bool,
+          ),
+        );
+      case updateBooking:
+        List<dynamic> args = settings.arguments as List<dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => UpdateBooking(
+            bookingId: args[0] as String,
+            checkoutDate: args[1] as DateTime,
+            roomIds: args[2] as List<String>,
           ),
         );
       case editCheckinInfo:

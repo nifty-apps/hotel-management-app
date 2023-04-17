@@ -330,6 +330,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
               int.parse(ref.read(bookingProvider).advanceController.text);
       payableAmount = total - amount;
     } else {
+      print(advancAmount);
       int amount =
           int.parse(ref.read(bookingProvider).discountController.text) +
               advancAmount;

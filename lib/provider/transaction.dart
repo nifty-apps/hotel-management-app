@@ -93,7 +93,6 @@ class TransactionProvider extends ChangeNotifier {
         );
     if (response.statusCode == 200) {
       _hotelRevenue = HotelRevenue.fromMap(response.data['data']);
-      print(_hotelRevenue);
       _isLoading = false;
       notifyListeners();
       return true;
