@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/employee.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/provider/employee.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,26 +22,29 @@ class _ManageEmployeeScreenState extends ConsumerState<ManageEmployeeScreen> {
       appBar: AppBar(
         title: Text('Manage Employee'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Employee employee = Employee(
-            id: null,
-            name: null,
-            email: null,
-            role: null,
-            phone: null,
-            address: null,
-          );
-          Navigator.pushNamed(context, Routes.addEmployee, arguments: employee)
-              .then((_) {
-            setState(() {});
-          });
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: ref.read(authProvider).userData!.role == 'Owner'
+          ? FloatingActionButton(
+              onPressed: () {
+                Employee employee = Employee(
+                  id: null,
+                  name: null,
+                  email: null,
+                  role: null,
+                  phone: null,
+                  address: null,
+                );
+                Navigator.pushNamed(context, Routes.addEmployee,
+                        arguments: employee)
+                    .then((_) {
+                  setState(() {});
+                });
+              },
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            )
+          : SizedBox(),
       body: FutureBuilder(
         future: provider.getEmployeeList(),
         builder: (context, AsyncSnapshot<List<Employee>?> snapshot) {

@@ -1,61 +1,55 @@
 import 'dart:convert';
 
-class Bookings {
-  final String id;
+class CustomerInfo {
+  final String bookingId;
   final Customer customer;
-  final String paymentStatus;
-  Bookings({
-    required this.id,
-    required this.paymentStatus,
+  CustomerInfo({
+    required this.bookingId,
     required this.customer,
   });
 
-  Bookings copyWith({
-    String? id,
+  CustomerInfo copyWith({
+    String? bookingId,
     Customer? customer,
-    String? paymentStatus,
   }) {
-    return Bookings(
-      id: id ?? this.id,
-      paymentStatus: paymentStatus ?? this.paymentStatus,
+    return CustomerInfo(
+      bookingId: bookingId ?? this.bookingId,
       customer: customer ?? this.customer,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      '_id': id,
+      '_id': bookingId,
       'customer': customer.toMap(),
-      'paymentStatus': paymentStatus,
     };
   }
 
-  factory Bookings.fromMap(Map<String, dynamic> map) {
-    return Bookings(
-      id: map['_id'] as String,
-      customer: Customer.fromMap(map['customer'] as Map<String, dynamic>),
-      paymentStatus: map['paymentStatus'] as String,
+  factory CustomerInfo.fromMap(Map<String, dynamic> map) {
+    return CustomerInfo(
+      bookingId: map['_id'] as String,
+      customer: Customer.fromMap(map['customer'] as Map<String,dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Bookings.fromJson(String source) =>
-      Bookings.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CustomerInfo.fromJson(String source) => CustomerInfo.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'RecentBooking(_id: $id, customer: $customer , paymentStatus: $paymentStatus)';
+  String toString() => 'CustomerInfo(bookingId: $bookingId, customer: $customer)';
 
   @override
-  bool operator ==(covariant Bookings other) {
+  bool operator ==(covariant CustomerInfo other) {
     if (identical(this, other)) return true;
-
-    return other.id == id && other.customer == customer;
+  
+    return 
+      other.bookingId == bookingId &&
+      other.customer == customer;
   }
 
   @override
-  int get hashCode => id.hashCode ^ customer.hashCode;
+  int get hashCode => bookingId.hashCode ^ customer.hashCode;
 }
 
 class Customer {
@@ -92,8 +86,7 @@ class Customer {
 
   String toJson() => json.encode(toMap());
 
-  factory Customer.fromJson(String source) =>
-      Customer.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Customer.fromJson(String source) => Customer.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Customer(name: $name, phone: $phone)';
@@ -101,8 +94,10 @@ class Customer {
   @override
   bool operator ==(covariant Customer other) {
     if (identical(this, other)) return true;
-
-    return other.name == name && other.phone == phone;
+  
+    return 
+      other.name == name &&
+      other.phone == phone;
   }
 
   @override

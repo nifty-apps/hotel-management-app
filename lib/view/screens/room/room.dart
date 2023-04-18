@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/room.dart';
 import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
-import 'package:hotel_management/view/base/search_text_form_field.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RoomListScreen extends ConsumerStatefulWidget {
@@ -51,15 +50,15 @@ class _RoomListScreenState extends ConsumerState<RoomListScreen> {
               child: Container(
                 child: Column(
                   children: [
-                    SearchTextFormField(
-                      controller: searchController,
-                      hintText: 'Enter enter room number',
-                      onFieldSubmitted: (value) {
-                        ref
-                            .read(roomProvider)
-                            .getRoomList(searchController.text.trim());
-                      },
-                    ),
+                    // SearchTextFormField(
+                    //   controller: searchController,
+                    //   hintText: 'Enter enter room number',
+                    //   onFieldSubmitted: (value) {
+                    //     ref
+                    //         .read(roomProvider)
+                    //         .getRoomList(searchController.text.trim());
+                    //   },
+                    // ),
                     SizedBox(height: 20),
                   ],
                 ),

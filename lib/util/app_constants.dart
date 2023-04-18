@@ -10,30 +10,30 @@ class AppConstants {
   static const addroomUrl = '$baseUrl';
   static const totalRoom = '$baseUrl/rooms';
   static const availableRooms = '$baseUrl/rooms/available';
+  static const checkRooms = '$baseUrl/rooms/available/check';
   static const roomBooking = '$baseUrl/rooms/bookings';
   static const recenRoombookins = '$baseUrl/rooms/bookings/recent';
   static const getRoomBookings = '$baseUrl/rooms/bookings/checkin';
   static const todayBookingRooms = '$baseUrl/rooms/todays/bookings';
   static const updateRoomInfo = '$baseUrl/rooms';
+
   static const deleteRoom = '$baseUrl/rooms';
   static const getBookingDetails = '$baseUrl/rooms/bookings/details';
+  static const updateBookingInfo = '$baseUrl/rooms/bookings';
+  static const transaction = '$baseUrl/transactions';
+  static const getRevenue = '$baseUrl/transactions/history';
+  static const getListOfCustomer = '$baseUrl/rooms/bookings/customers';
+  static const getListOfCustomerBookings =
+      '$baseUrl/rooms/bookings/customer/list';
+
   static const roomTypeInfo = '$baseUrl/admin/room/searching/room_type/wise';
-  // static const roomBooking = '$baseUrl/admin/room/booking/store';
   static const searchRoom = '$baseUrl/admin/room/searching';
   static const collectionsReport = "$baseUrl/admin/report/collection";
-  static const transaction = '$baseUrl/admin/report/transaction';
-  static const paymentUpdate =
-      '$baseUrl/admin/room/booking/update/payment_and_status';
   static const getRooms = '$baseUrl/admin/room/type_wise/available';
-  static const bookingUpdate = '$baseUrl/admin/room/booking/update';
   static const adminProfile = '$baseUrl/admin/profile';
   static const employee = '$baseUrl/users';
   static const roomType = '$baseUrl/room/type';
-
-  // final Map<String, String> roomTypes = {
-  //   'single': 'Single',
-  //   'doubleDulux': 'Double Delux',
-  // };
+  static const updateHotelInfo = '$baseUrl/hotels';
 }
 
 extension StringCasingExtension on String {

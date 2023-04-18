@@ -9,21 +9,20 @@ class DashboardProvider extends ChangeNotifier {
 
   DashboardProvider(this.ref);
 
-  late DashboardInfo dashboardInfo;
+  DashboardInfo? dashboardInfo;
 
-  Future<DashboardInfo?> getDashboardInfo() async {
-    final response =
-        await ref.read(apiClientProvider).get(AppConstants.dashboardInfo);
+  Future<DashboardInfo?> getDashboardInfo(
+      {required DateTime fromDate, required DateTime toDate}) async {
+    final response = await ref.read(apiClientProvider).get(
+        AppConstants.dashboardInfo +
+            '?fromDate=${fromDate.toUtc()}&toDate=${toDate.toUtc()}');
     if (response.statusCode == 200) {
       print(response.data);
       dashboardInfo = DashboardInfo.fromMap(response.data["data"]);
-      print(dashboardInfo);
-      notifyListeners();
       return dashboardInfo;
     }
     return null;
   }
-
 }
 
 final dashboardProvider =

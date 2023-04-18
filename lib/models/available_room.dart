@@ -13,14 +13,14 @@ class AvailableRoom {
   });
 
   AvailableRoom copyWith({
+    String? id,
     int? count,
     List<Room>? rooms,
-    String? type,
   }) {
     return AvailableRoom(
       count: count ?? this.count,
       rooms: rooms ?? this.rooms,
-      type: type ?? this.type,
+      type: type,
     );
   }
 
@@ -50,41 +50,38 @@ class AvailableRoom {
       AvailableRoom.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'AvailableRoom(count: $count, rooms: $rooms, type: $type)';
+  String toString() => 'AvailableRoom( count: $count, rooms: $rooms)';
 
   @override
   bool operator ==(covariant AvailableRoom other) {
     if (identical(this, other)) return true;
 
-    return other.count == count &&
-        listEquals(other.rooms, rooms) &&
-        other.type == type;
+    return other.count == count && listEquals(other.rooms, rooms);
   }
 
   @override
-  int get hashCode => count.hashCode ^ rooms.hashCode ^ type.hashCode;
+  int get hashCode => count.hashCode ^ rooms.hashCode;
 }
 
 class Room {
   final String id;
   final String number;
-  final int rent;
+  final RoomType roomType;
   Room({
     required this.id,
     required this.number,
-    required this.rent,
+    required this.roomType,
   });
 
   Room copyWith({
     String? id,
     String? number,
-    int? rent,
+    RoomType? roomType,
   }) {
     return Room(
       id: id ?? this.id,
       number: number ?? this.number,
-      rent: rent ?? this.rent,
+      roomType: roomType ?? this.roomType,
     );
   }
 
@@ -92,7 +89,7 @@ class Room {
     return <String, dynamic>{
       '_id': id,
       'number': number,
-      'rent': rent,
+      'roomType': roomType.toMap(),
     };
   }
 
@@ -100,7 +97,7 @@ class Room {
     return Room(
       id: map['_id'] as String,
       number: map['number'] as String,
-      rent: map['rent'].toInt() as int,
+      roomType: RoomType.fromMap(map['roomType'] as Map<String, dynamic>),
     );
   }
 
@@ -110,15 +107,74 @@ class Room {
       Room.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Room(id: $id, number: $number, rent: $rent)';
+  String toString() => 'Room(_id: $id, number: $number, roomType: $roomType)';
 
   @override
   bool operator ==(covariant Room other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.number == number && other.rent == rent;
+    return other.id == id &&
+        other.number == number &&
+        other.roomType == roomType;
   }
 
   @override
-  int get hashCode => id.hashCode ^ number.hashCode ^ rent.hashCode;
+  int get hashCode => id.hashCode ^ number.hashCode ^ roomType.hashCode;
+}
+
+class RoomType {
+  final String id;
+  final String type;
+  final int rent;
+  RoomType({
+    required this.id,
+    required this.type,
+    required this.rent,
+  });
+
+  RoomType copyWith({
+    String? id,
+    String? type,
+    int? rent,
+  }) {
+    return RoomType(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      rent: rent ?? this.rent,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      '_id': id,
+      'type': type,
+      'rent': rent,
+    };
+  }
+
+  factory RoomType.fromMap(Map<String, dynamic> map) {
+    return RoomType(
+      id: map['_id'] as String,
+      type: map['type'] as String,
+      rent: map['rent'].toInt() as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RoomType.fromJson(String source) =>
+      RoomType.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'RoomType(_id: $id, type: $type, rent: $rent)';
+
+  @override
+  bool operator ==(covariant RoomType other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id && other.type == type && other.rent == rent;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ type.hashCode ^ rent.hashCode;
 }

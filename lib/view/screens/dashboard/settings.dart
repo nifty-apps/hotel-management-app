@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
+import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/settings_card.dart';
@@ -78,8 +79,10 @@ class SettingsScreen extends ConsumerWidget {
                 SettingsCard(
                   icon: 'assets/icons/customer.png',
                   title: 'Customer',
-                  onTap: () =>
-                      Navigator.pushNamed(context, Routes.customerList),
+                  onTap: () {
+                    ref.read(bookingProvider).getListOfCustomer('');
+                    Navigator.pushNamed(context, Routes.customerList);
+                  },
                 ),
                 SizedBox(width: 30),
                 SettingsCard(
@@ -125,13 +128,17 @@ class SettingsScreen extends ConsumerWidget {
                 SettingsCard(
                   icon: 'assets/icons/profile.png',
                   title: 'Profile',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.employeeProfile);
+                  },
                 ),
                 SizedBox(width: 20),
                 SettingsCard(
                   icon: 'assets/icons/hotel.png',
                   title: 'Hotel',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.hotelInfoScreen);
+                  },
                 ),
                 SizedBox(width: 20),
                 SettingsCard(

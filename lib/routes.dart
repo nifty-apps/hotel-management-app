@@ -4,6 +4,7 @@ import 'package:hotel_management/models/employee.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/add_employee.dart';
 import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
+import 'package:hotel_management/view/screens/account/hotel/hotel_info.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
@@ -23,15 +24,14 @@ import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/newBooking/choice_new_room.dart';
 import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
-import 'package:hotel_management/view/screens/profile/profile.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/add_room_type.dart';
-import 'package:hotel_management/view/screens/room/available.dart';
 import 'package:hotel_management/view/screens/room/room.dart';
 import 'package:hotel_management/view/screens/room/room_type.dart';
-import 'package:hotel_management/view/screens/room/total.dart';
 
 import 'models/room.dart';
+import 'view/screens/account/hotel/profile.dart';
+import 'view/screens/update/update_bookings.dart';
 
 class Routes {
   static const String splash = '/';
@@ -45,6 +45,8 @@ class Routes {
   static const String choiceRooms = '/choiceRooms';
   static const String payment = '/payment';
   static const String confirmCheckin = '/confirmCheckin';
+  static const String updateBooking = '/updateBooking';
+
   static const String editCheckinInfo = '/editCheckinInfo';
   static const String updateCustomerRoom = '/updateCustomerRoom';
   static const String checkout = '/checkout';
@@ -61,11 +63,10 @@ class Routes {
   static const String addEmployee = '/addEmployee';
 
   static const String addRoom = '/addRoom';
-  static const String totalRooms = '/totalRooms';
-  static const String availableRoom = '/availableRoom';
   static const String todayBookingsRoom = '/todayBookingsRoom';
   static const String bookingRoom = '/bookingRoom';
-  static const String profile = '/profile';
+  static const String employeeProfile = '/employeeProfile';
+  static const String hotelInfoScreen = '/hotelInfoScreen';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -105,20 +106,25 @@ class Routes {
         );
       case payment:
         return MaterialPageRoute(
-          builder: (context) => PaymentScreen(),
+          builder: (context) => PaymentScreen(
+            advance: settings.arguments as int,
+          ),
         );
       case confirmCheckin:
         List<dynamic> args = settings.arguments as List<dynamic>;
         return MaterialPageRoute(
           builder: (context) => ConfirmBookin(
             bookingStatus: args[0] as PageType,
-            checkinDate: args[1],
-            checkoutDate: args[2],
-            name: args[3],
-            phone: args[4],
-            discount: args[5],
-            advance: args[6],
-            rooms: args[7],
+            checkinNow: args[1] as bool,
+          ),
+        );
+      case updateBooking:
+        List<dynamic> args = settings.arguments as List<dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => UpdateBooking(
+            bookingId: args[0] as String,
+            checkoutDate: args[1] as DateTime,
+            roomIds: args[2] as List<String>,
           ),
         );
       case editCheckinInfo:
@@ -141,7 +147,9 @@ class Routes {
         );
       case checkoutDue:
         return MaterialPageRoute(
-          builder: (context) => CheckoutDueScreen(),
+          builder: (context) => CheckoutDueScreen(
+            advanceAmount: settings.arguments as int,
+          ),
         );
       case newBooking:
         return MaterialPageRoute(
@@ -205,14 +213,7 @@ class Routes {
             employee: settings.arguments as Employee,
           ),
         );
-      case totalRooms:
-        return MaterialPageRoute(
-          builder: (context) => TotalRoomSrceen(),
-        );
-      case availableRoom:
-        return MaterialPageRoute(
-          builder: (context) => AvailableRoomScreen(),
-        );
+
       // case todayBookingsRoom:
       //   return MaterialPageRoute(
       //     builder: (context) => TodayBookingsScreen(),
@@ -223,8 +224,10 @@ class Routes {
       //       roomId: settings.arguments.toString(),
       //     ),
       //   );
-      case profile:
+      case employeeProfile:
         return MaterialPageRoute(builder: (context) => ProfileScreen());
+      case hotelInfoScreen:
+        return MaterialPageRoute(builder: (context) => HotelInfoScreen());
     }
     return null;
   }

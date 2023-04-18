@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/provider/bookings.dart';
+import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/date_picker_button.dart';
 import 'package:hotel_management/view/base/search_button.dart';
@@ -21,9 +23,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(bookingProvider.notifier)
-          .getBookingsList(fromDate!.toUtc(), toDate!.toUtc(), 'checkOut');
+      ref.read(bookingProvider).getBookingsList(
+            checkinDate: fromDate!.subtract(Duration(days: 1)).toUtc(),
+            checkoutDate: toDate!.toUtc(),
+            status: 'checkedIn',
+          );
     });
   }
 
@@ -79,9 +83,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                           onTap: () async {
                                             final date =
                                                 await selectDate(context);
-                                            setState(() {
-                                              fromDate = date;
-                                            });
+                                            if (date != null) {
+                                              setState(() {
+                                                fromDate = date;
+                                              });
+                                            }
                                           },
                                           child:
                                               DatePickerButton(date: fromDate)),
@@ -110,9 +116,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                         onTap: () async {
                                           final date =
                                               await selectDate(context);
-                                          setState(() {
-                                            toDate = date;
-                                          });
+                                          if (date != null) {
+                                            setState(() {
+                                              toDate = date;
+                                            });
+                                          }
                                         },
                                         child: DatePickerButton(date: toDate),
                                       ),
@@ -192,11 +200,55 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                               thickness: 3,
                                             ),
                                             ListTile(
-                                              onTap: () => Navigator.pushNamed(
-                                                context,
-                                                Routes.choiceRooms,
-                                                arguments: false,
-                                              ),
+                                              onTap: () {
+                                                ref
+                                                    .read(bookingProvider)
+                                                    .getBookingDetails(
+                                                      ref
+                                                          .watch(
+                                                              bookingProvider)
+                                                          .bookingList[index]
+                                                          .id,
+                                                    );
+                                                ref
+                                                    .read(transactionProvider)
+                                                    .getTransactionList(
+                                                      ref
+                                                          .watch(
+                                                              bookingProvider)
+                                                          .bookingList[index]
+                                                          .id,
+                                                      true,
+                                                    );
+                                                final double data =
+                                                    getTotalAdvanceAmount(
+                                                  ref
+                                                      .read(transactionProvider)
+                                                      .transaction,
+                                                );
+                                                final int remainingAmount = ref
+                                                        .read(bookingProvider)
+                                                        .bookingDetails
+                                                        .total -
+                                                    ref
+                                                        .read(bookingProvider)
+                                                        .bookingDetails
+                                                        .discount;
+                                                ref
+                                                            .watch(
+                                                                bookingProvider)
+                                                            .bookingList[index]
+                                                            .paymentStatus ==
+                                                        'unpaid'
+                                                    ? Navigator.pushNamed(
+                                                        context,
+                                                        Routes.checkoutDue,
+                                                        arguments: data.toInt(),
+                                                      )
+                                                    : Navigator.pushNamed(
+                                                        context,
+                                                        Routes.confirmCheckin);
+                                              },
                                               leading: Icon(Icons.person),
                                               trailing: Icon(
                                                 Icons.arrow_forward_ios,
@@ -231,9 +283,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             child: SearchButton(
               onPressed: () {
                 ref.read(bookingProvider).getBookingsList(
-                      fromDate!.toUtc(),
-                      toDate!.toUtc(),
-                      'checkOut',
+                      checkinDate: fromDate!.subtract(Duration(days: 1)),
+                      checkoutDate: toDate!.toUtc(),
+                      status: 'checkedIn',
                     );
               },
             ),
@@ -316,5 +368,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         ),
       ),
     );
+  }
+
+  getTotalAdvanceAmount(List<Transaction> transactions) {
+    double total = 0;
+    for (var i = 0; i < transactions.length; i++) {
+      total += transactions[i].amount;
+    }
+    return total;
   }
 }

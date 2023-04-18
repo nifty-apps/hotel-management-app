@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/provider/transaction.dart';
+import 'package:hotel_management/util/app_constants.dart';
 
-class RevenueScreen extends StatefulWidget {
+class RevenueScreen extends ConsumerStatefulWidget {
   const RevenueScreen({super.key});
 
   @override
-  State<RevenueScreen> createState() => _RevenueScreenState();
+  ConsumerState<RevenueScreen> createState() => _RevenueScreenState();
 }
 
-class _RevenueScreenState extends State<RevenueScreen> {
+class _RevenueScreenState extends ConsumerState<RevenueScreen> {
   int selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(transactionProvider).getRevenue(timeRange: 'week');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +31,10 @@ class _RevenueScreenState extends State<RevenueScreen> {
         child: Column(
           children: [
             Container(
-              height: 50,
+              height: 60,
               width: double.infinity,
               decoration: BoxDecoration(
+                color: Colors.red,
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary,
@@ -32,107 +43,114 @@ class _RevenueScreenState extends State<RevenueScreen> {
               ),
               child: Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
+                  Expanded(
                     child: InkWell(
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(100),
+                      ),
                       onTap: () {
+                        ref
+                            .read(transactionProvider)
+                            .getRevenue(timeRange: 'week');
                         setState(() {
                           selectedIndex = 0;
                         });
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(100),
-                            bottomLeft: Radius.circular(100),
-                          ),
                           color: selectedIndex == 0
                               ? Theme.of(context).colorScheme.primary
                               : Colors.white,
+                          borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(100),
+                          ),
                         ),
                         child: Center(
                           child: Text(
-                            'Last Week',
+                            'This Week',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: selectedIndex == 0
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  VerticalDivider(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 2,
-                    width: 2,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedIndex = 1;
-                      });
-                    },
-                    child: Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: Container(
-                        padding: EdgeInsets.zero,
-                        color: selectedIndex == 1
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.white,
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Last Month',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: selectedIndex == 1
-                                      ? Colors.white
-                                      : Colors.black),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: selectedIndex == 0
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  VerticalDivider(
-                    color: Theme.of(context).colorScheme.primary,
-                    thickness: 2,
+                  Container(
+                    height: double.infinity,
                     width: 2,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  Flexible(
-                    flex: 1,
+                  Expanded(
                     child: InkWell(
                       onTap: () {
+                        ref
+                            .read(transactionProvider)
+                            .getRevenue(timeRange: 'month');
+                        setState(() {
+                          selectedIndex = 1;
+                        });
+                      },
+                      child: Container(
+                        color: selectedIndex == 1
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.white,
+                        child: Center(
+                          child: Text(
+                            'This Month',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: selectedIndex == 1
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    width: 2,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      borderRadius: BorderRadius.horizontal(
+                        right: Radius.circular(100),
+                      ),
+                      onTap: () {
+                        ref
+                            .read(transactionProvider)
+                            .getRevenue(timeRange: 'year');
                         setState(() {
                           selectedIndex = 2;
                         });
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(100),
-                            bottomRight: Radius.circular(100),
-                          ),
                           color: selectedIndex == 2
                               ? Theme.of(context).colorScheme.primary
                               : Colors.white,
+                          borderRadius: BorderRadius.horizontal(
+                            right: Radius.circular(100),
+                          ),
                         ),
                         child: Center(
                           child: Text(
-                            'Last Year',
+                            'This Year',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: selectedIndex == 2
-                                    ? Colors.white
-                                    : Colors.black),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: selectedIndex == 2
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
                         ),
                       ),
@@ -155,69 +173,88 @@ class _RevenueScreenState extends State<RevenueScreen> {
                     topRight: Radius.circular(16),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Date',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          'Amount',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: 50,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Column(
-                              children: [
-                                Divider(
-                                  color:
-                                      Theme.of(context).colorScheme.background,
-                                  thickness: 3,
-                                ),
-                                SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '20 jan, 2024',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Text(
-                                      '1000 TK',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                child: ref.watch(transactionProvider).isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ref
+                                .watch(transactionProvider)
+                                .hotelRevenue!
+                                .transactions
+                                .length ==
+                            0
+                        ? Center(
+                            child: Text(
+                              'No transaction found!',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w700),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                          )
+                        : Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Date',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Amount',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: ref
+                                      .watch(transactionProvider)
+                                      .hotelRevenue!
+                                      .transactions
+                                      .length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Divider(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          thickness: 3,
+                                        ),
+                                        ListTile(
+                                          title: Text(ref
+                                              .read(transactionProvider)
+                                              .hotelRevenue!
+                                              .transactions[index]
+                                              .id),
+                                          subtitle: Text(ref
+                                              .read(transactionProvider)
+                                              .hotelRevenue!
+                                              .transactions[index]
+                                              .paymentMethod
+                                              .toCapitalized()),
+                                          trailing: Text(ref
+                                                  .read(transactionProvider)
+                                                  .hotelRevenue!
+                                                  .transactions[index]
+                                                  .amount
+                                                  .toString() +
+                                              ' TK'),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
               ),
             )
           ],

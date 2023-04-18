@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
@@ -8,8 +6,6 @@ import 'package:hotel_management/models/user.dart';
 import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   final Ref ref;
@@ -77,7 +73,7 @@ class AuthProvider extends ChangeNotifier {
 
   // Add Hotel
   Future<Hotel?> addHotel(
-      String name, ownerName, address, contactNumber) async {
+      {required String name, ownerName, address, contactNumber}) async {
     try {
       final response = await ref.read(apiClientProvider).post(
         AppConstants.hotelAddUrl,
@@ -93,7 +89,6 @@ class AuthProvider extends ChangeNotifier {
         final updatedUser = userData!.copyWith(
           hotel: hotel,
         );
-        print(updatedUser);
         ref.read(localStorageProvider).saveUser(updatedUser);
         return hotel;
       }
@@ -104,28 +99,38 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // Update Hotel info
+  Future<String> updateHotelInfo({
+    required Hotel hotelInfo,
+    required String hotelId,
+  }) async {
+    print(hotelInfo.name);
+    try {
+      final response = await ref.read(apiClientProvider).put(
+            AppConstants.updateHotelInfo + '/$hotelId',
+            data: hotelInfo.toMap(),
+          );
+      if (response.statusCode == 200) {
+        final hotel = Hotel.fromMap(response.data['data']);
+        userData = userData!.copyWith(
+          hotel: hotel,
+        );
+        ref.read(localStorageProvider).saveUser(userData!);
+        final String message = response.data['message'];
+        return message;
+      }
+      final String message = response.data['message'];
+      return message;
+    } catch (e) {
+      return e as String;
+    }
+  }
+
   // User logout
   Future<bool> logout() async {
     ref.read(localStorageProvider).removeTokenAndUser();
     return true;
   }
-
-  // User get profile
-  Future<User?> getUserProfile() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token = preferences.getString("token");
-    http.Response response = await http.get(
-        Uri.parse(AppConstants.baseUrl + AppConstants.adminProfile),
-        headers: {
-          'Authorization': 'Bearer $token',
-        });
-    if (response.statusCode == 200) {
-      final result = jsonDecode(response.body);
-      return User.fromJson(result['data']);
-    }
-    return null;
-  }
 }
 
 final authProvider = ChangeNotifierProvider((ref) => AuthProvider(ref));
-// final authProvider = Provider((ref) => AuthProvider(ref));

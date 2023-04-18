@@ -2,11 +2,15 @@ import 'dart:convert';
 
 class Hotel {
   final String id;
-  late final String name;
+  final String name;
+  final String ownerName;
+  final String contactNumber;
   final String address;
   Hotel({
     required this.id,
     required this.name,
+    required this.ownerName,
+    required this.contactNumber,
     required this.address,
   });
 
@@ -18,6 +22,8 @@ class Hotel {
     return Hotel(
       id: id ?? this.id,
       name: name ?? this.name,
+      ownerName: ownerName,
+      contactNumber: contactNumber,
       address: address ?? this.address,
     );
   }
@@ -26,6 +32,8 @@ class Hotel {
     return <String, dynamic>{
       '_id': id,
       'name': name,
+      'ownerName': ownerName,
+      'contactNumber': contactNumber,
       'address': address,
     };
   }
@@ -34,6 +42,8 @@ class Hotel {
     return Hotel(
       id: map['_id'] as String,
       name: map['name'] as String,
+      ownerName: map['ownerName'] as String,
+      contactNumber: map['contactNumber'] as String,
       address: map['address'] as String,
     );
   }
@@ -44,7 +54,8 @@ class Hotel {
       Hotel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Hotel(id: $id, name: $name, address: $address)';
+  String toString() =>
+      'Hotel(id: $id, name: $name, ownerName:$ownerName ,contactNumber:$contactNumber, address: $address)';
 
   @override
   bool operator ==(covariant Hotel other) {

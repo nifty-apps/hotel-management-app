@@ -1,119 +1,82 @@
 import 'dart:convert';
 
 class DashboardInfo {
-  final Summary summary;
+  final int todayBookings;
+  final int todayBooked;
+  final int todayCheckedIn;
+  final int todayAvailableRoom;
+  final int todayCollection;
   DashboardInfo({
-    required this.summary,
+    required this.todayBookings,
+    required this.todayBooked,
+    required this.todayCheckedIn,
+    required this.todayAvailableRoom,
+    required this.todayCollection,
   });
 
   DashboardInfo copyWith({
-    Summary? summary,
+    int? todayBookings,
+    int? todayBooked,
+    int? todayCheckedIn,
+    int? todayAvailableRoom,
+    int? todayCollection,
   }) {
     return DashboardInfo(
-      summary: summary ?? this.summary,
+      todayBookings: todayBookings ?? this.todayBookings,
+      todayBooked: todayBooked ?? this.todayBooked,
+      todayCheckedIn: todayCheckedIn ?? this.todayCheckedIn,
+      todayAvailableRoom: todayAvailableRoom ?? this.todayAvailableRoom,
+      todayCollection: todayCollection ?? this.todayCollection,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'summary': summary.toMap(),
+      'todayBookings': todayBookings,
+      'todayBooked': todayBooked,
+      'todayCheckedIn': todayCheckedIn,
+      'todayAvailableRoom': todayAvailableRoom,
+      'todayCollection': todayCollection,
     };
   }
 
   factory DashboardInfo.fromMap(Map<String, dynamic> map) {
     return DashboardInfo(
-      summary: Summary.fromMap(map['summary'] as Map<String, dynamic>),
+      todayBookings: map['todayBookings'].toInt() as int,
+      todayBooked: map['todayBooked'].toInt() as int,
+      todayCheckedIn: map['todayCheckedIn'].toInt() as int,
+      todayAvailableRoom: map['todayAvailableRoom'].toInt() as int,
+      todayCollection: map['todayCollection'].toInt() as int,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory DashboardInfo.fromJson(String source) =>
-      DashboardInfo.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory DashboardInfo.fromJson(String source) => DashboardInfo.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'DashboardInfo(summary: $summary)';
+  String toString() {
+    return 'DashboardInfo(todayBookings: $todayBookings, todayBooked: $todayBooked, todayCheckedIn: $todayCheckedIn, todayAvailableRoom: $todayAvailableRoom, todayCollection: $todayCollection)';
+  }
 
   @override
   bool operator ==(covariant DashboardInfo other) {
     if (identical(this, other)) return true;
-
-    return other.summary == summary;
-  }
-
-  @override
-  int get hashCode => summary.hashCode;
-}
-
-class Summary {
-  final int totalRooms;
-  final int todayRevenue;
-  final int todayBookings;
-  final int todayCheckIn;
-  Summary({
-    required this.totalRooms,
-    required this.todayRevenue,
-    required this.todayBookings,
-    required this.todayCheckIn,
-  });
-
-  Summary copyWith({
-    int? totalRooms,
-    int? bookedRooms,
-    int? availableRooms,
-    int? todayBookings,
-  }) {
-    return Summary(
-      totalRooms: totalRooms ?? this.totalRooms,
-      todayRevenue: bookedRooms ?? this.todayRevenue,
-      todayBookings: availableRooms ?? this.todayBookings,
-      todayCheckIn: todayBookings ?? this.todayCheckIn,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'totalRooms': totalRooms,
-      'todayRevenue': todayRevenue,
-      'todayBookings': todayBookings,
-      'todayCheckIn': todayCheckIn,
-    };
-  }
-
-  factory Summary.fromMap(Map<String, dynamic> map) {
-    return Summary(
-      totalRooms: map['totalRooms'].toInt() as int,
-      todayRevenue: map['todayRevenue'].toInt() as int,
-      todayBookings: map['todayBookings'].toInt() as int,
-      todayCheckIn: map['todayCheckIn'].toInt() as int,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Summary.fromJson(String source) =>
-      Summary.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'Summary(totalRooms: $totalRooms, todayRevenue: $todayRevenue, todayBookings: $todayBookings, todayCheckIn: $todayCheckIn)';
-  }
-
-  @override
-  bool operator ==(covariant Summary other) {
-    if (identical(this, other)) return true;
-
-    return other.totalRooms == totalRooms &&
-        other.todayRevenue == todayRevenue &&
-        other.todayBookings == todayBookings &&
-        other.todayCheckIn == todayCheckIn;
+  
+    return 
+      other.todayBookings == todayBookings &&
+      other.todayBooked == todayBooked &&
+      other.todayCheckedIn == todayCheckedIn &&
+      other.todayAvailableRoom == todayAvailableRoom &&
+      other.todayCollection == todayCollection;
   }
 
   @override
   int get hashCode {
-    return totalRooms.hashCode ^
-        todayRevenue.hashCode ^
-        todayBookings.hashCode ^
-        todayCheckIn.hashCode;
+    return todayBookings.hashCode ^
+      todayBooked.hashCode ^
+      todayCheckedIn.hashCode ^
+      todayAvailableRoom.hashCode ^
+      todayCollection.hashCode;
   }
 }

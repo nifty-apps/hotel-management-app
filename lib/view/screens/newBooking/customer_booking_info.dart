@@ -1,17 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/available_room.dart';
+import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/text_form_field.dart';
 import 'package:intl/intl.dart';
 
-class CustomerBookingInfoScreen extends StatefulWidget {
+class CustomerBookingInfoScreen extends ConsumerStatefulWidget {
   final List<Room> rooms;
   final DateTime checkinDate;
   final DateTime checkoutDate;
-  final double amount;
+  final int amount;
   CustomerBookingInfoScreen({
     Key? key,
     required this.rooms,
@@ -21,17 +23,12 @@ class CustomerBookingInfoScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomerBookingInfoScreen> createState() =>
+  ConsumerState<CustomerBookingInfoScreen> createState() =>
       _CustomerBookingInfoScreenState();
 }
 
-class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController discountAmountController =
-      TextEditingController();
-  final TextEditingController advanceAmountController = TextEditingController();
-
+class _CustomerBookingInfoScreenState
+    extends ConsumerState<CustomerBookingInfoScreen> {
   bool isCheckin = false;
   @override
   Widget build(BuildContext context) {
@@ -190,7 +187,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                       children: [
                         SizedBox(height: 5),
                         CustomTextFormField(
-                          controller: nameController,
+                          controller: ref.read(bookingProvider).nameController,
                           hintText: 'Enter customer name',
                           labelText: 'Customer Name',
                           keyboardType: TextInputType.text,
@@ -198,7 +195,7 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                         ),
                         SizedBox(height: 30),
                         CustomTextFormField(
-                          controller: phoneController,
+                          controller: ref.read(bookingProvider).phoneController,
                           hintText: 'Enter phone number',
                           labelText: 'Phone Number',
                           keyboardType: TextInputType.number,
@@ -216,7 +213,9 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                   height: 70,
                                   width: 220,
                                   child: CustomTextFormField(
-                                    controller: discountAmountController,
+                                    controller: ref
+                                        .read(bookingProvider)
+                                        .discountController,
                                     hintText: 'Enter amount',
                                     labelText: 'Discount',
                                     keyboardType: TextInputType.number,
@@ -249,7 +248,8 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                         ),
                         SizedBox(height: 30),
                         CustomTextFormField(
-                          controller: advanceAmountController,
+                          controller:
+                              ref.read(bookingProvider).advanceController,
                           hintText: 'Enter amount',
                           labelText: 'Advance Amount',
                           keyboardType: TextInputType.number,
@@ -263,7 +263,6 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                                   setState(() {
                                     isCheckin = value!;
                                   });
-                                  print(isCheckin);
                                 }),
                             Text(
                               'Checkin now?',
@@ -277,19 +276,11 @@ class _CustomerBookingInfoScreenState extends State<CustomerBookingInfoScreen> {
                         SizedBox(height: 30),
                         CustomButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, Routes.confirmCheckin,
-                                arguments: [
-                                  isCheckin
-                                      ? PageType.checkin
-                                      : PageType.confirm,
-                                  widget.checkinDate,
-                                  widget.checkoutDate,
-                                  nameController.text,
-                                  phoneController.text,
-                                  int.parse(discountAmountController.text),
-                                  int.parse(advanceAmountController.text),
-                                  widget.rooms
-                                ]);
+                            Navigator.pushNamed(
+                                context, Routes.confirmCheckin, arguments: [
+                              isCheckin ? PageType.checkin : PageType.confirm,
+                              isCheckin
+                            ]);
                           },
                           buttonText: 'Next',
                           width: double.infinity,

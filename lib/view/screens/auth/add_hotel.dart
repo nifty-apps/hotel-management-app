@@ -118,10 +118,11 @@ class AddHotelScreen extends ConsumerWidget {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   Hotel? hotel = await provider.addHotel(
-                                    hotelNameController.text,
-                                    ownerNameController.text,
-                                    hotelAddressController.text,
-                                    contactNumberConteroller.text.trim(),
+                                    name: hotelNameController.text,
+                                    ownerName: ownerNameController.text,
+                                    address: hotelAddressController.text,
+                                    contactNumber:
+                                        contactNumberConteroller.text.trim(),
                                   );
                                   if (hotel?.id != null) {
                                     Navigator.pushReplacementNamed(

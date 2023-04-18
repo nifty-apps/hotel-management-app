@@ -23,9 +23,9 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider).getBookingsList(
-            fromDate!.toUtc(),
-            toDate!.toUtc(),
-            'checkIn',
+            checkinDate: fromDate!.subtract(Duration(days: 1)).toUtc(),
+            checkoutDate: toDate!.toUtc(),
+            status: 'booked',
           );
     });
   }
@@ -87,9 +87,11 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                                           onTap: () async {
                                             final date =
                                                 await selectDate(context);
-                                            setState(() {
-                                              fromDate = date;
-                                            });
+                                            if (date != null) {
+                                              setState(() {
+                                                fromDate = date;
+                                              });
+                                            }
                                           },
                                           child:
                                               DatePickerButton(date: fromDate)),
@@ -118,9 +120,11 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                                         onTap: () async {
                                           final date =
                                               await selectDate(context);
-                                          setState(() {
-                                            toDate = date;
-                                          });
+                                          if (date != null) {
+                                            setState(() {
+                                              toDate = date;
+                                            });
+                                          }
                                         },
                                         child: DatePickerButton(date: toDate),
                                       ),
@@ -241,10 +245,12 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
             top: 245,
             child: SearchButton(
               onPressed: () {
+                // Date filtering bug
                 ref.read(bookingProvider).getBookingsList(
-                      fromDate!.toUtc(),
-                      toDate!.toUtc(),
-                      'checkIn',
+                      checkinDate:
+                          fromDate!.subtract(Duration(days: 1)).toUtc(),
+                      checkoutDate: toDate!.toUtc(),
+                      status: 'booked',
                     );
               },
             ),
