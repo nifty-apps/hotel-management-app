@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/util/app_constants.dart';
+import 'package:intl/intl.dart';
 
 class RevenueScreen extends ConsumerStatefulWidget {
   const RevenueScreen({super.key});
@@ -31,7 +32,7 @@ class _RevenueScreenState extends ConsumerState<RevenueScreen> {
         child: Column(
           children: [
             Container(
-              height: 60,
+              height: 40,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.red,
@@ -204,7 +205,7 @@ class _RevenueScreenState extends ConsumerState<RevenueScreen> {
                                     ),
                                   ),
                                   Text(
-                                    'Amount',
+                                    'Total: ${ref.watch(transactionProvider).hotelRevenue!.totalAmount.toString()} TK',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -229,11 +230,15 @@ class _RevenueScreenState extends ConsumerState<RevenueScreen> {
                                           thickness: 3,
                                         ),
                                         ListTile(
-                                          title: Text(ref
-                                              .read(transactionProvider)
-                                              .hotelRevenue!
-                                              .transactions[index]
-                                              .id,style: TextStyle(),),
+                                          title: Text(
+                                            DateFormat('yyyy-MM-dd').format(ref
+                                                .read(transactionProvider)
+                                                .hotelRevenue!
+                                                .transactions[index]
+                                                .createdAt
+                                                .toLocal()),
+                                            style: TextStyle(),
+                                          ),
                                           subtitle: Text(ref
                                               .read(transactionProvider)
                                               .hotelRevenue!
