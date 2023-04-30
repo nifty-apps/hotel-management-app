@@ -35,94 +35,90 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
       ),
       body: Column(
         children: [
-          Flexible(
-            flex: 1,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'From Date',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'From Date',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
                               ),
-                              SizedBox(height: 5),
-                              InkWell(
-                                  onTap: () async {
-                                    final date = await selectDate(context);
-                                    if (date != null) {
-                                      setState(() {
-                                        fromDate = date;
-                                      });
-                                    }
-                                  },
-                                  child: DatePickerButton(date: fromDate)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 14),
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'To Date',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              InkWell(
+                            ),
+                            SizedBox(height: 5),
+                            InkWell(
                                 onTap: () async {
                                   final date = await selectDate(context);
                                   if (date != null) {
                                     setState(() {
-                                      toDate = date;
+                                      fromDate = date;
                                     });
                                   }
                                 },
-                                child: DatePickerButton(date: toDate),
-                              ),
-                            ],
-                          ),
+                                child: DatePickerButton(date: fromDate)),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SearchButton(
-                    onPressed: () {
-                      ref.read(transactionProvider).getTransactionHistory(
-                            fromDate:
-                                fromDate!.subtract(Duration(days: 1)).toUtc(),
-                            toDate: toDate!.toUtc(),
-                          );
-                    },
-                  ),
-                ],
-              ),
+                    ),
+                    SizedBox(width: 14),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'To Date',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            InkWell(
+                              onTap: () async {
+                                final date = await selectDate(context);
+                                if (date != null) {
+                                  setState(() {
+                                    toDate = date;
+                                  });
+                                }
+                              },
+                              child: DatePickerButton(date: toDate),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                SearchButton(
+                  onPressed: () {
+                    ref.read(transactionProvider).getTransactionHistory(
+                          fromDate:
+                              fromDate!.subtract(Duration(days: 1)).toUtc(),
+                          toDate: toDate!.toUtc(),
+                        );
+                  },
+                ),
+              ],
             ),
           ),
           ref.watch(transactionProvider).isLoading

@@ -52,7 +52,7 @@ class User {
       id: map['_id'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
-      phone: map['phone'],
+      phone: map['phone'] != null ? map['phone'] as String : '',
       role: map['role'] as String,
       hotel: map['hotel'] != null
           ? Hotel.fromMap(map['hotel'] as Map<String, dynamic>)

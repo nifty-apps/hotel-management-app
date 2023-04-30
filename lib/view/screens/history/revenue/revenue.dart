@@ -233,7 +233,7 @@ class _RevenueScreenState extends ConsumerState<RevenueScreen> {
                                               .read(transactionProvider)
                                               .hotelRevenue!
                                               .transactions[index]
-                                              .id),
+                                              .id,style: TextStyle(),),
                                           subtitle: Text(ref
                                               .read(transactionProvider)
                                               .hotelRevenue!

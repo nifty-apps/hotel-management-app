@@ -12,7 +12,7 @@ class DatePickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 50,
       decoration: BoxDecoration(
         border: Border.all(
           color: Theme.of(context).primaryColor,

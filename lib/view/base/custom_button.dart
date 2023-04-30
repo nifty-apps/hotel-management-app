@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
     required this.buttonText,
     this.transparent = false,
     this.width = 200,
-    this.height = 48,
+    this.height = 42,
     this.radius = 12,
   });
 

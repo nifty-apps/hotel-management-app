@@ -26,7 +26,6 @@ class SignUpScreen extends ConsumerWidget {
             children: [
               SizedBox(height: 100),
               Container(
-                height: 200,
                 child: Column(
                   children: [
                     Text(
@@ -34,18 +33,19 @@ class SignUpScreen extends ConsumerWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
-                        fontSize: 40,
+                        fontSize: 25,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     SizedBox(height: 14),
                     Text(
                       'Sign Up To Our Powerful Admin App Now',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: 20),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),

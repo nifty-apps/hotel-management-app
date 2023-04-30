@@ -47,11 +47,9 @@ class TransactionProvider extends ChangeNotifier {
           ? AppConstants.transaction + '/?bookingId=$bookingId'
           : AppConstants.transaction);
       if (response.statusCode == 200) {
-        print(response.data);
         _transaction = response.data['data'].map<Transaction>((transaction) {
           return Transaction.fromMap(transaction);
         }).toList();
-        print(_transaction);
         return _transaction;
       }
     } catch (error) {
@@ -72,7 +70,6 @@ class TransactionProvider extends ChangeNotifier {
         _transaction = response.data['data'].map<Transaction>((transaction) {
           return Transaction.fromMap(transaction);
         }).toList();
-        print(_transaction);
         _isLoading = false;
         notifyListeners();
         return _transaction;
@@ -84,8 +81,6 @@ class TransactionProvider extends ChangeNotifier {
   }
 
   Future<bool> getRevenue({required String timeRange}) async {
-    print(timeRange);
-
     _isLoading = true;
     notifyListeners();
     final response = await ref.read(apiClientProvider).get(

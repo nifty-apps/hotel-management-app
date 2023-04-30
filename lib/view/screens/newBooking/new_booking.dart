@@ -66,7 +66,7 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'From Date',
+                                'Check In',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
@@ -96,7 +96,7 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'To Date',
+                                'Check Out',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
@@ -169,7 +169,7 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
                               ),
                               SizedBox(height: 10),
                               Container(
-                                height: 250,
+                                height: 200,
                                 child: GridView.builder(
                                   scrollDirection: Axis.horizontal,
                                   gridDelegate:

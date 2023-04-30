@@ -23,9 +23,8 @@ class LoginScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 100),
+              SizedBox(height: 30),
               Container(
-                height: 200,
                 child: Column(
                   children: [
                     Text(
@@ -37,14 +36,10 @@ class LoginScreen extends ConsumerWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 14),
-                    Text(
-                      'Login To Our Admin App Now',
-                      style: TextStyle(fontSize: 16),
-                    ),
                   ],
                 ),
               ),
+              SizedBox(height: 30),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),

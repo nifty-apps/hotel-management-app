@@ -180,7 +180,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                         Row(
                           children: [
                             Icon(Icons.calendar_month),
-                            SizedBox(width: 10),
+                            SizedBox(width: 5),
                             Text(
                               '${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                               style: TextStyle(
@@ -188,7 +188,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             IconButton(
                               onPressed: () {
                                 Navigator.pushNamed(

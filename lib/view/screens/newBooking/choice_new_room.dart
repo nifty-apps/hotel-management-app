@@ -33,7 +33,7 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(16),
@@ -135,7 +135,7 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Container(
               height: MediaQuery.of(context).size.height / 2,
               width: double.infinity,
@@ -268,7 +268,7 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            // SizedBox(height: 20),
             CustomButton(
               onPressed: () {
                 Navigator.pushNamed(context, Routes.customerBookingInfo,

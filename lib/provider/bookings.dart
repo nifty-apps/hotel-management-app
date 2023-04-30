@@ -119,7 +119,6 @@ class BookingProvider extends ChangeNotifier {
         .get('${AppConstants.getBookingDetails}/$id');
     if (response.statusCode == 200) {
       _bookingDetails = BookingDetails.fromMap(response.data['data']);
-      print(_bookingDetails);
       _isLoading = false;
       notifyListeners();
       return true;

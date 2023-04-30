@@ -29,7 +29,6 @@ class PaymentScreen extends ConsumerWidget {
         children: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            height: MediaQuery.of(context).size.height / 3.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -74,7 +73,7 @@ class PaymentScreen extends ConsumerWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  'Total Amount',
+                                  'Total ',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -142,7 +141,7 @@ class PaymentScreen extends ConsumerWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  'Due Amount',
+                                  'Due ',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -243,7 +242,7 @@ class PaymentScreen extends ConsumerWidget {
                       labelText: 'Advance Amount',
                       keyboardType: TextInputType.number,
                     ),
-                    SizedBox(height: 200),
+                    SizedBox(height: 50),
                     CustomButton(
                       onPressed: () async {
                         if (discountController.text.isNotEmpty) {
