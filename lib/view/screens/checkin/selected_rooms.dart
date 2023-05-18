@@ -188,7 +188,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(width: 10),
+                            SizedBox(width: 5),
                             IconButton(
                               onPressed: () {
                                 Navigator.pushNamed(

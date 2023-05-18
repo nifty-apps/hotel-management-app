@@ -182,8 +182,11 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Discount'),
-                      Text(
-                          'TK. ${ref.read(bookingProvider).discountController.text.toString()}'),
+                      widget.bookingStatus == PageType.confirm
+                          ? Text(
+                              'TK. ${ref.read(bookingProvider).discountController.text.toString()}')
+                          : Text(
+                              'TK. ${ref.read(bookingProvider).bookingDetails.discount}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -317,20 +320,23 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     for (var i = 0; i < ref.read(transactionProvider).transaction.length; i++) {
       advancAmount += ref.read(transactionProvider).transaction[i].amount;
     }
+    print(advancAmount);
     return advancAmount;
   }
 
   int payableAmount = 0;
 
   payable() {
-    if (widget.bookingStatus == PageType.confirm ||
-        widget.bookingStatus == PageType.checkin) {
+    if (widget.bookingStatus == PageType.confirm) {
       int amount =
           int.parse(ref.read(bookingProvider).discountController.text) +
               int.parse(ref.read(bookingProvider).advanceController.text);
+      print(amount);
       payableAmount = total - amount;
     } else {
-      print(advancAmount);
+      int amount =
+          ref.read(bookingProvider).bookingDetails.discount + advancAmount;
+      payableAmount = total - amount;
       // int amount =
       //     int.parse(ref.read(bookingProvider).discountController.text) +
       //         advancAmount;

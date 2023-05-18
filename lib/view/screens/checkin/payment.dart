@@ -193,48 +193,48 @@ class PaymentScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 5),
-                    Container(
-                      height: 65,
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 2,
-                            child: Container(
-                              height: 70,
-                              width: 220,
-                              child: CustomTextFormField(
-                                controller: discountController,
-                                hintText: 'Enter amount',
-                                labelText: 'Discount',
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFA5A9BB),
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Discount Amount',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   height: 65,
+                    //   width: double.infinity,
+                    //   child: Row(
+                    //     children: [
+                    //       Flexible(
+                    //         flex: 2,
+                    //         child: Container(
+                    //           height: 70,
+                    //           width: 220,
+                    //           child: CustomTextFormField(
+                    //             controller: discountController,
+                    //             hintText: 'Enter amount',
+                    //             labelText: 'Discount',
+                    //             keyboardType: TextInputType.number,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Flexible(
+                    //         flex: 2,
+                    //         child: Container(
+                    //           padding: EdgeInsets.symmetric(horizontal: 10),
+                    //           decoration: BoxDecoration(
+                    //             color: Color(0xFFA5A9BB),
+                    //             borderRadius: BorderRadius.only(
+                    //               topRight: Radius.circular(5),
+                    //               bottomRight: Radius.circular(5),
+                    //             ),
+                    //           ),
+                    //           child: Center(
+                    //             child: Text(
+                    //               'Discount Amount',
+                    //               style: TextStyle(
+                    //                   fontSize: 14,
+                    //                   fontWeight: FontWeight.w700),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: 40),
                     CustomTextFormField(
                       controller: advanceAmountController,
@@ -245,10 +245,10 @@ class PaymentScreen extends ConsumerWidget {
                     SizedBox(height: 50),
                     CustomButton(
                       onPressed: () async {
-                        if (discountController.text.isNotEmpty) {
-                          ref.read(bookingProvider).discountController.text =
-                              discountController.text;
-                        }
+                        // if (discountController.text.isNotEmpty) {
+                        //   ref.read(bookingProvider).discountController.text =
+                        //       discountController.text;
+                        // }
                         if (advanceAmountController.text.isNotEmpty) {
                           await ref.read(transactionProvider).addTransaction(
                                 context,
@@ -261,6 +261,9 @@ class PaymentScreen extends ConsumerWidget {
                           await ref
                               .read(transactionProvider)
                               .getTransactionList(bookingDetails.id, true);
+                          await ref
+                              .read(bookingProvider)
+                              .getBookingDetails(bookingDetails.id);
                         }
                         Navigator.pushNamed(
                           context,
