@@ -31,7 +31,7 @@ class HomeScreen extends ConsumerWidget {
                   return Flexible(
                     flex: 4,
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 24),
+                      margin: EdgeInsets.symmetric(vertical: 20),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.primaryContainer,
                         borderRadius: BorderRadius.circular(16),
@@ -42,8 +42,7 @@ class HomeScreen extends ConsumerWidget {
                             flex: 1,
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
+                                  horizontal: 10, vertical: 10),
                               child: Row(
                                 children: [
                                   Flexible(
@@ -71,17 +70,17 @@ class HomeScreen extends ConsumerWidget {
                                                 dashboardInfo.todayBookings
                                                     .toString(),
                                                 style: TextStyle(
-                                                  fontSize: 24,
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               )
                                             ],
                                           ),
-                                          SizedBox(height: 10),
+                                          SizedBox(height: 2),
                                           Text(
                                             'Today Bookings',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -121,17 +120,17 @@ class HomeScreen extends ConsumerWidget {
                                                 dashboardInfo.todayBooked
                                                     .toString(),
                                                 style: TextStyle(
-                                                  fontSize: 24,
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               )
                                             ],
                                           ),
-                                          SizedBox(height: 10),
+                                          SizedBox(height: 2),
                                           Text(
                                             'Today Booked',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -152,8 +151,7 @@ class HomeScreen extends ConsumerWidget {
                             flex: 1,
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
+                                  horizontal: 10, vertical: 10),
                               child: Row(
                                 children: [
                                   Flexible(
@@ -180,17 +178,17 @@ class HomeScreen extends ConsumerWidget {
                                                 dashboardInfo.todayCheckedIn
                                                     .toString(),
                                                 style: TextStyle(
-                                                  fontSize: 24,
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               )
                                             ],
                                           ),
-                                          SizedBox(height: 10),
+                                          SizedBox(height: 2),
                                           Text(
                                             'Today Checked In',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -229,17 +227,17 @@ class HomeScreen extends ConsumerWidget {
                                                 dashboardInfo.todayAvailableRoom
                                                     .toString(),
                                                 style: TextStyle(
-                                                  fontSize: 24,
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               )
                                             ],
                                           ),
-                                          SizedBox(height: 10),
+                                          SizedBox(height: 2),
                                           Text(
                                             'Available Rooms',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -259,7 +257,6 @@ class HomeScreen extends ConsumerWidget {
                           Expanded(
                             flex: 1,
                             child: Container(
-                              padding: EdgeInsets.only(top: 10),
                               child: ListTile(
                                 title: Text(
                                   'Today Collections',

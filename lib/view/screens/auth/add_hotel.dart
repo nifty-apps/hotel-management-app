@@ -25,15 +25,7 @@ class AddHotelScreen extends ConsumerWidget {
             color: Theme.of(context).colorScheme.background,
             child: Column(
               children: [
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  child: Image.asset(
-                    'assets/images/hotel.png',
-                    height: 180,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                SizedBox(height: 20),
                 Text(
                   'Add Your Hotel & Manage Easily',
                   style: TextStyle(
@@ -41,7 +33,7 @@ class AddHotelScreen extends ConsumerWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 20),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 28),

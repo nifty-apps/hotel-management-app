@@ -41,12 +41,12 @@ class CheckoutDueScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height / 3.5,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           color: Theme.of(context).colorScheme.primaryContainer,
                         ),
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
                               leading: Icon(
@@ -94,7 +94,7 @@ class CheckoutDueScreen extends ConsumerWidget {
                                         child: Column(
                                           children: [
                                             Text(
-                                              'Total Amount',
+                                              'Total',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -182,7 +182,7 @@ class CheckoutDueScreen extends ConsumerWidget {
                                         child: Column(
                                           children: [
                                             Text(
-                                              'Due Amount',
+                                              'Due',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -213,7 +213,7 @@ class CheckoutDueScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 5),
                             Divider(
                               color: Theme.of(context).colorScheme.background,
                               thickness: 3,

@@ -14,12 +14,12 @@ class CheckinOut extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          height: MediaQuery.of(context).size.height / 3.5,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Theme.of(context).colorScheme.primaryContainer,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height / 5,

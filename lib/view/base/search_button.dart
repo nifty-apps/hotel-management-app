@@ -12,7 +12,7 @@ class SearchButton extends StatelessWidget {
     return TextButton.icon(
       style: TextButton.styleFrom(
         // minimumSize: Size(60, 50),
-        fixedSize: Size(200, 50),
+        fixedSize: Size(200, 40),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(

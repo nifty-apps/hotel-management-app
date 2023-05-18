@@ -64,11 +64,13 @@ class RevenueHistory {
   final int amount;
   final String paymentMethod;
   final String booking;
+  final DateTime createdAt;
   RevenueHistory({
     required this.id,
     required this.amount,
     required this.paymentMethod,
     required this.booking,
+    required this.createdAt,
   });
 
   RevenueHistory copyWith({
@@ -76,12 +78,14 @@ class RevenueHistory {
     int? amount,
     String? paymentMethod,
     String? booking,
+    DateTime? createdAt,
   }) {
     return RevenueHistory(
       id: id ?? this.id,
       amount: amount ?? this.amount,
       paymentMethod: paymentMethod ?? this.paymentMethod,
       booking: booking ?? this.booking,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -91,6 +95,7 @@ class RevenueHistory {
       'amount': amount,
       'paymentMethod': paymentMethod,
       'booking': booking,
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 
@@ -100,6 +105,7 @@ class RevenueHistory {
       amount: map['amount'].toInt() as int,
       paymentMethod: map['paymentMethod'] as String,
       booking: map['booking'] as String,
+      createdAt: DateTime.parse(map['createdAt']),
     );
   }
 

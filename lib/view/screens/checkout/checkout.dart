@@ -5,6 +5,7 @@ import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/date_picker_button.dart';
 import 'package:hotel_management/view/base/search_button.dart';
 import 'package:shimmer/shimmer.dart';
@@ -37,260 +38,237 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       appBar: AppBar(
         title: Text('Checkout'),
       ),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: Column(
-              children: [
-                Flexible(
-                  flex: 2,
-                  child: Container(
-                    child: Column(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    child: Row(
                       children: [
-                        SizedBox(height: 20),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
-                          ),
-                          height: MediaQuery.of(context).size.height / 5,
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'From Date',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      InkWell(
-                                          onTap: () async {
-                                            final date =
-                                                await selectDate(context);
-                                            if (date != null) {
-                                              setState(() {
-                                                fromDate = date;
-                                              });
-                                            }
-                                          },
-                                          child:
-                                              DatePickerButton(date: fromDate)),
-                                    ],
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Checkin',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 14),
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'To Date',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      InkWell(
-                                        onTap: () async {
-                                          final date =
-                                              await selectDate(context);
-                                          if (date != null) {
-                                            setState(() {
-                                              toDate = date;
-                                            });
-                                          }
-                                        },
-                                        child: DatePickerButton(date: toDate),
-                                      ),
-                                    ],
+                                SizedBox(height: 5),
+                                InkWell(
+                                  onTap: () async {
+                                    final date = await selectDate(context);
+                                    if (date != null) {
+                                      setState(() {
+                                        fromDate = date;
+                                      });
+                                    }
+                                  },
+                                  child: DatePickerButton(date: fromDate),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 14),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Checkout',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 5),
+                                InkWell(
+                                  onTap: () async {
+                                    final date = await selectDate(context);
+                                    if (date != null) {
+                                      setState(() {
+                                        toDate = date;
+                                      });
+                                    }
+                                  },
+                                  child: DatePickerButton(date: toDate),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                ref.watch(bookingProvider).isLoading
-                    ? shimmerWidget(context)
-                    : Flexible(
-                        flex: 3,
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16),
-                            ),
-                          ),
-                          child: ref
-                                      .watch(bookingProvider)
-                                      .bookingList
-                                      .length ==
-                                  0
-                              ? Center(
-                                  child: Text(
-                                    'No checkout found!',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                )
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ref
-                                                .watch(bookingProvider)
-                                                .bookingList
-                                                .length ==
-                                            0
-                                        ? SizedBox()
-                                        : Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
-                                            child: Text(
-                                              'Checkin List',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
+                  SizedBox(height: 10),
+                  SearchButton(
+                    onPressed: () {
+                      ref.read(bookingProvider).getBookingsList(
+                            checkinDate: fromDate!.subtract(Duration(days: 1)),
+                            checkoutDate: toDate!.toUtc(),
+                            status: 'checkedIn',
+                          );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            ref.watch(bookingProvider).isLoading
+                ? shimmerWidget(context)
+                : Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                      ),
+                      child: ref.watch(bookingProvider).bookingList.length == 0
+                          ? Center(
+                              child: Text(
+                                'No checkout found!',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ref.watch(bookingProvider).bookingList.length ==
+                                        0
+                                    ? SizedBox()
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 10),
+                                        child: Text(
+                                          'Checkout List',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
                                           ),
-                                    Flexible(
-                                      child: ListView.builder(
-                                        itemCount: ref
-                                            .watch(bookingProvider)
-                                            .bookingList
-                                            .length,
-                                        itemBuilder: (context, index) => Column(
-                                          children: [
-                                            Divider(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .background,
-                                              thickness: 3,
-                                            ),
-                                            ListTile(
-                                              onTap: () {
-                                                ref
-                                                    .read(bookingProvider)
-                                                    .getBookingDetails(
-                                                      ref
-                                                          .watch(
-                                                              bookingProvider)
-                                                          .bookingList[index]
-                                                          .id,
-                                                    );
-                                                ref
-                                                    .read(transactionProvider)
-                                                    .getTransactionList(
-                                                      ref
-                                                          .watch(
-                                                              bookingProvider)
-                                                          .bookingList[index]
-                                                          .id,
-                                                      true,
-                                                    );
-                                                final double data =
-                                                    getTotalAdvanceAmount(
-                                                  ref
-                                                      .read(transactionProvider)
-                                                      .transaction,
-                                                );
-                                                final int remainingAmount = ref
-                                                        .read(bookingProvider)
-                                                        .bookingDetails
-                                                        .total -
-                                                    ref
-                                                        .read(bookingProvider)
-                                                        .bookingDetails
-                                                        .discount;
-                                                ref
-                                                            .watch(
-                                                                bookingProvider)
-                                                            .bookingList[index]
-                                                            .paymentStatus ==
-                                                        'unpaid'
-                                                    ? Navigator.pushNamed(
-                                                        context,
-                                                        Routes.checkoutDue,
-                                                        arguments: data.toInt(),
-                                                      )
-                                                    : Navigator.pushNamed(
-                                                        context,
-                                                        Routes.confirmCheckin);
-                                              },
-                                              leading: Icon(Icons.person),
-                                              trailing: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                              title: Text(ref
-                                                  .read(bookingProvider)
-                                                  .bookingList[index]
-                                                  .customer
-                                                  .name),
-                                              subtitle: Text(ref
-                                                  .read(bookingProvider)
-                                                  .bookingList[index]
-                                                  .customer
-                                                  .phone),
-                                            ),
-                                          ],
                                         ),
                                       ),
+                                Flexible(
+                                  child: ListView.builder(
+                                    itemCount: ref
+                                        .watch(bookingProvider)
+                                        .bookingList
+                                        .length,
+                                    itemBuilder: (context, index) => Column(
+                                      children: [
+                                        Divider(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          thickness: 3,
+                                        ),
+                                        ListTile(
+                                          onTap: () {
+                                            ref
+                                                .read(bookingProvider)
+                                                .getBookingDetails(
+                                                  ref
+                                                      .watch(bookingProvider)
+                                                      .bookingList[index]
+                                                      .id,
+                                                );
+                                            ref
+                                                .read(transactionProvider)
+                                                .getTransactionList(
+                                                  ref
+                                                      .watch(bookingProvider)
+                                                      .bookingList[index]
+                                                      .id,
+                                                  true,
+                                                );
+                                            final double data =
+                                                getTotalAdvanceAmount(
+                                              ref
+                                                  .read(transactionProvider)
+                                                  .transaction,
+                                            );
+                                            final int remainingAmount = ref
+                                                    .read(bookingProvider)
+                                                    .bookingDetails
+                                                    .total -
+                                                ref
+                                                    .read(bookingProvider)
+                                                    .bookingDetails
+                                                    .discount;
+                                            ref
+                                                        .watch(bookingProvider)
+                                                        .bookingList[index]
+                                                        .paymentStatus ==
+                                                    'unpaid'
+                                                ? Navigator.pushNamed(
+                                                    context,
+                                                    Routes.checkoutDue,
+                                                    arguments: data.toInt(),
+                                                  )
+                                                : Navigator.pushNamed(
+                                                    context,
+                                                    Routes.confirmCheckin,
+                                                    arguments: [
+                                                      PageType.checkout,
+                                                      false
+                                                    ],
+                                                  );
+                                          },
+                                          leading: Icon(Icons.person),
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          title: Text(ref
+                                              .read(bookingProvider)
+                                              .bookingList[index]
+                                              .customer
+                                              .name),
+                                          subtitle: Text(ref
+                                              .read(bookingProvider)
+                                              .bookingList[index]
+                                              .customer
+                                              .phone),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                        ),
-                      )
-              ],
-            ),
-          ),
-          Positioned(
-            top: 245,
-            child: SearchButton(
-              onPressed: () {
-                ref.read(bookingProvider).getBookingsList(
-                      checkinDate: fromDate!.subtract(Duration(days: 1)),
-                      checkoutDate: toDate!.toUtc(),
-                      status: 'checkedIn',
-                    );
-              },
-            ),
-          )
-        ],
+                              ],
+                            ),
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }

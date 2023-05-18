@@ -28,9 +28,12 @@ class AuthProvider extends ChangeNotifier {
         'role': 'Owner',
       });
       if (response.statusCode == 201) {
+        print(response.data);
         String token = response.data['data']['token'];
+        userData = User.fromMap(response.data['data']['newUser']);
         ref.read(apiClientProvider).updateToken(token);
         ref.read(localStorageProvider).saveToken(token);
+        ref.read(localStorageProvider).saveUser(userData!);
         return true;
       } else {
         String message = response.data['message'];
@@ -86,9 +89,12 @@ class AuthProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         final hotel = Hotel.fromMap(response.data['data']);
+        print(hotel);
         final updatedUser = userData!.copyWith(
           hotel: hotel,
         );
+        userData = updatedUser;
+        print(updatedUser);
         ref.read(localStorageProvider).saveUser(updatedUser);
         return hotel;
       }
