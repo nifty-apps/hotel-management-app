@@ -182,11 +182,14 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Discount'),
-                      widget.bookingStatus == PageType.confirm
-                          ? Text(
-                              'TK. ${ref.read(bookingProvider).discountController.text.toString()}')
-                          : Text(
-                              'TK. ${ref.read(bookingProvider).bookingDetails.discount}'),
+                      ref.read(bookingProvider).discountController.text.isEmpty
+                          ? Text('TK. 0')
+                          : widget.bookingStatus == PageType.confirm ||
+                                  widget.checkinNow
+                              ? Text(
+                                  'TK. ${ref.read(bookingProvider).discountController.text.toString()}')
+                              : Text(
+                                  'TK. ${ref.read(bookingProvider).bookingDetails.discount}'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -234,8 +237,14 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                   checkIn: ref.read(bookingProvider).checkIn!.toUtc(),
                   checkOut: ref.read(bookingProvider).checkOut!.toUtc(),
                   total: total,
-                  discount: int.parse(
-                      ref.read(bookingProvider).discountController.text),
+                  discount: ref
+                          .read(bookingProvider)
+                          .discountController
+                          .text
+                          .isNotEmpty
+                      ? int.parse(
+                          ref.read(bookingProvider).discountController.text)
+                      : 0,
                   status: widget.bookingStatus == PageType.confirm
                       ? 'booked'
                       : widget.bookingStatus == PageType.checkin
@@ -273,7 +282,12 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                 showDialog(
                   context: context,
                   builder: (context) => CustomDialog(
-                    onTap: () => Navigator.pushNamed(context, Routes.dashboard),
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.dashboard);
+                      if (widget.bookingStatus == PageType.confirm) {
+                        clearData();
+                      }
+                    },
                     title: widget.bookingStatus == PageType.confirm
                         ? 'Successfully booked!'
                         : widget.bookingStatus == PageType.checkin
@@ -327,13 +341,30 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   int payableAmount = 0;
 
   payable() {
-    if (widget.bookingStatus == PageType.confirm) {
+    print(widget.checkinNow);
+    print('There is a problem man');
+    if (widget.bookingStatus == PageType.confirm || widget.checkinNow == true) {
+      print('First part is calling');
       int amount =
           int.parse(ref.read(bookingProvider).discountController.text) +
               int.parse(ref.read(bookingProvider).advanceController.text);
-      print(amount);
       payableAmount = total - amount;
-    } else {
+    }
+    // else if (widget.bookingStatus == PageType.confirm) {
+    //   payableAmount =
+    //       total - int.parse(ref.read(bookingProvider).advanceController.text);
+    // } else if (widget.checkinNow == true &&
+    //     ref.read(bookingProvider).discountController.text.isNotEmpty) {
+    //   int amount =
+    //       int.parse(ref.read(bookingProvider).discountController.text) +
+    //           int.parse(ref.read(bookingProvider).advanceController.text);
+    //   payableAmount = total - amount;
+    // } else if (widget.checkinNow == true) {
+    //   payableAmount =
+    //       total - int.parse(ref.read(bookingProvider).advanceController.text);
+    // }
+    else {
+      print('First part is calling');
       int amount =
           ref.read(bookingProvider).bookingDetails.discount + advancAmount;
       payableAmount = total - amount;
@@ -344,5 +375,15 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     }
 
     return payableAmount;
+  }
+
+  void clearData() {
+    ref.read(bookingProvider).nameController.clear();
+    ref.read(bookingProvider).phoneController.clear();
+    ref.read(bookingProvider).advanceController.clear();
+    ref.read(bookingProvider).discountController.clear();
+    ref.read(bookingProvider).checkIn = null;
+    ref.read(bookingProvider).checkOut = null;
+    ref.read(bookingProvider).allRoom.clear();
   }
 }

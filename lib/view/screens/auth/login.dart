@@ -105,8 +105,10 @@ class LoginScreen extends ConsumerWidget {
                                 );
                                 if (isSuccess) {
                                   provider.userData!.hotel != null
-                                      ? Navigator.pushNamed(
-                                          context, Routes.dashboard)
+                                      ? Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          Routes.dashboard,
+                                          (route) => false)
                                       : Navigator.pushNamed(
                                           context, Routes.addHotel);
                                 }
