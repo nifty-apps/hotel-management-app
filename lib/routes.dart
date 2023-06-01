@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:hotel_management/models/available_room.dart' as rooms;
 import 'package:hotel_management/models/employee.dart';
@@ -28,6 +29,7 @@ import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/add_room_type.dart';
 import 'package:hotel_management/view/screens/room/room.dart';
 import 'package:hotel_management/view/screens/room/room_type.dart';
+import 'package:hotel_management/view/screens/room/rooms_view.dart';
 
 import 'models/room.dart';
 import 'view/screens/account/hotel/profile.dart';
@@ -56,6 +58,7 @@ class Routes {
   static const String roomTypeList = '/roomTypeList';
   static const String addRoomType = '/addRoomType';
   static const String roomList = '/roomList';
+  static const String roomsView = '/roomsView';
   static const String customerList = '/customerList';
   static const String revenue = '/revenue';
   static const String transaction = '/transaction';
@@ -181,6 +184,8 @@ class Routes {
               // isUpdate: settings.arguments as bool,
               ),
         );
+      case roomsView:
+      return MaterialPageRoute(builder: (context) => RoomsViewScreen());
       case addRoom:
         // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(

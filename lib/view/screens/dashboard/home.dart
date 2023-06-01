@@ -16,6 +16,14 @@ class HomeScreen extends ConsumerWidget {
         automaticallyImplyLeading: false,
         leading: Icon(Icons.hotel),
         title: Text('Home'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/roomsView',);
+            },
+            icon: Icon(Icons.view_agenda),
+          ),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
