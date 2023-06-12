@@ -20,10 +20,8 @@ class LoginScreen extends ConsumerWidget {
         builder: (contex, ref, _) {
           final provider = ref.watch(authProvider);
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 30),
+              SizedBox(height: 40),
               Container(
                 child: Column(
                   children: [
@@ -128,8 +126,8 @@ class LoginScreen extends ConsumerWidget {
                               ),
                               SizedBox(width: 5),
                               InkWell(
-                                onTap: () =>
-                                    Navigator.pushNamed(context, Routes.signUp),
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.chooseLanguage,arguments: false),
                                 child: Text(
                                   'CREATE ACCOUNT',
                                   style: TextStyle(

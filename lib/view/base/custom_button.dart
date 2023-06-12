@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
       minimumSize: Size(width, height),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(radius),
       ),
     );
 

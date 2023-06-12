@@ -214,14 +214,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                                   .read(transactionProvider)
                                                   .transaction,
                                             );
-                                            final int remainingAmount = ref
-                                                    .read(bookingProvider)
-                                                    .bookingDetails
-                                                    .total -
-                                                ref
-                                                    .read(bookingProvider)
-                                                    .bookingDetails
-                                                    .discount;
                                             ref
                                                         .watch(bookingProvider)
                                                         .bookingList[index]

@@ -171,6 +171,17 @@ class SettingsScreen extends ConsumerWidget {
                 children: [
                   TextButton.icon(
                     onPressed: () async {
+                      Navigator.pushNamed(context, Routes.chooseLanguage,arguments: true);
+                    },
+                    icon: Icon(Icons.language),
+                    label: Text('Language'),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  TextButton.icon(
+                    onPressed: () async {
                       bool isSuccess = await ref.read(authProvider).logout();
                       ref.read(authProvider).userData = null;
                       if (isSuccess) {

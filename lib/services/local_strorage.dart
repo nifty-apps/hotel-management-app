@@ -16,6 +16,17 @@ class LocalStorage {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('token', token);
   }
+  
+  Future<void> saveLanguageStatus(bool status) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setBool('languageStatus', status);
+  }
+ 
+ Future<bool> getLanguageStatus() async {
+    final preferences = await SharedPreferences.getInstance();
+    final boolValue = preferences.getBool('languageStatus');
+    return boolValue ?? false;
+  }
 
   Future<void> removeTokenAndUser() async {
     final pref = await SharedPreferences.getInstance();

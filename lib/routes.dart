@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hotel_management/models/available_room.dart' as rooms;
 import 'package:hotel_management/models/employee.dart';
@@ -21,7 +20,6 @@ import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 import 'package:hotel_management/view/screens/history/customer/customer_list.dart';
 import 'package:hotel_management/view/screens/history/revenue/revenue.dart';
 import 'package:hotel_management/view/screens/history/transaction/transaction.dart';
-import 'package:hotel_management/view/screens/intro/intro.dart';
 import 'package:hotel_management/view/screens/newBooking/choice_new_room.dart';
 import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
@@ -30,6 +28,7 @@ import 'package:hotel_management/view/screens/room/add_room_type.dart';
 import 'package:hotel_management/view/screens/room/room.dart';
 import 'package:hotel_management/view/screens/room/room_type.dart';
 import 'package:hotel_management/view/screens/room/rooms_view.dart';
+import 'package:hotel_management/view/screens/selectLanguage/select_language.dart';
 
 import 'models/room.dart';
 import 'view/screens/account/hotel/profile.dart';
@@ -37,7 +36,7 @@ import 'view/screens/update/update_bookings.dart';
 
 class Routes {
   static const String splash = '/';
-  static const String intro = '/intro';
+  static const String chooseLanguage = '/chooseLanguage';
   static const String login = '/login';
   static const String signUp = '/signUp';
   static const String addHotel = '/addHotel';
@@ -73,9 +72,11 @@ class Routes {
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case intro:
+      case chooseLanguage:
         return MaterialPageRoute(
-          builder: (context) => IntroScreen(),
+          builder: (context) => SelectLanguageScreen(
+            isFromSettings: settings.arguments as bool,
+          ),
         );
       case login:
         return MaterialPageRoute(
@@ -185,7 +186,7 @@ class Routes {
               ),
         );
       case roomsView:
-      return MaterialPageRoute(builder: (context) => RoomsViewScreen());
+        return MaterialPageRoute(builder: (context) => RoomsViewScreen());
       case addRoom:
         // List<dynamic>? args = settings.arguments as List?;
         return MaterialPageRoute(
