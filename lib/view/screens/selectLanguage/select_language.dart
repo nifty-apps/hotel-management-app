@@ -26,7 +26,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
               title: Text('Select Language'),
               centerTitle: true,
             )
-          : AppBar() ,
+          : AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,13 +77,13 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                       'English',
                       style: TextStyle(fontSize: 14),
                     ),
-                    value: 'en',
-                    groupValue: selectedOption,
+                    value: selectedOption,
+                    groupValue: 'en',
                     onChanged: (value) {
                       setState(() {
                         selectedOption = value!;
                       });
-                      context.setLocale(Locale('en'));
+                      context.setLocale(Locale(value!));
                     },
                   ),
                   RadioListTile(
@@ -92,13 +92,14 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                       'Bangla',
                       style: TextStyle(fontSize: 14),
                     ),
-                    value: 'bn',
-                    groupValue: selectedOption,
+                    value: selectedOption,
+                    groupValue: 'bn',
                     onChanged: (value) {
                       setState(() {
                         selectedOption = value!;
                       });
-                      context.setLocale(Locale('bn'));
+                      print(value);
+                      context.setLocale(Locale(value!));
                     },
                   ),
                   SizedBox(height: 30),
@@ -112,7 +113,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                             ? Navigator.pop(context)
                             : Navigator.pushNamed(context, Routes.signUp);
                       },
-                      buttonText: widget.isFromSettings ? 'Submit' : 'Next',
+                      buttonText: widget.isFromSettings ? 'Submit' : 'Next', 
                       radius: 100,
                     ),
                   ),

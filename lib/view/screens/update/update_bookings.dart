@@ -194,7 +194,7 @@ class _UpdateBookingState extends ConsumerState<UpdateBooking> {
                                     if (isSuccess) {
                                       await ref
                                           .read(bookingProvider)
-                                          .getBookingDetails(widget.bookingId);
+                                          .getBookingDetails(id:widget.bookingId);
                                       Navigator.pop(context);
                                       showSnackBarMethod(context,
                                           'Checkout Date Updated', true);

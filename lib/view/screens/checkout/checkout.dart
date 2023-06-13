@@ -194,7 +194,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                             ref
                                                 .read(bookingProvider)
                                                 .getBookingDetails(
-                                                  ref
+                                                 id: ref
                                                       .watch(bookingProvider)
                                                       .bookingList[index]
                                                       .id,

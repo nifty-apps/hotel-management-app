@@ -188,8 +188,8 @@ class _RoomsViewScreenState extends State<RoomsViewScreen> {
         color: label == 'available'
             ? Colors.white
             : label == 'booked'
-                ? Colors.green
-                : Colors.red,
+                ? Colors.green.shade300
+                : Colors.red.shade300,
         border: Border(
           left: BorderSide(
             color: Colors.grey.shade300,

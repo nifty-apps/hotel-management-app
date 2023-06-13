@@ -4,6 +4,8 @@ import 'package:hotel_management/models/booking.dart';
 import 'package:hotel_management/models/dashboard.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/dashboard.dart';
+import 'package:hotel_management/provider/transaction.dart';
+import 'package:hotel_management/routes.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -19,7 +21,10 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/roomsView',);
+              Navigator.pushNamed(
+                context,
+                '/roomsView',
+              );
             },
             icon: Icon(Icons.view_agenda),
           ),
@@ -354,6 +359,19 @@ class HomeScreen extends ConsumerWidget {
                                           thickness: 3,
                                         ),
                                         ListTile(
+                                          onTap: () async {
+                                            ref
+                                                .read(bookingProvider)
+                                                .getBookingDetails(
+                                                    id: bookingList[index].id);
+                                            await ref
+                                                .read(transactionProvider)
+                                                .getTransactionList(
+                                                    bookingList[index].id,
+                                                    true);
+                                            Navigator.pushNamed(
+                                                context, Routes.bookingDetails);
+                                          },
                                           leading: Icon(Icons.person),
                                           trailing: Icon(
                                             Icons.arrow_forward_ios,

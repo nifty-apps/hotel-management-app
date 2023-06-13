@@ -8,6 +8,7 @@ import 'package:hotel_management/view/screens/account/hotel/hotel_info.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
+import 'package:hotel_management/view/screens/bookingDetails/booking_details.dart';
 import 'package:hotel_management/view/screens/checkin/checkin.dart';
 import 'package:hotel_management/view/screens/checkin/confirm_bookin.dart';
 import 'package:hotel_management/view/screens/checkin/edit_checking_info.dart';
@@ -46,6 +47,7 @@ class Routes {
   static const String choiceRooms = '/choiceRooms';
   static const String payment = '/payment';
   static const String confirmCheckin = '/confirmCheckin';
+  static const String bookingDetails = '/bookingDetails';
   static const String updateBooking = '/updateBooking';
 
   static const String editCheckinInfo = '/editCheckinInfo';
@@ -121,6 +123,10 @@ class Routes {
             bookingStatus: args[0] as PageType,
             checkinNow: args[1] as bool,
           ),
+        );
+      case bookingDetails:
+        return MaterialPageRoute(
+          builder: (context) => BookingDetailsScreen(),
         );
       case updateBooking:
         List<dynamic> args = settings.arguments as List<dynamic>;

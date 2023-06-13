@@ -263,7 +263,7 @@ class PaymentScreen extends ConsumerWidget {
                               .getTransactionList(bookingDetails.id, true);
                           await ref
                               .read(bookingProvider)
-                              .getBookingDetails(bookingDetails.id);
+                              .getBookingDetails(id:bookingDetails.id);
                         }
                         Navigator.pushNamed(
                           context,

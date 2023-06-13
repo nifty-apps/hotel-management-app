@@ -27,7 +27,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(bookingProvider).getBookingDetails(widget.bookingId);
+      await ref.read(bookingProvider).getBookingDetails(id:widget.bookingId);
       getRooms();
       await ref
           .read(transactionProvider)

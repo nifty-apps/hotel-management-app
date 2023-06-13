@@ -112,7 +112,7 @@ class BookingProvider extends ChangeNotifier {
   }
 
   // Get Booking Details
-  Future<bool> getBookingDetails(String id) async {
+  Future<bool> getBookingDetails({ required String id}) async {
     _isLoading = true;
     notifyListeners();
     final response = await ref
