@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bookingdao">
+    package="com.bookingdei">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Booking Dao"
+        android:label="Booking Dei"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

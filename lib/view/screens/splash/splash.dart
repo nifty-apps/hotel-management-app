@@ -30,7 +30,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     });
   }
 
-  String welcomeText = 'Booking Dao';
+  String welcomeText = 'Booking Dei';
 
   @override
   Widget build(BuildContext context) {
