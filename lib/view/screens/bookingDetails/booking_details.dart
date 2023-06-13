@@ -88,7 +88,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                               ),
                               Text(
                                 DateFormat('dd EEE, MMM yy', 'en_US')
-                                    .format(bookingDetails.checkIn),
+                                    .format(bookingDetails.checkIn.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w700,
@@ -109,7 +109,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                               ),
                               Text(
                                 DateFormat('dd EEE, MMM yy', 'en_US')
-                                    .format(bookingDetails.checkOut),
+                                    .format(bookingDetails.checkOut.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w700,

@@ -245,10 +245,6 @@ class PaymentScreen extends ConsumerWidget {
                     SizedBox(height: 50),
                     CustomButton(
                       onPressed: () async {
-                        // if (discountController.text.isNotEmpty) {
-                        //   ref.read(bookingProvider).discountController.text =
-                        //       discountController.text;
-                        // }
                         if (advanceAmountController.text.isNotEmpty) {
                           await ref.read(transactionProvider).addTransaction(
                                 context,
@@ -263,7 +259,7 @@ class PaymentScreen extends ConsumerWidget {
                               .getTransactionList(bookingDetails.id, true);
                           await ref
                               .read(bookingProvider)
-                              .getBookingDetails(id:bookingDetails.id);
+                              .getBookingDetails(id: bookingDetails.id);
                         }
                         Navigator.pushNamed(
                           context,

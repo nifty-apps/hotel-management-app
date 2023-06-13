@@ -2,7 +2,7 @@
     package="com.bookingdao">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Hotel Management"
+        android:label="Booking Dao"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

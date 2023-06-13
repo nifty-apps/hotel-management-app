@@ -34,6 +34,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.bookingStatus);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -90,7 +91,6 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
             SizedBox(height: 30),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              // height: MediaQuery.of(context).size.height / 3,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer,
@@ -143,11 +143,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                                   TableCell(
                                     child: Padding(
                                       padding: EdgeInsets.all(8.0),
-                                      child: Text(ref
-                                          .read(bookingProvider)
-                                          .allRoom
-                                          .indexOf(room)
-                                          .toString()),
+                                      child: Text(room.number.toString()),
                                     ),
                                   ),
                                   TableCell(
@@ -231,31 +227,32 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                   name: ref.read(bookingProvider).nameController.text,
                   phone: ref.read(bookingProvider).phoneController.text,
                 );
-                RoomBooking bookingInfo = RoomBooking(
-                  customer: customer,
-                  rooms: roomsId,
-                  checkIn: ref.read(bookingProvider).checkIn!.toUtc(),
-                  checkOut: ref.read(bookingProvider).checkOut!.toUtc(),
-                  total: total,
-                  discount: ref
-                          .read(bookingProvider)
-                          .discountController
-                          .text
-                          .isNotEmpty
-                      ? int.parse(
-                          ref.read(bookingProvider).discountController.text)
-                      : 0,
-                  status: widget.bookingStatus == PageType.confirm
-                      ? 'booked'
-                      : widget.bookingStatus == PageType.checkin
-                          ? 'checkedIn'
-                          : 'checkedOut',
-                  paymentStatus: payableAmount == 0 || payableAmount < 0
-                      ? 'paid'
-                      : 'unpaid',
-                );
                 if (widget.bookingStatus == PageType.confirm ||
                     widget.checkinNow == true) {
+                  RoomBooking bookingInfo = RoomBooking(
+                    customer: customer,
+                    rooms: roomsId,
+                    checkIn: ref.read(bookingProvider).checkIn!.toUtc(),
+                    checkOut: ref.read(bookingProvider).checkOut!.toUtc(),
+                    total: total,
+                    discount: ref
+                            .read(bookingProvider)
+                            .discountController
+                            .text
+                            .isNotEmpty
+                        ? int.parse(
+                            ref.read(bookingProvider).discountController.text)
+                        : 0,
+                    status: widget.bookingStatus == PageType.confirm
+                        ? 'booked'
+                        : widget.bookingStatus == PageType.checkin
+                            ? 'checkedIn'
+                            : 'checkedOut',
+                    paymentStatus: payableAmount == 0 || payableAmount < 0
+                        ? 'paid'
+                        : 'unpaid',
+                  );
+
                   String? bookingId =
                       await ref.read(bookingProvider).roomBooking(
                             bookingInfo,
@@ -271,7 +268,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
                           ),
                         );
                   }
-                } else {
+                } else if (widget.bookingStatus == PageType.checkin) {
                   await ref.read(bookingProvider).updateBookingStatus(
                         id: ref.read(bookingProvider).bookingDetails.id,
                         status: widget.bookingStatus == PageType.checkin
@@ -311,8 +308,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     );
   }
 
+  // Calculate the sub total
   int total = 0;
-
   subTotal() {
     for (var room in ref.read(bookingProvider).allRoom) {
       total += room.roomType.rent;
@@ -320,8 +317,9 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     return total;
   }
 
-  List<String> roomsId = [];
+  // Get the all selected rooms
 
+  List<String> roomsId = [];
   getRooms() {
     ref.read(bookingProvider).allRoom.forEach((room) {
       print(room.id);
@@ -329,6 +327,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     });
   }
 
+// Calculate the advance amount
   int advancAmount = 0;
   getTotalAdvanceAmount() {
     for (var i = 0; i < ref.read(transactionProvider).transaction.length; i++) {
@@ -338,8 +337,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     return advancAmount;
   }
 
+// Calculate the payable amount
   int payableAmount = 0;
-
   payable() {
     print(widget.checkinNow);
     print('There is a problem man');
@@ -349,34 +348,16 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
           int.parse(ref.read(bookingProvider).discountController.text) +
               int.parse(ref.read(bookingProvider).advanceController.text);
       payableAmount = total - amount;
-    }
-    // else if (widget.bookingStatus == PageType.confirm) {
-    //   payableAmount =
-    //       total - int.parse(ref.read(bookingProvider).advanceController.text);
-    // } else if (widget.checkinNow == true &&
-    //     ref.read(bookingProvider).discountController.text.isNotEmpty) {
-    //   int amount =
-    //       int.parse(ref.read(bookingProvider).discountController.text) +
-    //           int.parse(ref.read(bookingProvider).advanceController.text);
-    //   payableAmount = total - amount;
-    // } else if (widget.checkinNow == true) {
-    //   payableAmount =
-    //       total - int.parse(ref.read(bookingProvider).advanceController.text);
-    // }
-    else {
-      print('First part is calling');
+    } else {
       int amount =
           ref.read(bookingProvider).bookingDetails.discount + advancAmount;
       payableAmount = total - amount;
-      // int amount =
-      //     int.parse(ref.read(bookingProvider).discountController.text) +
-      //         advancAmount;
-      // payableAmount = total - amount;
     }
 
     return payableAmount;
   }
 
+// clear the all data after the booking is done
   void clearData() {
     ref.read(bookingProvider).nameController.clear();
     ref.read(bookingProvider).phoneController.clear();

@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/services/local_strorage.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 
 class SelectLanguageScreen extends ConsumerStatefulWidget {
@@ -17,7 +18,18 @@ class SelectLanguageScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
-  String selectedOption = 'en';
+  String languageCode = 'en';
+  @override
+  void initState() {
+    getLanguageCode();
+    super.initState();
+  }
+
+  Future<void> getLanguageCode() async {
+    languageCode = await ref.read(localStorageProvider).getLanguageStatus();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,11 +89,11 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                       'English',
                       style: TextStyle(fontSize: 14),
                     ),
-                    value: selectedOption,
-                    groupValue: 'en',
+                    value: 'en',
+                    groupValue: languageCode,
                     onChanged: (value) {
                       setState(() {
-                        selectedOption = value!;
+                        languageCode = value!;
                       });
                       context.setLocale(Locale(value!));
                     },
@@ -92,11 +104,11 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                       'Bangla',
                       style: TextStyle(fontSize: 14),
                     ),
-                    value: selectedOption,
-                    groupValue: 'bn',
+                    value: 'bn',
+                    groupValue: languageCode,
                     onChanged: (value) {
                       setState(() {
-                        selectedOption = value!;
+                        languageCode = value!;
                       });
                       print(value);
                       context.setLocale(Locale(value!));
@@ -108,12 +120,14 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                     child: CustomButton(
                       width: double.infinity,
                       onPressed: () {
-                        // ref.read(localStorageProvider).saveLanguageStatus(true);
+                        ref
+                            .read(localStorageProvider)
+                            .saveLanguage(languageCode: languageCode);
                         widget.isFromSettings
                             ? Navigator.pop(context)
                             : Navigator.pushNamed(context, Routes.signUp);
                       },
-                      buttonText: widget.isFromSettings ? 'Submit' : 'Next', 
+                      buttonText: widget.isFromSettings ? 'Submit' : 'Next',
                       radius: 100,
                     ),
                   ),
