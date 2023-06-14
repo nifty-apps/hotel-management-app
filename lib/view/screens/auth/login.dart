@@ -16,14 +16,20 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Consumer(
         builder: (contex, ref, _) {
           final provider = ref.watch(authProvider);
           return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 40),
               Container(
+                height: MediaQuery.of(context).size.height / 3,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       'Get Back To Managing Your Hotel Oparations',
@@ -40,6 +46,7 @@ class LoginScreen extends ConsumerWidget {
               SizedBox(height: 30),
               Expanded(
                 child: Container(
+                  height: MediaQuery.of(context).size.height / 2,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
@@ -53,6 +60,8 @@ class LoginScreen extends ConsumerWidget {
                     key: _formKey,
                     child: SingleChildScrollView(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
                             children: [
@@ -127,7 +136,8 @@ class LoginScreen extends ConsumerWidget {
                               SizedBox(width: 5),
                               InkWell(
                                 onTap: () => Navigator.pushNamed(
-                                    context, Routes.chooseLanguage,arguments: false),
+                                    context, Routes.chooseLanguage,
+                                    arguments: false),
                                 child: Text(
                                   'CREATE ACCOUNT',
                                   style: TextStyle(

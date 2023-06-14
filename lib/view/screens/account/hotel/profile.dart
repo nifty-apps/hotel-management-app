@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
+import 'package:hotel_management/provider/employee.dart';
+import 'package:hotel_management/routes.dart';
+import 'package:hotel_management/services/local_strorage.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.read(authProvider).userData;
     return Scaffold(
       appBar: AppBar(
         title: Text('Account Info'),
@@ -31,7 +35,7 @@ class ProfileScreen extends ConsumerWidget {
               width: 80,
             ),
             Text(
-              ref.read(authProvider).userData!.name,
+              userData!.name,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -49,7 +53,7 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 10),
-            ref.read(authProvider).userData!.role == 'Owner'
+            userData.role == 'Owner'
                 ? Padding(
                     padding: EdgeInsets.only(left: 80),
                     child: Row(
@@ -71,7 +75,7 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
             SizedBox(height: 10),
-            ref.read(authProvider).userData!.role == 'Owner'
+            userData.role == 'Owner'
                 ? SizedBox()
                 : Padding(
                     padding: EdgeInsets.only(left: 80),
@@ -87,6 +91,39 @@ class ProfileScreen extends ConsumerWidget {
           ],
         ),
       ),
+      bottomNavigationBar: userData.role == 'Owner'
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: SizedBox(
+                height: 45,
+                child: ref.watch(employeeProvider).isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ElevatedButton.icon(
+                        onPressed: () async {
+                          bool isSuccess = await ref
+                              .read(employeeProvider)
+                              .deleteAccount(id: userData.id, context: context);
+                          if (isSuccess) {
+                            await ref
+                                .read(localStorageProvider)
+                                .removeTokenAndUser();
+                            Navigator.pushNamed(context, Routes.login);
+                          }
+                        },
+                        icon: Icon(Icons.delete),
+                        label: Text('Delete Account'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.shade400,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+              ),
+            )
+          : SizedBox(),
     );
   }
 }

@@ -26,7 +26,10 @@ class SignUpScreen extends ConsumerWidget {
             children: [
               SizedBox(height: 100),
               Container(
+                height: MediaQuery.of(context).size.height / 4,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       'Join Thousands Of Hotailers',
@@ -48,6 +51,7 @@ class SignUpScreen extends ConsumerWidget {
               SizedBox(height: 20),
               Expanded(
                 child: Container(
+                  height: MediaQuery.of(context).size.height / 2,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
