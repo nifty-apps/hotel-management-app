@@ -212,7 +212,8 @@ class _CustomerBookingInfoScreenState
                                 child: Container(
                                   height: 70,
                                   width: 220,
-                                  child: CustomTextFormField(
+                                  child: 
+                                  CustomTextFormField(
                                     controller: ref
                                         .read(bookingProvider)
                                         .discountController,

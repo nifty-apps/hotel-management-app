@@ -6,7 +6,8 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
-
+dependency_overrides:
+  intl: any
 dependencies:
   flutter:
     sdk: flutter
@@ -24,6 +25,7 @@ dependencies:
   url_launcher: ^6.1.9
   easy_localization: ^3.0.1
   animated_bottom_navigation_bar: ^1.1.0+1
+  horizontal_data_table: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +35,5 @@ flutter:
   uses-material-design: true
 
   assets:
-  
     - assets/icons/
     - assets/images/

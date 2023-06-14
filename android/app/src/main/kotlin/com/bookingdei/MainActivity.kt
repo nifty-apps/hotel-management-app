@@ -1,4 +1,4 @@
-package com.hotel.management
+package com.bookingdei
 
 import io.flutter.embedding.android.FlutterActivity
 

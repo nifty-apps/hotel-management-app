@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/models/user.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/utils/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +15,17 @@ class LocalStorage {
   Future<void> saveToken(String token) async {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('token', token);
+  }
+
+  Future<void> saveLanguage({required String languageCode}) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString('languageCode', languageCode);
+  }
+
+  Future<String> getLanguageStatus() async {
+    final preferences = await SharedPreferences.getInstance();
+    final languageCode = preferences.getString('languageCode');
+    return languageCode ?? 'en';
   }
 
   Future<void> removeTokenAndUser() async {

@@ -10,6 +10,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool isPassword;
   final bool readOnly;
+
   final bool isSuffixIcon;
   final void Function()? suffixButtonAction;
   const CustomTextFormField({

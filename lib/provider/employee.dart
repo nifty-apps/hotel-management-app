@@ -9,13 +9,15 @@ class EmployeeProvider with ChangeNotifier {
   final Ref ref;
   EmployeeProvider({required this.ref});
 
+  bool isLoading = false;
+
   List<Employee> _employees = [];
   List<Employee> get employees => _employees;
 
   Future<bool> addEmployee(
       Employee employee, String password, BuildContext context) async {
     final response = await ref.read(apiClientProvider).post(
-        AppConstants.employee,
+        AppConstants.deleteAccount,
         data: {...employee.toMap(), 'password': password});
 
     if (response.statusCode == 201) {
@@ -32,7 +34,7 @@ class EmployeeProvider with ChangeNotifier {
   Future<List<Employee>?> getEmployeeList() async {
     try {
       final response =
-          await ref.read(apiClientProvider).get(AppConstants.employee);
+          await ref.read(apiClientProvider).get(AppConstants.deleteAccount);
 
       if (response.statusCode == 200) {
         _employees = response.data['data'].map<Employee>((employee) {
@@ -56,7 +58,7 @@ class EmployeeProvider with ChangeNotifier {
   ) async {
     final response = await ref
         .read(apiClientProvider)
-        .put(AppConstants.employee + '/${employee.id}', data: {
+        .put(AppConstants.deleteAccount + '/${employee.id}', data: {
       ...employee.toMap(),
       if (password.isNotEmpty) 'password': password,
     });
@@ -72,19 +74,27 @@ class EmployeeProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> deleteEmployee(String id,BuildContext context) async {
+  Future<bool> deleteAccount(
+      {required String id, required BuildContext context}) async {
+    isLoading = true;
+    notifyListeners();
     final response = await ref
         .read(apiClientProvider)
-        .delete(AppConstants.employee + '/$id');
+        .delete(AppConstants.deleteAccount + '/$id');
     if (response.statusCode == 200) {
-         final message = response.data['message'];
+      final message = response.data['message'];
       showSnackBarMethod(context, message, true);
+      isLoading = false;
+      notifyListeners();
       return true;
     }
+    isLoading = false;
+    notifyListeners();
     final message = response.data['message'];
     showSnackBarMethod(context, message, false);
     return false;
+  }
 }
-}
+
 final employeeProvider =
     ChangeNotifierProvider((ref) => EmployeeProvider(ref: ref));

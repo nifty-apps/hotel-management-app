@@ -50,6 +50,7 @@ class AddHotelScreen extends ConsumerWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
+                            SizedBox(height: 10),
                             CustomTextFormField(
                               controller: hotelNameController,
                               hintText: 'Enter hotel name',
