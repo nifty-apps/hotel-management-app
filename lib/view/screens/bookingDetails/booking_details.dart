@@ -117,6 +117,25 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                               ),
                             ],
                           ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Booking status',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                bookingDetails.status,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

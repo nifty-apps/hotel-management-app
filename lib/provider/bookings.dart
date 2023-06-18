@@ -15,7 +15,7 @@ class BookingProvider extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController discountController = TextEditingController(text: '0');
-  TextEditingController advanceController = TextEditingController();
+  TextEditingController advanceController = TextEditingController(text: '0');
 
   List<booking.Room> allRoom = [];
   DateTime? checkIn = DateTime.now();
@@ -112,7 +112,7 @@ class BookingProvider extends ChangeNotifier {
   }
 
   // Get Booking Details
-  Future<bool> getBookingDetails({ required String id}) async {
+  Future<bool> getBookingDetails({required String id}) async {
     _isLoading = true;
     notifyListeners();
     final response = await ref
