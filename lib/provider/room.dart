@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/room.dart';
+import 'package:hotel_management/models/room_report.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/utils/api_client.dart';
 
@@ -11,6 +12,9 @@ class RoomProvider extends ChangeNotifier {
   bool isLoading = false;
   List<Room> _rooms = [];
   List<Room> get rooms => _rooms;
+
+  List<RoomReport> _reports = [];
+  List<RoomReport> get reports => _reports;
 
   // late List<Booking> recentBookings;
   // late List<Booking> todayBookings;
@@ -92,6 +96,23 @@ class RoomProvider extends ChangeNotifier {
     return false;
   }
 
+  // get rooms report
+  Future<bool> getRoomsReport() async {
+    isLoading = true;
+    notifyListeners();
+    final response =
+        await ref.read(apiClientProvider).get(AppConstants.getRoomsReport);
+    if (response.statusCode == 200) {
+      _reports = response.data['data'].map<RoomReport>((report) {
+        return RoomReport.fromMap(report);
+      }).toList();
+      print(_reports);
+      isLoading = false;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
 }
 
 final roomProvider = ChangeNotifierProvider((ref) => RoomProvider(ref));

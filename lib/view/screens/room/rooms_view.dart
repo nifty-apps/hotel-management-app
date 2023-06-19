@@ -1,20 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
+import 'package:hotel_management/provider/room.dart';
 
-class RoomsViewScreen extends StatefulWidget {
+class RoomsViewScreen extends ConsumerStatefulWidget {
   RoomsViewScreen({super.key});
 
   @override
-  State<RoomsViewScreen> createState() => _RoomsViewScreenState();
+  ConsumerState<RoomsViewScreen> createState() => _RoomsViewScreenState();
 }
 
-class _RoomsViewScreenState extends State<RoomsViewScreen> {
+class _RoomsViewScreenState extends ConsumerState<RoomsViewScreen> {
   List<LastSevenDays> lastSevenDays = [];
   @override
   void initState() {
     getLastSevenDays();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(roomProvider).getRoomsReport();
+    });
     super.initState();
   }
 
@@ -80,38 +85,31 @@ class _RoomsViewScreenState extends State<RoomsViewScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: HorizontalDataTable(
-          leftHandSideColumnWidth: 100,
-          leftHandSideColBackgroundColor: Colors.grey.shade200,
-          rightHandSideColumnWidth: 720,
-          rightHandSideColBackgroundColor: Colors.grey.shade200,
-          isFixedHeader: true,
-          horizontalScrollPhysics: const BouncingScrollPhysics(
-              decelerationRate: ScrollDecelerationRate.fast),
-          headerWidgets: _getTitleWidget(),
-          leftSideItemBuilder: _generateFirstColumnRow,
-          rightSideItemBuilder: _generateRightHandSideColumnRow,
-          itemCount: rooms.length,
-          rowSeparatorWidget: Divider(
-            color: Colors.grey.shade300,
-            height: 2.0,
-            thickness: 1.0,
-          ),
-        ),
-      ),
+      body: ref.watch(roomProvider).isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SafeArea(
+              child: HorizontalDataTable(
+                leftHandSideColumnWidth: 100,
+                leftHandSideColBackgroundColor: Colors.grey.shade200,
+                rightHandSideColumnWidth: 720,
+                rightHandSideColBackgroundColor: Colors.grey.shade200,
+                isFixedHeader: true,
+                horizontalScrollPhysics: const BouncingScrollPhysics(
+                    decelerationRate: ScrollDecelerationRate.fast),
+                headerWidgets: _getTitleWidget(),
+                leftSideItemBuilder: _generateFirstColumnRow,
+                rightSideItemBuilder: _generateRightHandSideColumnRow,
+                itemCount: ref.read(roomProvider).reports.length,
+                rowSeparatorWidget: Divider(
+                  color: Colors.grey.shade300,
+                  height: 2.0,
+                  thickness: 1.0,
+                ),
+              ),
+            ),
     );
-  }
-
-  Future<List<LastSevenDays>> getLastSevenDays() async {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
-    for (int i = 0; i < 7; i++) {
-      DateTime newDate = date.add(Duration(days: i));
-      String dayName = DateFormat('EEEE').format(newDate);
-      lastSevenDays.add(LastSevenDays(dayName: dayName, day: newDate.day));
-    }
-    return lastSevenDays;
   }
 
   List<Widget> _getTitleWidget() {
@@ -166,13 +164,15 @@ class _RoomsViewScreenState extends State<RoomsViewScreen> {
       width: 100,
       height: 56,
       alignment: Alignment.center,
-      child: Text(rooms[index].roomNumber.toString()),
+      child: Text(ref.read(roomProvider).reports[index].roomNumber.toString()),
     );
   }
 
   Widget _generateRightHandSideColumnRow(BuildContext context, int index) {
     return Row(
-      children: rooms[index]
+      children: ref
+          .read(roomProvider)
+          .reports[index]
           .report
           .map((e) => _sideColumnRowItemWidget(label: e.status))
           .toList(),
@@ -188,11 +188,11 @@ class _RoomsViewScreenState extends State<RoomsViewScreen> {
         color: label == 'available'
             ? Colors.white
             : label == 'booked'
-                ? Colors.green.shade300
-                : Colors.red.shade300,
+                ? Colors.green.shade400
+                : Colors.red.shade400,
         border: Border(
           left: BorderSide(
-            color: Colors.grey.shade300,
+            color: const Color.fromRGBO(224, 224, 224, 1),
             width: 2.0,
           ),
         ),
@@ -210,6 +210,18 @@ class _RoomsViewScreenState extends State<RoomsViewScreen> {
       height: 56,
       thickness: 1.0,
     );
+  }
+
+// Get seven days
+  Future<List<LastSevenDays>> getLastSevenDays() async {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
+    for (int i = 0; i < 7; i++) {
+      DateTime newDate = date.add(Duration(days: i));
+      String dayName = DateFormat('EEEE').format(newDate);
+      lastSevenDays.add(LastSevenDays(dayName: dayName, day: newDate.day));
+    }
+    return lastSevenDays;
   }
 }
 
