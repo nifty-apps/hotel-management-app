@@ -26,11 +26,16 @@ class AddHotelScreen extends ConsumerWidget {
             child: Column(
               children: [
                 SizedBox(height: 20),
-                Text(
-                  'Add Your Hotel & Manage Easily',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                Container(
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: Center(
+                    child: Text(
+                      'Add Your Hotel & Manage Easily',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),

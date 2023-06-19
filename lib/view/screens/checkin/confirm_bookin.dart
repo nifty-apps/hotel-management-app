@@ -361,8 +361,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   void clearData() {
     ref.read(bookingProvider).nameController.clear();
     ref.read(bookingProvider).phoneController.clear();
-    ref.read(bookingProvider).advanceController.clear();
-    ref.read(bookingProvider).discountController.clear();
+    ref.read(bookingProvider).advanceController.text = '0';
+    ref.read(bookingProvider).discountController.text = '0';
     ref.read(bookingProvider).checkIn = null;
     ref.read(bookingProvider).checkOut = null;
     ref.read(bookingProvider).allRoom.clear();

@@ -5,7 +5,11 @@ import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
 
 class BookingDetailsScreen extends ConsumerStatefulWidget {
-  const BookingDetailsScreen({super.key});
+  final String bookingID;
+  const BookingDetailsScreen({
+    Key? key,
+    required this.bookingID,
+  }) : super(key: key);
 
   @override
   ConsumerState<BookingDetailsScreen> createState() =>
@@ -16,7 +20,11 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(bookingProvider).getBookingDetails(id: widget.bookingID);
+      await ref
+          .read(transactionProvider)
+          .getTransactionList(widget.bookingID, true);
       getTotalAdvanceAmount();
     });
   }
@@ -24,11 +32,14 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final bookingDetails = ref.watch(bookingProvider).bookingDetails;
+
     final dueAmount = getDueAmount(
         subTotal: bookingDetails.total, discount: bookingDetails.discount);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Booking Details'),
+        
       ),
       body: Center(
         child: ref.watch(bookingProvider).isLoading
@@ -112,6 +123,25 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                     .format(bookingDetails.checkOut.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Booking status',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                bookingDetails.status,
+                                style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),

@@ -243,33 +243,39 @@ class PaymentScreen extends ConsumerWidget {
                       keyboardType: TextInputType.number,
                     ),
                     SizedBox(height: 50),
-                    CustomButton(
-                      onPressed: () async {
-                        if (advanceAmountController.text.isNotEmpty) {
-                          await ref.read(transactionProvider).addTransaction(
+                    ref.watch(transactionProvider).isLoading ||
+                            ref.watch(bookingProvider).isLoading
+                        ? CircularProgressIndicator()
+                        : CustomButton(
+                            onPressed: () async {
+                              if (advanceAmountController.text.isNotEmpty) {
+                                await ref
+                                    .read(transactionProvider)
+                                    .addTransaction(
+                                      context,
+                                      paymentMethod: "cash",
+                                      bookingId: bookingDetails.id,
+                                      amount: int.parse(
+                                        advanceAmountController.text.trim(),
+                                      ),
+                                    );
+                                await ref
+                                    .read(transactionProvider)
+                                    .getTransactionList(
+                                        bookingDetails.id, true);
+                                await ref
+                                    .read(bookingProvider)
+                                    .getBookingDetails(id: bookingDetails.id);
+                              }
+                              Navigator.pushNamed(
                                 context,
-                                paymentMethod: "cash",
-                                bookingId: bookingDetails.id,
-                                amount: int.parse(
-                                  advanceAmountController.text.trim(),
-                                ),
+                                Routes.confirmCheckin,
+                                arguments: [PageType.checkin, false],
                               );
-                          await ref
-                              .read(transactionProvider)
-                              .getTransactionList(bookingDetails.id, true);
-                          await ref
-                              .read(bookingProvider)
-                              .getBookingDetails(id: bookingDetails.id);
-                        }
-                        Navigator.pushNamed(
-                          context,
-                          Routes.confirmCheckin,
-                          arguments: [PageType.checkin, false],
-                        );
-                      },
-                      buttonText: 'Payment',
-                      width: double.infinity,
-                    )
+                            },
+                            buttonText: 'Payment',
+                            width: double.infinity,
+                          )
                   ],
                 ),
               ),
