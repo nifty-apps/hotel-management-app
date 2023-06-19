@@ -126,7 +126,9 @@ class Routes {
         );
       case bookingDetails:
         return MaterialPageRoute(
-          builder: (context) => BookingDetailsScreen(),
+          builder: (context) => BookingDetailsScreen(
+            bookingID: settings.arguments as String,
+          ),
         );
       case updateBooking:
         List<dynamic> args = settings.arguments as List<dynamic>;

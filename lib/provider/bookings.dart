@@ -32,7 +32,7 @@ class BookingProvider extends ChangeNotifier {
   List<CustomerInfo> _listOfCustomer = [];
   List<CustomerInfo> get listOfCustomer => _listOfCustomer;
 
-  late BookingDetails _bookingDetails;
+  late BookingDetails _bookingDetails ;
   BookingDetails get bookingDetails => _bookingDetails;
 
   bool _isLoading = false;
