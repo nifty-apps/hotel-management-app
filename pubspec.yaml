@@ -26,6 +26,7 @@ dependencies:
   easy_localization: ^3.0.1
   animated_bottom_navigation_bar: ^1.1.0+1
   horizontal_data_table: ^4.2.0
+  pin_code_fields: ^7.4.0
 
 dev_dependencies:
   flutter_test:
