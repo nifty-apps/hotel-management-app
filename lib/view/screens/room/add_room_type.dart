@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/room.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/provider/room_type.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
@@ -33,19 +34,23 @@ class AddRoomTypeScreen extends ConsumerWidget {
     }
     setinfo();
     final provider = ref.read(roomTypeProvider);
+    final authenticationProvider = ref.read(authProvider);
     return Scaffold(
       appBar: AppBar(
         title:
             Text(roomType.id!.isNotEmpty ? 'Edit Room type' : 'Add Room Type'),
         actions: [
-          roomType.id!.isNotEmpty
-              ? IconButton(
-                  onPressed: () {
-                    provider.deleteRoomType(roomType.id.toString(), context);
-                    Navigator.pop(context, true);
-                  },
-                  icon: Icon(Icons.delete),
-                )
+          authenticationProvider.userData!.role == 'Owner'
+              ? roomType.id!.isNotEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        provider.deleteRoomType(
+                            roomType.id.toString(), context);
+                        Navigator.pop(context, true);
+                      },
+                      icon: Icon(Icons.delete),
+                    )
+                  : SizedBox()
               : SizedBox(),
         ],
       ),

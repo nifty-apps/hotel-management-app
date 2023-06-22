@@ -47,7 +47,7 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
                       Icon(Icons.calendar_month),
                       SizedBox(width: 10),
                       Text(
-                        '${DateFormat('d EEE,MMM yy').format(widget.checkinDate)} to ${DateFormat('d EEE,MMM yy').format(widget.checkoutDate)}',
+                        '${DateFormat('d EEE,MMM yyyy').format(widget.checkinDate)} to ${DateFormat('d EEE,MMM yyyy').format(widget.checkoutDate)}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
