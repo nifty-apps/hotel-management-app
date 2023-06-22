@@ -7,6 +7,7 @@ class AppConstants {
   static const loginUrl = '$baseUrl/auth/login';
   static const sendOtp = '$baseUrl/auth/send-otp';
   static const verifyOtp = '$baseUrl/auth/verify-otp';
+  static const changePassword = '$baseUrl/auth/update-password';
   static const hotelAddUrl = '$baseUrl/hotels';
   static const dashboardInfo = '$baseUrl/dashboard/info';
   static const addroomUrl = '$baseUrl';

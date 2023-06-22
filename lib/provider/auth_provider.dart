@@ -43,6 +43,8 @@ class AuthProvider extends ChangeNotifier {
 
   Future<ResponseMessage> verifyOTP(
       {required String email, required String code}) async {
+    print(email);
+    print(code);
     try {
       isLoading = true;
       notifyListeners();
@@ -53,10 +55,12 @@ class AuthProvider extends ChangeNotifier {
       });
       if (response.statusCode == 201) {
         String message = response.data['message'];
+        print(response.data);
         isLoading = false;
         notifyListeners();
         return ResponseMessage(message: message, isSuccess: true);
       } else if (response.statusCode == 401) {
+        print(response.data);
         String message = response.data['message'];
         isLoading = false;
         notifyListeners();
@@ -132,6 +136,38 @@ class AuthProvider extends ChangeNotifier {
       }
     } catch (error) {
       rethrow;
+    }
+  }
+
+  // change password
+  Future<ResponseMessage> changePassword(
+      {required String email, required String newPassword}) async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      final response = await ref.read(apiClientProvider).put(
+        AppConstants.changePassword,
+        data: {
+          'email': email,
+          'newPassword': newPassword,
+        },
+      );
+      if (response.statusCode == 201) {
+        isLoading = false;
+        notifyListeners();
+        String message = response.data['message'];
+        return ResponseMessage(message: message, isSuccess: true);
+      } else {
+        isLoading = false;
+        notifyListeners();
+        String message = response.data['message'];
+        return ResponseMessage(message: message, isSuccess: false);
+      }
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      return ResponseMessage(
+          message: 'Something went wrong!', isSuccess: false);
     }
   }
 

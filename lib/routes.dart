@@ -6,8 +6,10 @@ import 'package:hotel_management/view/screens/account/employeeManage/add_employe
 import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
 import 'package:hotel_management/view/screens/account/hotel/hotel_info.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
+import 'package:hotel_management/view/screens/auth/forgot_password.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
+import 'package:hotel_management/view/screens/auth/verify_otp.dart';
 import 'package:hotel_management/view/screens/bookingDetails/booking_details.dart';
 import 'package:hotel_management/view/screens/checkin/checkin.dart';
 import 'package:hotel_management/view/screens/checkin/confirm_bookin.dart';
@@ -24,7 +26,6 @@ import 'package:hotel_management/view/screens/history/transaction/transaction.da
 import 'package:hotel_management/view/screens/newBooking/choice_new_room.dart';
 import 'package:hotel_management/view/screens/newBooking/customer_booking_info.dart';
 import 'package:hotel_management/view/screens/newBooking/new_booking.dart';
-import 'package:hotel_management/view/screens/otpVerify/verify_otp.dart';
 import 'package:hotel_management/view/screens/room/add_room.dart';
 import 'package:hotel_management/view/screens/room/add_room_type.dart';
 import 'package:hotel_management/view/screens/room/room.dart';
@@ -42,6 +43,7 @@ class Routes {
   static const String login = '/login';
   static const String signUp = '/signUp';
   static const String verifyOtp = '/verifyOtp';
+  static const String forgotPassword = '/forgotPassword';
   static const String addHotel = '/addHotel';
   static const String dashboard = '/dashboard';
   static const String checkin = '/checkin';
@@ -91,7 +93,7 @@ class Routes {
           builder: (context) => SignUpScreen(),
         );
       case verifyOtp:
-      List<dynamic> args = settings.arguments as List<dynamic>;
+        List<dynamic> args = settings.arguments as List<dynamic>;
         return MaterialPageRoute(
           builder: (context) => VerifyOTPScreen(
             name: args[0] as String,
@@ -99,6 +101,11 @@ class Routes {
             password: args[2] as String,
             isSingUp: args[3] as bool,
           ),
+        );
+      case forgotPassword:
+        return MaterialPageRoute(
+          builder: (context) =>
+              ForgotPasswordScreen(email: settings.arguments as String),
         );
 
       case addHotel:
