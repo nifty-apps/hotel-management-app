@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/response_message.dart';
 import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/models/transaction_history.dart';
 import 'package:hotel_management/util/app_constants.dart';
@@ -18,26 +18,36 @@ class TransactionProvider extends ChangeNotifier {
   HotelRevenue? _hotelRevenue;
   HotelRevenue? get hotelRevenue => _hotelRevenue;
 
-  Future<bool> addTransaction(
-    BuildContext context, {
+  Future<ResponseMessage> addTransaction({
     required String paymentMethod,
     required String bookingId,
     required int amount,
   }) async {
-    final response = await ref
-        .read(apiClientProvider)
-        .post(AppConstants.transaction + '/$bookingId', data: {
-      'paymentMethod': paymentMethod,
-      'amount': amount,
-    });
-    if (response.statusCode == 201) {
-      final message = response.data['message'];
-      showSnackBarMethod(context, message, true);
-      return true;
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final response = await ref
+          .read(apiClientProvider)
+          .post(AppConstants.transaction + '/$bookingId', data: {
+        'paymentMethod': paymentMethod,
+        'amount': amount,
+      });
+      if (response.statusCode == 201) {
+        final message = response.data['message'];
+        _isLoading = false;
+        notifyListeners();
+        return ResponseMessage(message: message, isSuccess: true);
+      } else {
+        final message = response.data['message'];
+        _isLoading = false;
+        notifyListeners();
+        return ResponseMessage(message: message, isSuccess: false);
+      }
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      return ResponseMessage(message: e.toString(), isSuccess: false);
     }
-    final message = response.data['message'];
-    showSnackBarMethod(context, message, false);
-    return false;
   }
 
   Future<List<Transaction>?> getTransactionList(

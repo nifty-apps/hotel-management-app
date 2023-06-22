@@ -246,17 +246,6 @@ class Routes {
             employee: settings.arguments as Employee,
           ),
         );
-
-      // case todayBookingsRoom:
-      //   return MaterialPageRoute(
-      //     builder: (context) => TodayBookingsScreen(),
-      //   );
-      // case bookingRoom:
-      //   return MaterialPageRoute(
-      //     builder: (context) => RoomBooking(
-      //       roomId: settings.arguments.toString(),
-      //     ),
-      //   );
       case employeeProfile:
         return MaterialPageRoute(builder: (context) => ProfileScreen());
       case hotelInfoScreen:

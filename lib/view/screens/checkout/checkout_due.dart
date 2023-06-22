@@ -72,7 +72,7 @@ class CheckoutDueScreen extends ConsumerWidget {
                                   Icon(Icons.calendar_month),
                                   SizedBox(width: 10),
                                   Text(
-                                    'Checkout ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
+                                    'Checkout ${DateFormat('dd EEE, MMM yyyy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -245,14 +245,16 @@ class CheckoutDueScreen extends ConsumerWidget {
                             Future.microtask(() async {
                               await ref
                                   .read(transactionProvider)
-                                  .addTransaction(context,
-                                      paymentMethod: 'cash',
-                                      bookingId: ref
-                                          .read(bookingProvider)
-                                          .bookingDetails
-                                          .id,
-                                      amount:
-                                          int.parse(dueAmountController.text));
+                                  .addTransaction(
+                                    paymentMethod: 'cash',
+                                    bookingId: ref
+                                        .read(bookingProvider)
+                                        .bookingDetails
+                                        .id,
+                                    amount: int.parse(
+                                      dueAmountController.text,
+                                    ),
+                                  );
                               await ref
                                   .read(transactionProvider)
                                   .getTransactionList(

@@ -14,8 +14,8 @@ class BookingProvider extends ChangeNotifier {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController discountController = TextEditingController(text: '0');
-  TextEditingController advanceController = TextEditingController(text: '0');
+  TextEditingController discountController = TextEditingController();
+  TextEditingController advanceController = TextEditingController();
 
   List<booking.Room> allRoom = [];
   DateTime? checkIn = DateTime.now();

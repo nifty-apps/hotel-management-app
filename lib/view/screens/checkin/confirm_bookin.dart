@@ -23,13 +23,20 @@ class ConfirmBookin extends ConsumerStatefulWidget {
 }
 
 class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
+  int _total = 0;
+  int get total => _total;
+  int _advancAmount = 0;
+  int get advancAmount => _advancAmount;
+  int payableAmount = 0;
+  List<String> roomsId = [];
+
   @override
   void initState() {
     super.initState();
     getRooms();
-    subTotal();
+    calculateSubTotal();
     getTotalAdvanceAmount();
-    payable();
+    calculatePayableAmount();
   }
 
   @override
@@ -38,331 +45,348 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.bookingStatus == PageType.checkin
-              ? 'Confirm Checkin'
-              : widget.bookingStatus == PageType.checkout
-                  ? 'Confirm Checkout'
-                  : 'Booking Confirm',
+          getAppBarTitle(),
         ),
+        automaticallyImplyLeading:
+            widget.bookingStatus == PageType.confirm ? true : false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildCustomerDetails(context),
+              SizedBox(height: 30),
+              buildBillDetails(context),
+              Spacer(),
+              CustomButton(
+                onPressed: () => handleConfirmation(),
+                buttonText: getAppBarTitle(),
+                width: double.infinity,
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      Icons.person,
-                      size: 50,
-                    ),
-                    title: Text(
-                      ref.read(bookingProvider).nameController.text,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    subtitle: Text(
-                      ref.read(bookingProvider).phoneController.text,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Divider(
-                    color: Theme.of(context).colorScheme.background,
-                    thickness: 3,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 30),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Bill Details',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    child: Table(
-                      border: TableBorder.all(width: 1.0, color: Colors.grey),
-                      children: [
-                        TableRow(
-                          decoration: BoxDecoration(color: Color(0xFFA5A9BB)),
-                          children: [
-                            TableCell(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('Serial'),
-                              ),
-                            ),
-                            TableCell(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('Type'),
-                              ),
-                            ),
-                            TableCell(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('Rent'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        ...ref.read(bookingProvider).allRoom.map(
-                              (room) => TableRow(
-                                children: [
-                                  TableCell(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(room.number.toString()),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(room.roomType.type),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child:
-                                          Text(room.roomType.rent.toString()),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Sub Total'),
-                      Text('TK. $total'),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Discount'),
-                      ref.read(bookingProvider).discountController.text.isEmpty
-                          ? Text('TK. 0')
-                          : widget.bookingStatus == PageType.confirm ||
-                                  widget.checkinNow
-                              ? Text(
-                                  'TK. ${ref.read(bookingProvider).discountController.text.toString()}')
-                              : Text(
-                                  'TK. ${ref.read(bookingProvider).bookingDetails.discount}'),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Advance'),
-                      Text(
-                          'TK. ${advancAmount != 0 ? advancAmount.toString() : ref.read(bookingProvider).advanceController.text.toString()}'),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Payable',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Text(
-                        'TK. $payableAmount',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            CustomButton(
-              onPressed: () async {
-                booking.Customer customer = booking.Customer(
-                  name: ref.read(bookingProvider).nameController.text,
-                  phone: ref.read(bookingProvider).phoneController.text,
-                );
-                if (widget.bookingStatus == PageType.confirm ||
-                    widget.checkinNow == true) {
-                  RoomBooking bookingInfo = RoomBooking(
-                    customer: customer,
-                    rooms: roomsId,
-                    checkIn: ref.read(bookingProvider).checkIn!.toUtc(),
-                    checkOut: ref.read(bookingProvider).checkOut!.toUtc(),
-                    total: total,
-                    discount: ref
-                            .read(bookingProvider)
-                            .discountController
-                            .text
-                            .isNotEmpty
-                        ? int.parse(
-                            ref.read(bookingProvider).discountController.text)
-                        : 0,
-                    status: widget.bookingStatus == PageType.confirm
-                        ? 'booked'
-                        : widget.bookingStatus == PageType.checkin
-                            ? 'checkedIn'
-                            : 'checkedOut',
-                    paymentStatus: payableAmount == 0 || payableAmount < 0
-                        ? 'paid'
-                        : 'unpaid',
-                  );
-
-                  String? bookingId =
-                      await ref.read(bookingProvider).roomBooking(
-                            bookingInfo,
-                            context,
-                          );
-                  if (bookingId != null) {
-                    await ref.read(transactionProvider).addTransaction(
-                          context,
-                          paymentMethod: 'cash',
-                          bookingId: bookingId,
-                          amount: int.parse(
-                            ref.read(bookingProvider).advanceController.text,
-                          ),
-                        );
-                  }
-                } else if (widget.bookingStatus == PageType.checkin) {
-                  await ref.read(bookingProvider).updateBookingStatus(
-                        id: ref.read(bookingProvider).bookingDetails.id,
-                        status: widget.bookingStatus == PageType.checkin
-                            ? 'checkedIn'
-                            : 'checkedOut',
-                      );
-                }
-                showDialog(
-                  context: context,
-                  builder: (context) => CustomDialog(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.dashboard);
-                      if (widget.bookingStatus == PageType.confirm) {
-                        clearData();
-                      }
-                    },
-                    title: widget.bookingStatus == PageType.confirm
-                        ? 'Successfully booked!'
-                        : widget.bookingStatus == PageType.checkin
-                            ? 'Successfully checked in!'
-                            : 'Successfully checked out!',
-                    buttonText: 'Back To Home',
-                    imagePath: 'assets/icons/successful.png',
-                  ),
-                );
-              },
-              buttonText: widget.bookingStatus == PageType.checkin
-                  ? 'Confirm Check in'
-                  : widget.bookingStatus == PageType.checkout
-                      ? 'Checkout'
-                      : 'Confirm',
-              width: double.infinity,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // Calculate the sub total
-  int total = 0;
-  subTotal() {
-    for (var room in ref.read(bookingProvider).allRoom) {
-      total += room.roomType.rent;
+  // Helper Method
+  String getAppBarTitle() {
+    if (widget.bookingStatus == PageType.checkin) {
+      return 'Confirm Checkin';
+    } else if (widget.bookingStatus == PageType.checkout) {
+      return 'Confirm Checkout';
+    } else {
+      return 'Confirm Booking';
     }
-    return total;
+  }
+
+  Container buildCustomerDetails(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Theme.of(context).colorScheme.primaryContainer,
+      ),
+      child: Column(
+        children: [
+          ListTile(
+            leading: Icon(
+              Icons.person,
+              size: 50,
+            ),
+            title: Text(
+              ref.read(bookingProvider).nameController.text,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            subtitle: Text(
+              ref.read(bookingProvider).phoneController.text,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          Divider(
+            color: Theme.of(context).colorScheme.background,
+            thickness: 3,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildBillDetails(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Bill Details',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            child: Table(
+              border: TableBorder.all(width: 1.0, color: Colors.grey),
+              children: [
+                TableRow(
+                  decoration: BoxDecoration(color: Color(0xFFA5A9BB)),
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Room'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Type'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Rent'),
+                      ),
+                    ),
+                  ],
+                ),
+                ...ref.read(bookingProvider).allRoom.map(
+                      (room) => TableRow(
+                        children: [
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(room.number.toString()),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(room.roomType.type),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(room.roomType.rent.toString()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          buildBillTitle(title: 'Sub Total', amount: total),
+          SizedBox(height: 10),
+          buildBillTitle(
+              title: 'Discount',
+              amount: ref.read(bookingProvider).discountController.text.isEmpty
+                  ? 0
+                  : widget.bookingStatus == PageType.confirm ||
+                          widget.checkinNow
+                      ? int.parse(
+                          ref.read(bookingProvider).discountController.text)
+                      : ref.read(bookingProvider).bookingDetails.discount),
+          SizedBox(height: 10),
+          buildBillTitle(
+            title: 'Advance',
+            amount: advancAmount != 0
+                ? advancAmount
+                : int.parse(ref.read(bookingProvider).advanceController.text),
+          ),
+          SizedBox(height: 10),
+          buildBillTitle(title: 'Payable', amount: payableAmount),
+        ],
+      ),
+    );
+  }
+
+  Widget buildBillTitle({required String title, required int amount}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Text(
+          'TK. $amount',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildConfirmationButton() {
+    return CustomButton(
+        onPressed: () {
+          // handleConfirm();
+        },
+        buttonText: 'Confirm');
+  }
+
+  // Calculate the sub total
+  int calculateSubTotal() {
+    final bookingState = ref.read(bookingProvider);
+    for (var room in bookingState.allRoom) {
+      _total += room.roomType.rent;
+    }
+    return _total;
   }
 
   // Get the all selected rooms
-
-  List<String> roomsId = [];
-  getRooms() {
-    ref.read(bookingProvider).allRoom.forEach((room) {
-      print(room.id);
+  List<String> getRooms() {
+    final bookingState = ref.read(bookingProvider);
+    for (var room in bookingState.allRoom) {
       roomsId.add(room.id);
-    });
+    }
+    return roomsId;
   }
 
 // Calculate the advance amount
-  int advancAmount = 0;
-  getTotalAdvanceAmount() {
-    for (var i = 0; i < ref.read(transactionProvider).transaction.length; i++) {
-      advancAmount += ref.read(transactionProvider).transaction[i].amount;
+  int getTotalAdvanceAmount() {
+    if (widget.bookingStatus == PageType.confirm || widget.checkinNow == true) {
+      _advancAmount =
+          int.parse(ref.read(bookingProvider).advanceController.text);
+    } else {
+      for (var i = 0;
+          i < ref.read(transactionProvider).transaction.length;
+          i++) {
+        _advancAmount += ref.read(transactionProvider).transaction[i].amount;
+      }
     }
-    print(advancAmount);
-    return advancAmount;
+
+    return _advancAmount;
   }
 
 // Calculate the payable amount
-  int payableAmount = 0;
-  payable() {
-    print(widget.checkinNow);
-    print('There is a problem man');
+  calculatePayableAmount() {
+    final bookingState = ref.read(bookingProvider);
+    final int total = _total;
     if (widget.bookingStatus == PageType.confirm || widget.checkinNow == true) {
-      print('First part is calling');
-      int amount =
-          int.parse(ref.read(bookingProvider).discountController.text) +
-              int.parse(ref.read(bookingProvider).advanceController.text);
+      int amount = int.parse(bookingState.discountController.text) +
+          int.parse(bookingState.advanceController.text);
+      print(bookingState.discountController.text);
+      print(bookingState.advanceController.text);
       payableAmount = total - amount;
+      return payableAmount;
     } else {
-      int amount =
-          ref.read(bookingProvider).bookingDetails.discount + advancAmount;
+      int amount = bookingState.bookingDetails.discount + _advancAmount;
       payableAmount = total - amount;
+      return payableAmount;
+    }
+  }
+
+  // Handle the booking
+  void handleConfirmation() async {
+    final bookingState = ref.read(bookingProvider);
+    final name = bookingState.nameController.text;
+    final phone = bookingState.phoneController.text;
+
+    final customer = booking.Customer(name: name, phone: phone);
+    final checkIn = bookingState.checkIn!.toUtc();
+    final checkOut = bookingState.checkOut!.toUtc();
+    final discountText = bookingState.discountController.text;
+    final advanceText = bookingState.advanceController.text;
+    final isConfirmBooking = widget.bookingStatus == PageType.confirm;
+    final isCheckin = widget.bookingStatus == PageType.checkin;
+
+    if (isConfirmBooking || widget.checkinNow == true) {
+      final discount = discountText.isNotEmpty ? int.parse(discountText) : 0;
+
+      final bookingInfo = RoomBooking(
+        customer: customer,
+        rooms: roomsId,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        total: total,
+        discount: discount,
+        status: isConfirmBooking
+            ? 'booked'
+            : isCheckin
+                ? 'checkedIn'
+                : 'checkedOut',
+        paymentStatus: payableAmount <= 0 ? 'paid' : 'unpaid',
+      );
+
+      // calling booking api
+      final bookingId = await bookingState.roomBooking(bookingInfo, context);
+
+      // after booking successfull calling transaction api
+      if (bookingId != null) {
+        final advanceAmount = int.parse(advanceText);
+        await ref.read(transactionProvider).addTransaction(
+              paymentMethod: 'cash',
+              bookingId: bookingId,
+              amount: advanceAmount,
+            );
+      }
+    } else if (isCheckin) {
+      // calling checkin api
+      final bookingDetails = bookingState.bookingDetails;
+      await bookingState.updateBookingStatus(
+        id: bookingDetails.id,
+        status: 'checkedIn',
+      );
     }
 
-    return payableAmount;
+    showDialog(
+      context: context,
+      builder: (context) => CustomDialog(
+        onTap: () {
+          Navigator.pushNamed(context, Routes.dashboard);
+          if (isConfirmBooking) {
+            clearData();
+          }
+        },
+        title: isConfirmBooking
+            ? 'Successfully booked!'
+            : isCheckin
+                ? 'Successfully checked in!'
+                : 'Successfully checked out!',
+        buttonText: 'Back To Home',
+        imagePath: 'assets/icons/successful.png',
+      ),
+    );
   }
 
 // clear the all data after the booking is done
   void clearData() {
     ref.read(bookingProvider).nameController.clear();
     ref.read(bookingProvider).phoneController.clear();
-    ref.read(bookingProvider).advanceController.text = '0';
-    ref.read(bookingProvider).discountController.text = '0';
+    ref.read(bookingProvider).advanceController.clear();
+    ref.read(bookingProvider).discountController.clear();
     ref.read(bookingProvider).checkIn = null;
     ref.read(bookingProvider).checkOut = null;
     ref.read(bookingProvider).allRoom.clear();
