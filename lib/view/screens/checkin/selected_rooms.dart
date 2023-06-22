@@ -27,7 +27,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(bookingProvider).getBookingDetails(id:widget.bookingId);
+      await ref.read(bookingProvider).getBookingDetails(id: widget.bookingId);
       getRooms();
       await ref
           .read(transactionProvider)
@@ -182,7 +182,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                             Icon(Icons.calendar_month),
                             SizedBox(width: 5),
                             Text(
-                              '${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
+                              '${DateFormat('dd EEE, MMM yyyy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yyyy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,

@@ -66,7 +66,7 @@ class _UpdateBookingState extends ConsumerState<UpdateBooking> {
                                 ),
                               ),
                               SizedBox(height: 5),
-                              Text(DateFormat('dd EEE, MMM yy', 'en_US')
+                              Text(DateFormat('dd EEE, MMM yyyy', 'en_US')
                                   .format(widget.checkoutDate))
                             ],
                           ),
@@ -194,7 +194,8 @@ class _UpdateBookingState extends ConsumerState<UpdateBooking> {
                                     if (isSuccess) {
                                       await ref
                                           .read(bookingProvider)
-                                          .getBookingDetails(id:widget.bookingId);
+                                          .getBookingDetails(
+                                              id: widget.bookingId);
                                       Navigator.pop(context);
                                       showSnackBarMethod(context,
                                           'Checkout Date Updated', true);

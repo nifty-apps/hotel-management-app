@@ -39,7 +39,6 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Booking Details'),
-        
       ),
       body: Center(
         child: ref.watch(bookingProvider).isLoading
@@ -98,7 +97,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                DateFormat('dd EEE, MMM yy', 'en_US')
+                                DateFormat('dd EEE, MMM yyyy', 'en_US')
                                     .format(bookingDetails.checkIn.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -119,7 +118,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                DateFormat('dd EEE, MMM yy', 'en_US')
+                                DateFormat('dd EEE, MMM yyyy', 'en_US')
                                     .format(bookingDetails.checkOut.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,

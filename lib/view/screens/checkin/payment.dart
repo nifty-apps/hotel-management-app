@@ -51,7 +51,7 @@ class PaymentScreen extends ConsumerWidget {
                       Icon(Icons.calendar_month),
                       SizedBox(width: 10),
                       Text(
-                        '${DateFormat('dd EEE, MMM yy', 'en_US').format(bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(bookingDetails.checkOut.toLocal())}',
+                        '${DateFormat('dd EEE, MMM yyyy', 'en_US').format(bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yyyy', 'en_US').format(bookingDetails.checkOut.toLocal())}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
