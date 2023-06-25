@@ -41,7 +41,6 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
 
   @override
   Widget build(BuildContext context) {
-    print(calculateStayDuration());
     return Scaffold(
       appBar: AppBar(
         title: Text(

@@ -42,258 +42,255 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
   Widget build(BuildContext context) {
     final provider = ref.read(bookingProvider);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Booking Details'),
-        ),
-        body: Center(
-          child: provider.isLoading
-              ? CircularProgressIndicator()
-              : Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ),
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: Icon(
-                                Icons.person,
-                                size: 50,
+      appBar: AppBar(
+        title: Text('Booking Details'),
+      ),
+      body: Center(
+        child: provider.isLoading
+            ? CircularProgressIndicator()
+            : Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                      ),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(
+                              Icons.person,
+                              size: 50,
+                            ),
+                            title: Text(
+                              provider.bookingDetails.customer.name,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
                               ),
-                              title: Text(
-                                provider.bookingDetails.customer.name,
+                            ),
+                            subtitle: Text(
+                              provider.bookingDetails.customer.phone,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Divider(
+                            color: Theme.of(context).colorScheme.background,
+                            thickness: 3,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'CheckIn Date',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  color: Colors.grey,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              subtitle: Text(
-                                provider.bookingDetails.customer.phone,
+                              Text(
+                                DateFormat('dd EEE, MMM yyyy', 'en_US').format(
+                                    provider.bookingDetails.checkIn.toLocal()),
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 5),
-                            Divider(
-                              color: Theme.of(context).colorScheme.background,
-                              thickness: 3,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'CheckIn Date',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Checkout Date',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                                Text(
-                                  DateFormat('dd EEE, MMM yyyy', 'en_US')
-                                      .format(provider.bookingDetails.checkIn
-                                          .toLocal()),
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                              ),
+                              Text(
+                                DateFormat('dd EEE, MMM yyyy', 'en_US').format(
+                                    provider.bookingDetails.checkOut.toLocal()),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Checkout Date',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Booking status',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                                Text(
-                                  DateFormat('dd EEE, MMM yyyy', 'en_US')
-                                      .format(provider.bookingDetails.checkOut
-                                          .toLocal()),
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                              ),
+                              Text(
+                                provider.bookingDetails.status,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Booking status',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Text(
-                                  provider.bookingDetails.status,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
                         ),
                       ),
-                      SizedBox(height: 30),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Details',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                "Duration ${calculateStayDuration()} days",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          SizedBox(height: 10),
+                          Container(
+                            child: Table(
+                              border: TableBorder.all(
+                                  width: 1.0, color: Colors.grey),
                               children: [
-                                Text(
-                                  'Details',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                TableRow(
+                                  decoration:
+                                      BoxDecoration(color: Color(0xFFA5A9BB)),
+                                  children: [
+                                    TableCell(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Room'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Type'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Rent'),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  "Duration ${calculateStayDuration()} days",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                                ...provider.bookingDetails.rooms
+                                    .map(
+                                      (room) => TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                room.number,
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                room.roomType.type,
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                room.roomType.rent.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                    .toList(),
                               ],
                             ),
-                            SizedBox(height: 10),
-                            Container(
-                              child: Table(
-                                border: TableBorder.all(
-                                    width: 1.0, color: Colors.grey),
-                                children: [
-                                  TableRow(
-                                    decoration:
-                                        BoxDecoration(color: Color(0xFFA5A9BB)),
-                                    children: [
-                                      TableCell(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text('Room'),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text('Type'),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text('Rent'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  ...provider.bookingDetails.rooms
-                                      .map(
-                                        (room) => TableRow(
-                                          children: [
-                                            TableCell(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  room.number,
-                                                  style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TableCell(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  room.roomType.type,
-                                                  style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TableCell(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  room.roomType.rent.toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                      .toList(),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            detailsTile(
-                              title: 'Sub Total',
-                              value: provider.bookingDetails.total.toString(),
-                            ),
-                            SizedBox(height: 10),
-                            detailsTile(
-                              title: 'Discount',
-                              value:
-                                  provider.bookingDetails.discount.toString(),
-                            ),
-                            SizedBox(height: 10),
-                            detailsTile(
-                              title: 'Advance',
-                              value: advancAmount.toString(),
-                            ),
-                            SizedBox(height: 10),
-                            detailsTile(
-                              title: 'Due',
-                              value: dueAmount == 0
-                                  ? 'Paid'
-                                  : dueAmount.toString(),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                          ),
+                          SizedBox(height: 10),
+                          detailsTile(
+                            title: 'Sub Total',
+                            value: provider.bookingDetails.total.toString(),
+                          ),
+                          SizedBox(height: 10),
+                          detailsTile(
+                            title: 'Discount',
+                            value: provider.bookingDetails.discount.toString(),
+                          ),
+                          SizedBox(height: 10),
+                          detailsTile(
+                            title: 'Advance',
+                            value: advancAmount.toString(),
+                          ),
+                          SizedBox(height: 10),
+                          detailsTile(
+                            title: 'Due',
+                            value:
+                                dueAmount == 0 ? 'Paid' : dueAmount.toString(),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-        ));
+              ),
+      ),
+    );
   }
 
   Widget detailsTile({required String title, required String value}) {

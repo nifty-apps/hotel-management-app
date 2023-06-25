@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/available_room.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
-import 'package:hotel_management/view/base/date_picker_button.dart';
-import 'package:hotel_management/view/base/search_button.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class NewBookingScreen extends ConsumerStatefulWidget {
   NewBookingScreen({super.key});
@@ -19,8 +17,8 @@ class NewBookingScreen extends ConsumerStatefulWidget {
 class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  DateTime? fromDate = DateTime.now();
-  DateTime? toDate = DateTime.now();
+  DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now();
 
   List<AvailableRoom> selectedRooms = [];
 
@@ -29,12 +27,14 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider).getAvailableRooms(
-            fromDate: fromDate!..subtract(Duration(days: 1)),
-            toDate: toDate!,
+            fromDate: fromDate.toUtc(),
+            toDate: toDate.toUtc(),
           );
     });
   }
 
+  final DateRangePickerController dateRangeController =
+      DateRangePickerController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,93 +46,129 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
+
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Check In',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              InkWell(
-                                  onTap: () async {
-                                    final date = await selectDate(context);
-                                    if (date != null) {
-                                      setState(() {
-                                        fromDate = date;
-                                      });
-                                    }
-                                  },
-                                  child: DatePickerButton(date: fromDate)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 14),
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Check Out',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              InkWell(
-                                onTap: () async {
-                                  final date = await selectDate(context);
-                                  if (date != null) {
-                                    setState(() {
-                                      toDate = date;
-                                    });
-                                  }
-                                },
-                                child: DatePickerButton(date: toDate),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  SearchButton(
-                    onPressed: () async {
-                      selectedRooms.clear();
-                      ref.read(bookingProvider).getAvailableRooms(
-                            fromDate: fromDate!.subtract(Duration(days: 1)),
-                            toDate: toDate!,
-                          );
-                    },
-                  )
-                ],
+              child: SfDateRangePicker(
+                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                  if (args.value is PickerDateRange) {
+                    fromDate = args.value.startDate;
+                    toDate = args.value.endDate;
+                  }
+                },
+                selectionMode: DateRangePickerSelectionMode.range,
+                initialDisplayDate: DateTime.now(),
+                controller: dateRangeController,
+                confirmText: 'Search',
+                cancelText: 'Clear',
+                showActionButtons: true,
+                enablePastDates: false,
+                onSubmit: (args) {
+                  ref.read(bookingProvider).getAvailableRooms(
+                        fromDate: fromDate.toUtc(),
+                        toDate: toDate.toUtc(),
+                      );
+                },
+                onCancel: () {
+                  fromDate = DateTime.now();
+                  toDate = DateTime.now();
+                  ref.read(bookingProvider).getAvailableRooms(
+                        fromDate: fromDate.toUtc(),
+                        toDate: toDate.toUtc(),
+                      );
+                  dateRangeController.selectedRange = PickerDateRange(
+                    fromDate,
+                    toDate,
+                  );
+                },
               ),
             ),
+            // Container(
+            //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            //   margin: EdgeInsets.symmetric(horizontal: 16),
+            //   decoration: BoxDecoration(
+            //     color: Theme.of(context).colorScheme.primaryContainer,
+            //     borderRadius: BorderRadius.circular(16),
+            //   ),
+            //   child: Column(
+            //     children: [
+            //       SizedBox(height: 10),
+            //       Row(
+            //         children: [
+            //           Flexible(
+            //             flex: 1,
+            //             child: Container(
+            //               child: Column(
+            //                 mainAxisAlignment: MainAxisAlignment.start,
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 children: [
+            //                   Text(
+            //                     'Check In',
+            //                     style: TextStyle(
+            //                       fontSize: 14,
+            //                       fontWeight: FontWeight.w700,
+            //                     ),
+            //                   ),
+            //                   SizedBox(height: 5),
+            //                   InkWell(
+            //                       onTap: () async {
+            //                         final date = await selectDate(context);
+            //                         if (date != null) {
+            //                           setState(() {
+            //                             fromDate = date;
+            //                           });
+            //                         }
+            //                       },
+            //                       child: DatePickerButton(date: fromDate)),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //           SizedBox(width: 14),
+            //           Flexible(
+            //             flex: 1,
+            //             child: Container(
+            //               child: Column(
+            //                 mainAxisAlignment: MainAxisAlignment.start,
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 children: [
+            //                   Text(
+            //                     'Check Out',
+            //                     style: TextStyle(
+            //                       fontSize: 14,
+            //                       fontWeight: FontWeight.w700,
+            //                     ),
+            //                   ),
+            //                   SizedBox(height: 5),
+            //                   InkWell(
+            //                     onTap: () async {
+            //                       final date = await selectDate(context);
+            //                       if (date != null) {
+            //                         setState(() {
+            //                           toDate = date;
+            //                         });
+            //                       }
+            //                     },
+            //                     child: DatePickerButton(date: toDate),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       SizedBox(height: 20),
+            //       SearchButton(
+            //         onPressed: () async {
+            //           selectedRooms.clear();
+            //           ref.read(bookingProvider).getAvailableRooms(
+            //                 fromDate: fromDate!.subtract(Duration(days: 1)),
+            //                 toDate: toDate!,
+            //               );
+            //         },
+            //       )
+            //     ],
+            //   ),
+            // ),
             Spacer(),
             ref.watch(bookingProvider).isLoading
                 ? shimmerWidget()
