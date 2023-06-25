@@ -332,19 +332,20 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                   Spacer(),
                   CustomButton(
                     onPressed: () async {
-                      final double data = getTotalAdvanceAmount(
+                      final int data = getTotalAdvanceAmount(
                           ref.read(transactionProvider).transaction);
                       int payable = (ref
                               .read(bookingProvider)
                               .bookingDetails
                               .total -
                           ref.read(bookingProvider).bookingDetails.discount);
-                      if (payable == data.toInt()) {
+                      if (payable == data) {
                         Navigator.pushNamed(
                           context,
                           Routes.confirmCheckin,
                           arguments: [
                             PageType.checkin,
+                            false,
                           ],
                         );
                       } else {
@@ -364,18 +365,18 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
     );
   }
 
-  getTotalAdvanceAmount(List<Transaction> transactions) {
-    double total = 0;
+  int getTotalAdvanceAmount(List<Transaction> transactions) {
+    int total = 0;
     for (var i = 0; i < transactions.length; i++) {
       total += transactions[i].amount;
     }
     return total;
   }
 
-  getRooms() {
+  List<String> getRooms() {
     ref.watch(bookingProvider).allRoom.forEach((room) {
       roomsId.add(room.id);
     });
-    print(roomsId);
+    return roomsId;
   }
 }

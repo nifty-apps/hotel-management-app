@@ -41,14 +41,13 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.bookingStatus);
     return Scaffold(
       appBar: AppBar(
         title: Text(
           getAppBarTitle(),
         ),
         automaticallyImplyLeading:
-            widget.bookingStatus == PageType.confirm ? true : false,
+            [PageType.confirm, PageType.checkin].contains(widget.bookingStatus),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -58,13 +57,18 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
               buildCustomerDetails(context),
               SizedBox(height: 30),
               buildBillDetails(context),
-              Spacer(),
-              CustomButton(
-                onPressed: () => handleConfirmation(),
-                buttonText: getAppBarTitle(),
-                width: double.infinity,
-              ),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        child: SizedBox(
+          height: 45,
+          child: CustomButton(
+            onPressed: () => handleConfirmation(),
+            buttonText: getAppBarTitle(),
+            width: double.infinity,
           ),
         ),
       ),
@@ -125,6 +129,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   }
 
   Container buildBillDetails(BuildContext context) {
+    // print(advancAmount);
+    print(ref.read(bookingProvider).advanceController.text);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       width: double.infinity,
@@ -311,18 +317,18 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
   // Handle the booking
   void handleConfirmation() async {
     final bookingState = ref.read(bookingProvider);
-    final name = bookingState.nameController.text;
-    final phone = bookingState.phoneController.text;
-
-    final customer = booking.Customer(name: name, phone: phone);
-    final checkIn = bookingState.checkIn!.toUtc();
-    final checkOut = bookingState.checkOut!.toUtc();
-    final discountText = bookingState.discountController.text;
-    final advanceText = bookingState.advanceController.text;
     final isConfirmBooking = widget.bookingStatus == PageType.confirm;
     final isCheckin = widget.bookingStatus == PageType.checkin;
 
     if (isConfirmBooking || widget.checkinNow == true) {
+      final name = bookingState.nameController.text;
+      final phone = bookingState.phoneController.text;
+
+      final customer = booking.Customer(name: name, phone: phone);
+      final checkIn = bookingState.checkIn!.toUtc();
+      final checkOut = bookingState.checkOut!.toUtc();
+      final discountText = bookingState.discountController.text;
+      final advanceText = bookingState.advanceController.text;
       final discount = discountText.isNotEmpty ? int.parse(discountText) : 0;
 
       final bookingInfo = RoomBooking(
@@ -353,6 +359,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
             );
       }
     } else if (isCheckin) {
+      print('update booking status');
       // calling checkin api
       final bookingDetails = bookingState.bookingDetails;
       await bookingState.updateBookingStatus(

@@ -190,48 +190,41 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                           thickness: 3,
                                         ),
                                         ListTile(
-                                          onTap: () {
+                                          onTap: () async {
+                                            final bookingList = ref
+                                                .watch(bookingProvider)
+                                                .bookingList;
+                                            final booking = bookingList[index];
+
                                             ref
                                                 .read(bookingProvider)
                                                 .getBookingDetails(
-                                                  id: ref
-                                                      .watch(bookingProvider)
-                                                      .bookingList[index]
-                                                      .id,
-                                                );
+                                                    id: booking.id);
                                             ref
                                                 .read(transactionProvider)
                                                 .getTransactionList(
-                                                  ref
-                                                      .watch(bookingProvider)
-                                                      .bookingList[index]
-                                                      .id,
-                                                  true,
-                                                );
-                                            final double data =
-                                                getTotalAdvanceAmount(
-                                              ref
-                                                  .read(transactionProvider)
-                                                  .transaction,
-                                            );
-                                            ref
-                                                        .watch(bookingProvider)
-                                                        .bookingList[index]
-                                                        .paymentStatus ==
-                                                    'unpaid'
-                                                ? Navigator.pushNamed(
-                                                    context,
-                                                    Routes.checkoutDue,
-                                                    arguments: data.toInt(),
-                                                  )
-                                                : Navigator.pushNamed(
-                                                    context,
-                                                    Routes.confirmCheckin,
-                                                    arguments: [
-                                                      PageType.checkout,
-                                                      false
-                                                    ],
-                                                  );
+                                                    booking.id, true);
+
+                                            final int data =
+                                                getTotalAdvanceAmount(ref
+                                                    .read(transactionProvider)
+                                                    .transaction);
+
+                                            final bool isUnpaid =
+                                                booking.paymentStatus ==
+                                                    'unpaid';
+
+                                            Navigator.pushNamed(
+                                                context,
+                                                isUnpaid
+                                                    ? Routes.checkoutDue
+                                                    : Routes.confirmCheckin,
+                                                arguments: isUnpaid
+                                                    ? data.toInt()
+                                                    : [
+                                                        PageType.checkout,
+                                                        false
+                                                      ]);
                                           },
                                           leading: Icon(Icons.person),
                                           trailing: Icon(
@@ -340,8 +333,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     );
   }
 
-  getTotalAdvanceAmount(List<Transaction> transactions) {
-    double total = 0;
+  int getTotalAdvanceAmount(List<Transaction> transactions) {
+    int total = 0;
     for (var i = 0; i < transactions.length; i++) {
       total += transactions[i].amount;
     }

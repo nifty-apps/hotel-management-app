@@ -17,7 +17,7 @@ class PaymentScreen extends ConsumerWidget {
     required this.advance,
   });
   final TextEditingController advanceAmountController = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bookingDetails = ref.watch(bookingProvider).bookingDetails;
@@ -197,7 +197,8 @@ class PaymentScreen extends ConsumerWidget {
                     children: [
                       SizedBox(height: 40),
                       CustomTextFormField(
-                        controller: advanceAmountController,
+                        controller:
+                            ref.watch(bookingProvider).advanceController,
                         hintText: 'Enter amount',
                         labelText: 'Advance Amount',
                         keyboardType: TextInputType.number,
@@ -226,7 +227,11 @@ class PaymentScreen extends ConsumerWidget {
                                         paymentMethod: "cash",
                                         bookingId: bookingDetails.id,
                                         amount: int.parse(
-                                          advanceAmountController.text.trim(),
+                                          ref
+                                              .read(bookingProvider)
+                                              .advanceController
+                                              .text
+                                              .trim(),
                                         ),
                                       );
                                   showSnackBarMethod(
@@ -255,33 +260,32 @@ class PaymentScreen extends ConsumerWidget {
                               width: double.infinity,
                             ),
                       SizedBox(height: 20),
-                      ref.watch(transactionProvider).isLoading ||
-                              ref.watch(bookingProvider).isLoading
-                          ? CircularProgressIndicator()
-                          : ElevatedButton(
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(
-                                  Size(double.infinity, 42),
-                                ),
-                                backgroundColor: MaterialStateProperty.all(
-                                  Colors.grey.shade200,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  Routes.confirmCheckin,
-                                  arguments: [PageType.checkin, false],
-                                );
-                              },
-                              child: Text(
-                                'SKIP PAYMENT',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            Size(double.infinity, 42),
+                          ),
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.grey.shade200,
+                          ),
+                        ),
+                        onPressed: () {
+                          ref.read(bookingProvider).advanceController.text =
+                              '0';
+                          Navigator.pushNamed(
+                            context,
+                            Routes.confirmCheckin,
+                            arguments: [PageType.checkin, false],
+                          );
+                        },
+                        child: Text(
+                          'SKIP PAYMENT',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
