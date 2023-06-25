@@ -24,6 +24,8 @@ class ChoiceRoomScreen extends ConsumerStatefulWidget {
 class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
   @override
   Widget build(BuildContext context) {
+    int duration = calculateStayDuration();
+    print(duration);
     return Scaffold(
       appBar: AppBar(
         title: Text('Choice Room'),
@@ -55,7 +57,8 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
+                  Text('Duration: $duration days'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -115,7 +118,7 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
                                 ),
                                 SizedBox(width: 10),
                                 Text(
-                                  totalAmount.toString(),
+                                  "${totalAmount * calculateStayDuration()}",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -278,7 +281,7 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
                       selectedItems,
                       widget.checkinDate,
                       widget.checkoutDate,
-                      totalAmount
+                      totalAmount * calculateStayDuration(),
                     ]);
                 selectedItems.forEach((element) {
                   roomId.add(element.id);
@@ -300,4 +303,8 @@ class _ChoiceRoomScreenState extends ConsumerState<ChoiceRoomScreen> {
   List<booking.Room> selectedItems = [];
   int totalAmount = 0;
   List<String> roomId = [];
+
+  int calculateStayDuration() {
+    return widget.checkoutDate.difference(widget.checkinDate).inDays;
+  }
 }

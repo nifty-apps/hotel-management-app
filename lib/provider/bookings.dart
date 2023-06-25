@@ -32,7 +32,7 @@ class BookingProvider extends ChangeNotifier {
   List<CustomerInfo> _listOfCustomer = [];
   List<CustomerInfo> get listOfCustomer => _listOfCustomer;
 
-  late BookingDetails _bookingDetails ;
+  late BookingDetails _bookingDetails;
   BookingDetails get bookingDetails => _bookingDetails;
 
   bool _isLoading = false;
@@ -247,6 +247,17 @@ class BookingProvider extends ChangeNotifier {
       _isLoading = false;
       return [];
     }
+  }
+
+  // set booking details
+  void setBookingDetails() {
+    nameController.text = _bookingDetails.customer.name;
+    phoneController.text = _bookingDetails.customer.phone;
+    discountController.text = _bookingDetails.discount.toString();
+    allRoom = _bookingDetails.rooms;
+    checkIn = _bookingDetails.checkIn.toLocal();
+    checkOut = _bookingDetails.checkOut.toLocal();
+    notifyListeners();
   }
 }
 

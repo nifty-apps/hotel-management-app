@@ -170,11 +170,22 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                         ),
                         child: Column(
                           children: [
-                            Text(
-                              'Details',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Details',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  "Duration ${calculateStayDuration()} days",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 10),
                             Container(
@@ -323,5 +334,13 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
   int getDueAmount({required int subTotal, required int discount}) {
     _dueAmount = subTotal - advancAmount - discount;
     return _dueAmount;
+  }
+
+  int calculateStayDuration() {
+    final checkIn = ref.read(bookingProvider).bookingDetails.checkIn.toLocal();
+    final checkOut =
+        ref.read(bookingProvider).bookingDetails.checkOut.toLocal();
+    final difference = checkOut.difference(checkIn).inDays;
+    return difference;
   }
 }

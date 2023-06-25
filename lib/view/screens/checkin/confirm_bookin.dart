@@ -41,6 +41,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
 
   @override
   Widget build(BuildContext context) {
+    print(calculateStayDuration());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -144,12 +145,22 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Bill Details',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Bill Details',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text("Duration: ${calculateStayDuration()} days",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  )),
+            ],
           ),
           SizedBox(height: 10),
           Container(
@@ -207,7 +218,8 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
             ),
           ),
           SizedBox(height: 10),
-          buildBillTitle(title: 'Sub Total', amount: total),
+          buildBillTitle(
+              title: 'Sub Total', amount: total * calculateStayDuration()),
           SizedBox(height: 10),
           buildBillTitle(
               title: 'Discount',
@@ -305,13 +317,22 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
           int.parse(bookingState.advanceController.text);
       print(bookingState.discountController.text);
       print(bookingState.advanceController.text);
-      payableAmount = total - amount;
+      payableAmount = (total * calculateStayDuration()) - amount;
       return payableAmount;
     } else {
       int amount = bookingState.bookingDetails.discount + _advancAmount;
-      payableAmount = total - amount;
+      payableAmount = (total * calculateStayDuration()) - amount;
       return payableAmount;
     }
+  }
+
+  // calculate duration
+  int calculateStayDuration() {
+    return ref
+        .read(bookingProvider)
+        .checkOut!
+        .difference(ref.read(bookingProvider).checkIn ?? DateTime.now())
+        .inDays;
   }
 
   // Handle the booking
@@ -336,7 +357,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
         rooms: roomsId,
         checkIn: checkIn,
         checkOut: checkOut,
-        total: total,
+        total: total * calculateStayDuration(),
         discount: discount,
         status: isConfirmBooking
             ? 'booked'
@@ -373,9 +394,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
       builder: (context) => CustomDialog(
         onTap: () {
           Navigator.pushNamed(context, Routes.dashboard);
-          if (isConfirmBooking) {
-            clearData();
-          }
+          clearData();
         },
         title: isConfirmBooking
             ? 'Successfully booked!'

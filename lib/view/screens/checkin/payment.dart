@@ -21,6 +21,8 @@ class PaymentScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bookingDetails = ref.watch(bookingProvider).bookingDetails;
+    ref.read(bookingProvider).checkIn = bookingDetails.checkIn;
+    ref.read(bookingProvider).checkOut = bookingDetails.checkOut;
     final int totalAmount = bookingDetails.total - bookingDetails.discount;
     return Scaffold(
       appBar: AppBar(

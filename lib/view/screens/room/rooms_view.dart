@@ -23,54 +23,6 @@ class _RoomsViewScreenState extends ConsumerState<RoomsViewScreen> {
     super.initState();
   }
 
-  final List<Rooms> rooms = [
-    Rooms(roomNumber: 101, report: [
-      Report(date: '01-06-2023', status: 'available'),
-      Report(date: '02-06-2023', status: 'booked'),
-      Report(date: '03-06-2023', status: 'available'),
-      Report(date: '04-06-2023', status: 'checkedin'),
-      Report(date: '05-06-2023', status: 'booked'),
-      Report(date: '06-06-2023', status: 'booked'),
-      Report(date: '07-06-2023', status: 'available'),
-    ]),
-    Rooms(roomNumber: 102, report: [
-      Report(date: '01-06-2023', status: 'booked'),
-      Report(date: '02-06-2023', status: 'available'),
-      Report(date: '03-06-2023', status: 'booked'),
-      Report(date: '04-06-2023', status: 'checkedin'),
-      Report(date: '05-06-2023', status: 'available'),
-      Report(date: '06-06-2023', status: 'booked'),
-      Report(date: '07-06-2023', status: 'chekedin'),
-    ]),
-    Rooms(roomNumber: 103, report: [
-      Report(date: '01-06-2023', status: 'checkedin'),
-      Report(date: '02-06-2023', status: 'booked'),
-      Report(date: '03-06-2023', status: 'booked'),
-      Report(date: '04-06-2023', status: 'checkedin'),
-      Report(date: '05-06-2023', status: 'available'),
-      Report(date: '06-06-2023', status: 'available'),
-      Report(date: '07-06-2023', status: 'chekedin'),
-    ]),
-    Rooms(roomNumber: 104, report: [
-      Report(date: '01-06-2023', status: 'available'),
-      Report(date: '02-06-2023', status: 'booked'),
-      Report(date: '03-06-2023', status: 'available'),
-      Report(date: '04-06-2023', status: 'checkedin'),
-      Report(date: '05-06-2023', status: 'available'),
-      Report(date: '06-06-2023', status: 'booked'),
-      Report(date: '07-06-2023', status: 'chekedin'),
-    ]),
-    Rooms(roomNumber: 105, report: [
-      Report(date: '01-06-2023', status: 'checkedin'),
-      Report(date: '02-06-2023', status: 'booked'),
-      Report(date: '03-06-2023', status: 'booked'),
-      Report(date: '04-06-2023', status: 'checkedin'),
-      Report(date: '05-06-2023', status: 'available'),
-      Report(date: '06-06-2023', status: 'available'),
-      Report(date: '07-06-2023', status: 'chekedin'),
-    ]),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

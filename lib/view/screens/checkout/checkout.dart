@@ -210,21 +210,24 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                                     .read(transactionProvider)
                                                     .transaction);
 
-                                            final bool isUnpaid =
-                                                booking.paymentStatus ==
-                                                    'unpaid';
-
+                                            final bool isPaid =
+                                                booking.paymentStatus == 'paid';
+                                            if (isPaid) {
+                                              ref
+                                                  .read(bookingProvider)
+                                                  .setBookingDetails();
+                                            } else {
+                                              print('unpaid');
+                                            }
                                             Navigator.pushNamed(
-                                                context,
-                                                isUnpaid
-                                                    ? Routes.checkoutDue
-                                                    : Routes.confirmCheckin,
-                                                arguments: isUnpaid
-                                                    ? data.toInt()
-                                                    : [
-                                                        PageType.checkout,
-                                                        false
-                                                      ]);
+                                              context,
+                                              isPaid
+                                                  ? Routes.confirmCheckin
+                                                  : Routes.checkoutDue,
+                                              arguments: isPaid
+                                                  ? [PageType.checkout, false]
+                                                  : data.toInt(),
+                                            );
                                           },
                                           leading: Icon(Icons.person),
                                           trailing: Icon(
