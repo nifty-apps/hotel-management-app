@@ -26,5 +26,9 @@ Future<DateTime?> selectDate(BuildContext context) async {
     ),
   );
 
-  return pickedDate;
+  DateTime? startOfDay = pickedDate != null
+      ? DateTime(pickedDate.year, pickedDate.month, pickedDate.day, 12)
+      : null;
+
+  return startOfDay;
 }

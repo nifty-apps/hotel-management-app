@@ -171,7 +171,8 @@ class SettingsScreen extends ConsumerWidget {
                 children: [
                   TextButton.icon(
                     onPressed: () async {
-                      Navigator.pushNamed(context, Routes.chooseLanguage,arguments: true);
+                      Navigator.pushNamed(context, Routes.chooseLanguage,
+                          arguments: true);
                     },
                     icon: Icon(Icons.language),
                     label: Text('Language'),

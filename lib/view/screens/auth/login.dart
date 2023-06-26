@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/response_message.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
@@ -101,6 +103,39 @@ class LoginScreen extends ConsumerWidget {
                                 }
                                 return null;
                               }),
+                          SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: provider.isLoading
+                                ? CircularProgressIndicator()
+                                : InkWell(
+                                    onTap: () async {
+                                      if (emailController.text.isNotEmpty) {
+                                        ResponseMessage responseMessage =
+                                            await provider.sendOtp(
+                                                email: emailController.text
+                                                    .trim());
+                                        showSnackBarMethod(
+                                            context,
+                                            responseMessage.message,
+                                            responseMessage.isSuccess);
+                                        if (responseMessage.isSuccess) {
+                                          Navigator.pushNamed(
+                                              context, Routes.verifyOtp,
+                                              arguments: [
+                                                '',
+                                                emailController.text.trim(),
+                                                '',
+                                                false
+                                              ]);
+                                        }
+                                      } else {
+                                        showSnackBarMethod(context,
+                                            'Please enter your email', false);
+                                      }
+                                    },
+                                    child: Text('Forgot Password?')),
+                          ),
                           SizedBox(height: 70),
                           CustomButton(
                             onPressed: () async {

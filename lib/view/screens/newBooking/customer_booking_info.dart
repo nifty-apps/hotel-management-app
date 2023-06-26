@@ -30,8 +30,11 @@ class CustomerBookingInfoScreen extends ConsumerStatefulWidget {
 class _CustomerBookingInfoScreenState
     extends ConsumerState<CustomerBookingInfoScreen> {
   bool isCheckin = false;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    print(widget.checkinDate);
     return Scaffold(
       appBar: AppBar(
         title: Text('Customer Booking Info'),
@@ -52,20 +55,22 @@ class _CustomerBookingInfoScreenState
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.calendar_month),
-                      SizedBox(width: 10),
-                      Text(
-                        '${DateFormat('d EEE,MMM yy').format(widget.checkinDate)} to ${DateFormat('d EEE,MMM yy').format(widget.checkoutDate)}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                    ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.calendar_month),
+                        SizedBox(width: 10),
+                        Text(
+                          '${DateFormat('d EEE,MMM yyyy').format(widget.checkinDate)} to ${DateFormat('d EEE,MMM yyyy').format(widget.checkoutDate)}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(height: 30),
                   Padding(
@@ -159,142 +164,192 @@ class _CustomerBookingInfoScreenState
               ),
             ),
             SizedBox(height: 40),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+            Form(
+              key: _formKey,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
                 ),
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16),
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                        color: Theme.of(context).colorScheme.primaryContainer,
                       ),
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 5),
-                        CustomTextFormField(
-                          controller: ref.read(bookingProvider).nameController,
-                          hintText: 'Enter customer name',
-                          labelText: 'Customer Name',
-                          keyboardType: TextInputType.text,
-                          prefixIcon: Icons.person,
-                        ),
-                        SizedBox(height: 30),
-                        CustomTextFormField(
-                          controller: ref.read(bookingProvider).phoneController,
-                          hintText: 'Enter phone number',
-                          labelText: 'Phone Number',
-                          keyboardType: TextInputType.number,
-                          prefixIcon: Icons.phone_android,
-                        ),
-                        SizedBox(height: 30),
-                        Container(
-                          height: 63,
-                          width: double.infinity,
-                          child: Row(
-                            children: [
-                              Flexible(
-                                flex: 2,
-                                child: Container(
-                                  height: 70,
-                                  width: 220,
-                                  child: 
-                                  CustomTextFormField(
-                                    controller: ref
-                                        .read(bookingProvider)
-                                        .discountController,
-                                    hintText: 'Enter amount',
-                                    labelText: 'Discount',
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 2,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFA5A9BB),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(5),
-                                      bottomRight: Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Discount Amount',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
+                      child: Column(
+                        children: [
+                          SizedBox(height: 5),
+                          CustomTextFormField(
+                            controller:
+                                ref.read(bookingProvider).nameController,
+                            hintText: 'Enter customer name',
+                            labelText: 'Customer Name',
+                            keyboardType: TextInputType.text,
+                            prefixIcon: Icons.person,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Customer name is required!';
+                              } else if (int.tryParse(value) != null) {
+                                return 'Customer name must be string!';
+                              }
+                              return null;
+                            },
                           ),
-                        ),
-                        SizedBox(height: 30),
-                        CustomTextFormField(
-                          controller:
-                              ref.read(bookingProvider).advanceController,
-                          hintText: 'Enter amount',
-                          labelText: 'Advance Amount',
-                          keyboardType: TextInputType.number,
-                        ),
-                        SizedBox(height: 30),
-                        Row(
-                          children: [
-                            Checkbox(
-                                value: isCheckin,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isCheckin = value!;
-                                  });
-                                }),
-                            Text(
-                              'Checkin now?',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 30),
-                        CustomButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.confirmCheckin, arguments: [
-                              isCheckin ? PageType.checkin : PageType.confirm,
-                              isCheckin
-                            ]);
-                          },
-                          buttonText: 'Next',
-                          width: double.infinity,
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                          SizedBox(height: 30),
+                          CustomTextFormField(
+                            controller:
+                                ref.read(bookingProvider).phoneController,
+                            hintText: 'Enter phone number',
+                            labelText: 'Phone Number',
+                            keyboardType: TextInputType.number,
+                            prefixIcon: Icons.phone_android,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Phone number is required!';
+                              } else if (value.length < 11 ||
+                                  value.length > 11) {
+                                return 'Phone number must be 11 digit!';
+                              } else if (int.tryParse(value) == null) {
+                                return 'Phone number must be number!';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 30),
+                          Container(
+                            height: 63,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  flex: 2,
+                                  child: Container(
+                                    height: 70,
+                                    width: 220,
+                                    child: CustomTextFormField(
+                                      controller: ref
+                                          .read(bookingProvider)
+                                          .discountController,
+                                      hintText: 'Enter amount',
+                                      labelText: 'Discount',
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFA5A9BB),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(5),
+                                        bottomRight: Radius.circular(5),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Discount Amount',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          CustomTextFormField(
+                              controller:
+                                  ref.read(bookingProvider).advanceController,
+                              hintText: 'Enter amount',
+                              labelText: 'Advance Amount',
+                              keyboardType: TextInputType.number),
+                          SizedBox(height: 30),
+                          isCheckInToday(widget.checkinDate)
+                              ? Row(
+                                  children: [
+                                    Checkbox(
+                                        value: isCheckin,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            isCheckin = value!;
+                                          });
+                                        }),
+                                    Text(
+                                      'Checkin now?',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : SizedBox(),
+                          SizedBox(height: 30),
+                          CustomButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                handleTextFields();
+                                Navigator.pushNamed(
+                                    context, Routes.confirmCheckin, arguments: [
+                                  isCheckin
+                                      ? PageType.checkin
+                                      : PageType.confirm,
+                                  isCheckin
+                                ]);
+                              }
+                            },
+                            buttonText: 'Next',
+                            width: double.infinity,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void handleTextFields() {
+    final bookingState = ref.read(bookingProvider);
+    if (bookingState.discountController.text.isEmpty) {
+      bookingState.discountController.text = '0';
+    }
+    if (bookingState.advanceController.text.isEmpty) {
+      bookingState.advanceController.text = '0';
+    }
+  }
+
+  bool isCheckInToday(DateTime checkInDate) {
+    DateTime today = DateTime.now();
+
+    if (checkInDate.year == today.year &&
+        checkInDate.month == today.month &&
+        checkInDate.day == today.day) return true;
+
+    return false;
   }
 }

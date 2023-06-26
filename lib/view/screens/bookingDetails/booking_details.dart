@@ -17,6 +17,11 @@ class BookingDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
+  int _advancAmount = 0;
+  int get advancAmount => _advancAmount;
+  int _dueAmount = 0;
+  int get dueAmount => _dueAmount;
+
   @override
   void initState() {
     super.initState();
@@ -26,23 +31,22 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
           .read(transactionProvider)
           .getTransactionList(widget.bookingID, true);
       getTotalAdvanceAmount();
+      getDueAmount(
+        subTotal: ref.read(bookingProvider).bookingDetails.total,
+        discount: ref.read(bookingProvider).bookingDetails.discount,
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final bookingDetails = ref.watch(bookingProvider).bookingDetails;
-
-    final dueAmount = getDueAmount(
-        subTotal: bookingDetails.total, discount: bookingDetails.discount);
-
+    final provider = ref.read(bookingProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Booking Details'),
-        
       ),
       body: Center(
-        child: ref.watch(bookingProvider).isLoading
+        child: provider.isLoading
             ? CircularProgressIndicator()
             : Padding(
                 padding: EdgeInsets.symmetric(
@@ -68,14 +72,14 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                               size: 50,
                             ),
                             title: Text(
-                              bookingDetails.customer.name,
+                              provider.bookingDetails.customer.name,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                             subtitle: Text(
-                              bookingDetails.customer.phone,
+                              provider.bookingDetails.customer.phone,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -98,8 +102,8 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                DateFormat('dd EEE, MMM yy', 'en_US')
-                                    .format(bookingDetails.checkIn.toLocal()),
+                                DateFormat('dd EEE, MMM yyyy', 'en_US').format(
+                                    provider.bookingDetails.checkIn.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w700,
@@ -119,8 +123,8 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                DateFormat('dd EEE, MMM yy', 'en_US')
-                                    .format(bookingDetails.checkOut.toLocal()),
+                                DateFormat('dd EEE, MMM yyyy', 'en_US').format(
+                                    provider.bookingDetails.checkOut.toLocal()),
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w700,
@@ -140,7 +144,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                bookingDetails.status,
+                                provider.bookingDetails.status,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -164,11 +168,22 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                       ),
                       child: Column(
                         children: [
-                          Text(
-                            'Details',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Details',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                "Duration ${calculateStayDuration()} days",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 10),
                           Container(
@@ -200,7 +215,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                     ),
                                   ],
                                 ),
-                                ...bookingDetails.rooms
+                                ...provider.bookingDetails.rooms
                                     .map(
                                       (room) => TableRow(
                                         children: [
@@ -250,12 +265,12 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                           SizedBox(height: 10),
                           detailsTile(
                             title: 'Sub Total',
-                            value: bookingDetails.total.toString(),
+                            value: provider.bookingDetails.total.toString(),
                           ),
                           SizedBox(height: 10),
                           detailsTile(
                             title: 'Discount',
-                            value: bookingDetails.discount.toString(),
+                            value: provider.bookingDetails.discount.toString(),
                           ),
                           SizedBox(height: 10),
                           detailsTile(
@@ -276,26 +291,6 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
               ),
       ),
     );
-  }
-
-  int advancAmount = 0;
-  int dueAmount = 0;
-
-  getTotalAdvanceAmount() {
-    print('Print get the total advance amount');
-    for (var i = 0;
-        i < ref.watch(transactionProvider).transaction.length;
-        i++) {
-      setState(() {
-        advancAmount += ref.watch(transactionProvider).transaction[i].amount;
-      });
-    }
-    return advancAmount;
-  }
-
-  getDueAmount({required int subTotal, required int discount}) {
-    dueAmount = subTotal - advancAmount - discount;
-    return dueAmount;
   }
 
   Widget detailsTile({required String title, required String value}) {
@@ -320,5 +315,29 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
               ),
       ],
     );
+  }
+
+  int getTotalAdvanceAmount() {
+    for (var i = 0;
+        i < ref.watch(transactionProvider).transaction.length;
+        i++) {
+      setState(() {
+        _advancAmount += ref.watch(transactionProvider).transaction[i].amount;
+      });
+    }
+    return _advancAmount;
+  }
+
+  int getDueAmount({required int subTotal, required int discount}) {
+    _dueAmount = subTotal - advancAmount - discount;
+    return _dueAmount;
+  }
+
+  int calculateStayDuration() {
+    final checkIn = ref.read(bookingProvider).bookingDetails.checkIn.toLocal();
+    final checkOut =
+        ref.read(bookingProvider).bookingDetails.checkOut.toLocal();
+    final difference = checkOut.difference(checkIn).inDays;
+    return difference;
   }
 }

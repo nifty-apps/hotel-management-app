@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/models/transaction.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
-import 'package:hotel_management/view/base/date_picker_button.dart';
-import 'package:hotel_management/view/base/search_button.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   CheckoutScreen({super.key});
@@ -18,15 +16,16 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final TextEditingController searchController = TextEditingController();
-  DateTime? fromDate = DateTime.now();
-  DateTime? toDate = DateTime.now();
+  DateRangePickerController dateRangeController = DateRangePickerController();
+  DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now();
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider).getBookingsList(
-            checkinDate: fromDate!.subtract(Duration(days: 1)).toUtc(),
-            checkoutDate: toDate!.toUtc(),
+            checkinDate: fromDate.toUtc(),
+            checkoutDate: toDate.toUtc(),
             status: 'checkedIn',
           );
     });
@@ -43,95 +42,40 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Checkin',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                InkWell(
-                                  onTap: () async {
-                                    final date = await selectDate(context);
-                                    if (date != null) {
-                                      setState(() {
-                                        fromDate = date;
-                                      });
-                                    }
-                                  },
-                                  child: DatePickerButton(date: fromDate),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 14),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Checkout',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                InkWell(
-                                  onTap: () async {
-                                    final date = await selectDate(context);
-                                    if (date != null) {
-                                      setState(() {
-                                        toDate = date;
-                                      });
-                                    }
-                                  },
-                                  child: DatePickerButton(date: toDate),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  SearchButton(
-                    onPressed: () {
-                      ref.read(bookingProvider).getBookingsList(
-                            checkinDate: fromDate!.subtract(Duration(days: 1)),
-                            checkoutDate: toDate!.toUtc(),
-                            status: 'checkedIn',
-                          );
-                    },
-                  ),
-                ],
+              child: SfDateRangePicker(
+                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                  if (args.value is PickerDateRange) {
+                    fromDate = args.value.startDate;
+                    toDate = args.value.endDate;
+                  }
+                },
+                selectionMode: DateRangePickerSelectionMode.range,
+                initialDisplayDate: DateTime.now(),
+                controller: dateRangeController,
+                confirmText: 'Search',
+                cancelText: 'Clear',
+                showActionButtons: true,
+                enablePastDates: false,
+                onSubmit: (args) {
+                  ref.read(bookingProvider).getBookingsList(
+                        checkinDate: fromDate.toUtc(),
+                        checkoutDate: toDate.toUtc(),
+                        status: 'checkedIn',
+                      );
+                },
+                onCancel: () {
+                  fromDate = DateTime.now();
+                  toDate = DateTime.now();
+                  dateRangeController.selectedRange = PickerDateRange(
+                    fromDate,
+                    toDate,
+                  );
+                  ref.read(bookingProvider).getBookingsList(
+                        checkinDate: fromDate.toUtc(),
+                        checkoutDate: toDate.toUtc(),
+                        status: 'checkedIn',
+                      );
+                },
               ),
             ),
             SizedBox(height: 20),
@@ -190,48 +134,44 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                           thickness: 3,
                                         ),
                                         ListTile(
-                                          onTap: () {
+                                          onTap: () async {
+                                            final bookingList = ref
+                                                .watch(bookingProvider)
+                                                .bookingList;
+                                            final booking = bookingList[index];
+
                                             ref
                                                 .read(bookingProvider)
                                                 .getBookingDetails(
-                                                 id: ref
-                                                      .watch(bookingProvider)
-                                                      .bookingList[index]
-                                                      .id,
-                                                );
+                                                    id: booking.id);
                                             ref
                                                 .read(transactionProvider)
                                                 .getTransactionList(
-                                                  ref
-                                                      .watch(bookingProvider)
-                                                      .bookingList[index]
-                                                      .id,
-                                                  true,
-                                                );
-                                            final double data =
-                                                getTotalAdvanceAmount(
+                                                    booking.id, true);
+
+                                            final int data =
+                                                getTotalAdvanceAmount(ref
+                                                    .read(transactionProvider)
+                                                    .transaction);
+
+                                            final bool isPaid =
+                                                booking.paymentStatus == 'paid';
+                                            if (isPaid) {
                                               ref
-                                                  .read(transactionProvider)
-                                                  .transaction,
+                                                  .read(bookingProvider)
+                                                  .setBookingDetails();
+                                            } else {
+                                              print('unpaid');
+                                            }
+                                            Navigator.pushNamed(
+                                              context,
+                                              isPaid
+                                                  ? Routes.confirmCheckin
+                                                  : Routes.checkoutDue,
+                                              arguments: isPaid
+                                                  ? [PageType.checkout, false]
+                                                  : data.toInt(),
                                             );
-                                            ref
-                                                        .watch(bookingProvider)
-                                                        .bookingList[index]
-                                                        .paymentStatus ==
-                                                    'unpaid'
-                                                ? Navigator.pushNamed(
-                                                    context,
-                                                    Routes.checkoutDue,
-                                                    arguments: data.toInt(),
-                                                  )
-                                                : Navigator.pushNamed(
-                                                    context,
-                                                    Routes.confirmCheckin,
-                                                    arguments: [
-                                                      PageType.checkout,
-                                                      false
-                                                    ],
-                                                  );
                                           },
                                           leading: Icon(Icons.person),
                                           trailing: Icon(
@@ -340,8 +280,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     );
   }
 
-  getTotalAdvanceAmount(List<Transaction> transactions) {
-    double total = 0;
+  int getTotalAdvanceAmount(List<Transaction> transactions) {
+    int total = 0;
     for (var i = 0; i < transactions.length; i++) {
       total += transactions[i].amount;
     }

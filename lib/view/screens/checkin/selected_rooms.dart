@@ -27,7 +27,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(bookingProvider).getBookingDetails(id:widget.bookingId);
+      await ref.read(bookingProvider).getBookingDetails(id: widget.bookingId);
       getRooms();
       await ref
           .read(transactionProvider)
@@ -182,7 +182,7 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                             Icon(Icons.calendar_month),
                             SizedBox(width: 5),
                             Text(
-                              '${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
+                              '${DateFormat('dd EEE, MMM yyyy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkIn.toLocal())} to ${DateFormat('dd EEE, MMM yyyy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
@@ -332,19 +332,20 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
                   Spacer(),
                   CustomButton(
                     onPressed: () async {
-                      final double data = getTotalAdvanceAmount(
+                      final int data = getTotalAdvanceAmount(
                           ref.read(transactionProvider).transaction);
                       int payable = (ref
                               .read(bookingProvider)
                               .bookingDetails
                               .total -
                           ref.read(bookingProvider).bookingDetails.discount);
-                      if (payable == data.toInt()) {
+                      if (payable == data) {
                         Navigator.pushNamed(
                           context,
                           Routes.confirmCheckin,
                           arguments: [
                             PageType.checkin,
+                            false,
                           ],
                         );
                       } else {
@@ -364,18 +365,18 @@ class _SelectedRoomsState extends ConsumerState<SelectedRooms> {
     );
   }
 
-  getTotalAdvanceAmount(List<Transaction> transactions) {
-    double total = 0;
+  int getTotalAdvanceAmount(List<Transaction> transactions) {
+    int total = 0;
     for (var i = 0; i < transactions.length; i++) {
       total += transactions[i].amount;
     }
     return total;
   }
 
-  getRooms() {
+  List<String> getRooms() {
     ref.watch(bookingProvider).allRoom.forEach((room) {
       roomsId.add(room.id);
     });
-    print(roomsId);
+    return roomsId;
   }
 }

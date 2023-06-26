@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/helper/snacbar.dart';
+import 'package:hotel_management/models/response_message.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
 import 'package:hotel_management/routes.dart';
@@ -57,8 +59,8 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Partial Payment',
@@ -85,12 +87,13 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                     isSuffixIcon: true,
                     suffixButtonAction: () {
                       showDialog(
-                          context: context,
-                          builder: (context) => bookingsDialog());
+                        context: context,
+                        builder: (context) => bookingsDialog(),
+                      );
                     },
                     validator: (value) {
                       if (nameController.text.isEmpty) {
-                        return 'Please enter booking ID';
+                        return 'Fill the name';
                       }
                       return null;
                     },
@@ -104,7 +107,7 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (phoneController.text.isEmpty) {
-                        return 'Please enter booking ID';
+                        return 'Fill the phone';
                       }
                       return null;
                     },
@@ -118,6 +121,8 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                     validator: (value) {
                       if (amountController.text.isEmpty) {
                         return 'Please enter amount';
+                      } else if (int.tryParse(value!) == null) {
+                        return 'Amount must be a number';
                       }
                       return null;
                     },
@@ -128,16 +133,14 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                       : CustomButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              bool isSuccess = await ref
+                              ResponseMessage responseMessage = await ref
                                   .read(transactionProvider)
                                   .addTransaction(
-                                    context,
                                     paymentMethod: 'cash',
                                     bookingId: bookingId,
                                     amount: int.parse(amountController.text),
                                   );
-                              print(isSuccess);
-                              if (isSuccess == true) {
+                              if (responseMessage.isSuccess == true) {
                                 bookingId = '';
                                 nameController.clear();
                                 phoneController.clear();
@@ -145,7 +148,7 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomDialog(
-                                    title: 'Payment Successful !',
+                                    title: responseMessage.message,
                                     buttonText: 'Back To Home',
                                     onTap: () => Navigator.pushNamed(
                                         context, Routes.dashboard),
@@ -153,9 +156,12 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                                   ),
                                 );
                                 setState(() {});
+                              } else {
+                                showSnackBarMethod(
+                                    context,
+                                    responseMessage.message,
+                                    responseMessage.isSuccess);
                               }
-                            } else {
-                              print('not validated');
                             }
                           },
                           buttonText: 'Payment',

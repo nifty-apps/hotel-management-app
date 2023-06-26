@@ -72,7 +72,7 @@ class CheckoutDueScreen extends ConsumerWidget {
                                   Icon(Icons.calendar_month),
                                   SizedBox(width: 10),
                                   Text(
-                                    'Checkout ${DateFormat('dd EEE, MMM yy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
+                                    'Checkout ${DateFormat('dd EEE, MMM yyyy', 'en_US').format(ref.read(bookingProvider).bookingDetails.checkOut.toLocal())}',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -239,47 +239,57 @@ class CheckoutDueScreen extends ConsumerWidget {
                         },
                       ),
                       Spacer(),
-                      CustomButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            Future.microtask(() async {
-                              await ref
-                                  .read(transactionProvider)
-                                  .addTransaction(context,
-                                      paymentMethod: 'cash',
-                                      bookingId: ref
-                                          .read(bookingProvider)
-                                          .bookingDetails
-                                          .id,
-                                      amount:
-                                          int.parse(dueAmountController.text));
-                              await ref
-                                  .read(transactionProvider)
-                                  .getTransactionList(
-                                    ref.read(bookingProvider).bookingDetails.id,
-                                    true,
-                                  );
-                              await ref
-                                  .read(bookingProvider)
-                                  .updatePaymentStatus(
-                                      id: ref
-                                          .read(bookingProvider)
-                                          .bookingDetails
-                                          .id,
-                                      status: 'unpaid');
-                              Navigator.pushNamed(
-                                context,
-                                Routes.confirmCheckin,
-                                arguments: [PageType.checkout, false],
-                              );
-                            });
-                          } else {
-                            print('Invalid');
-                          }
-                        },
-                        buttonText: 'Submit',
-                        width: double.infinity,
-                      ),
+                      ref.watch(transactionProvider).isLoading
+                          ? CircularProgressIndicator()
+                          : CustomButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  Future.microtask(() async {
+                                    await ref
+                                        .read(transactionProvider)
+                                        .addTransaction(
+                                          paymentMethod: 'cash',
+                                          bookingId: ref
+                                              .read(bookingProvider)
+                                              .bookingDetails
+                                              .id,
+                                          amount: int.parse(
+                                            dueAmountController.text,
+                                          ),
+                                        );
+                                    await ref
+                                        .read(transactionProvider)
+                                        .getTransactionList(
+                                          ref
+                                              .read(bookingProvider)
+                                              .bookingDetails
+                                              .id,
+                                          true,
+                                        );
+                                    ref.read(bookingProvider).allRoom = ref
+                                        .read(bookingProvider)
+                                        .bookingDetails
+                                        .rooms;
+                                    ref
+                                            .read(bookingProvider)
+                                            .discountController
+                                            .text =
+                                        ref
+                                            .read(bookingProvider)
+                                            .bookingDetails
+                                            .discount
+                                            .toString();
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.confirmCheckin,
+                                      arguments: [PageType.checkout, false],
+                                    );
+                                  });
+                                } else {}
+                              },
+                              buttonText: 'Submit',
+                              width: double.infinity,
+                            ),
                     ],
                   ),
                 ),

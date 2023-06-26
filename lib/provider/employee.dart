@@ -16,8 +16,7 @@ class EmployeeProvider with ChangeNotifier {
 
   Future<bool> addEmployee(
       Employee employee, String password, BuildContext context) async {
-    final response = await ref.read(apiClientProvider).post(
-        AppConstants.deleteAccount,
+    final response = await ref.read(apiClientProvider).post(AppConstants.user,
         data: {...employee.toMap(), 'password': password});
 
     if (response.statusCode == 201) {
@@ -33,8 +32,7 @@ class EmployeeProvider with ChangeNotifier {
 
   Future<List<Employee>?> getEmployeeList() async {
     try {
-      final response =
-          await ref.read(apiClientProvider).get(AppConstants.deleteAccount);
+      final response = await ref.read(apiClientProvider).get(AppConstants.user);
 
       if (response.statusCode == 200) {
         _employees = response.data['data'].map<Employee>((employee) {
@@ -58,7 +56,7 @@ class EmployeeProvider with ChangeNotifier {
   ) async {
     final response = await ref
         .read(apiClientProvider)
-        .put(AppConstants.deleteAccount + '/${employee.id}', data: {
+        .put(AppConstants.user + '/${employee.id}', data: {
       ...employee.toMap(),
       if (password.isNotEmpty) 'password': password,
     });
@@ -78,9 +76,8 @@ class EmployeeProvider with ChangeNotifier {
       {required String id, required BuildContext context}) async {
     isLoading = true;
     notifyListeners();
-    final response = await ref
-        .read(apiClientProvider)
-        .delete(AppConstants.deleteAccount + '/$id');
+    final response =
+        await ref.read(apiClientProvider).delete(AppConstants.user + '/$id');
     if (response.statusCode == 200) {
       final message = response.data['message'];
       showSnackBarMethod(context, message, true);

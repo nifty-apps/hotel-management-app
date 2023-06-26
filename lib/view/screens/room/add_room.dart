@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_management/models/room.dart';
+import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/provider/room.dart';
 import 'package:hotel_management/provider/room_type.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
@@ -34,22 +35,24 @@ class _AddRoomScreenState extends ConsumerState<AddRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.read(authProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.roomData.id != null ? 'Edit Room' : 'Add New Room'),
         automaticallyImplyLeading: true,
         actions: [
-          if (widget.roomData.id != null)
-            IconButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                await ref
-                    .read(roomProvider)
-                    .deleteRoom(widget.roomData.id.toString(), context);
-                await ref.read(roomProvider).getRoomList(null);
-              },
-              icon: Icon(Icons.delete),
-            ),
+          if (provider.userData!.role == 'Owner')
+            if (widget.roomData.id != null)
+              IconButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await ref
+                      .read(roomProvider)
+                      .deleteRoom(widget.roomData.id.toString(), context);
+                  await ref.read(roomProvider).getRoomList(null);
+                },
+                icon: Icon(Icons.delete),
+              ),
         ],
       ),
       body: GestureDetector(

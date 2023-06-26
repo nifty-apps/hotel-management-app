@@ -6,8 +6,10 @@ import 'package:hotel_management/view/screens/account/employeeManage/add_employe
 import 'package:hotel_management/view/screens/account/employeeManage/manage_employee.dart';
 import 'package:hotel_management/view/screens/account/hotel/hotel_info.dart';
 import 'package:hotel_management/view/screens/auth/add_hotel.dart';
+import 'package:hotel_management/view/screens/auth/forgot_password.dart';
 import 'package:hotel_management/view/screens/auth/login.dart';
 import 'package:hotel_management/view/screens/auth/signup.dart';
+import 'package:hotel_management/view/screens/auth/verify_otp.dart';
 import 'package:hotel_management/view/screens/bookingDetails/booking_details.dart';
 import 'package:hotel_management/view/screens/checkin/checkin.dart';
 import 'package:hotel_management/view/screens/checkin/confirm_bookin.dart';
@@ -40,6 +42,8 @@ class Routes {
   static const String chooseLanguage = '/chooseLanguage';
   static const String login = '/login';
   static const String signUp = '/signUp';
+  static const String verifyOtp = '/verifyOtp';
+  static const String forgotPassword = '/forgotPassword';
   static const String addHotel = '/addHotel';
   static const String dashboard = '/dashboard';
   static const String checkin = '/checkin';
@@ -87,6 +91,21 @@ class Routes {
       case signUp:
         return MaterialPageRoute(
           builder: (context) => SignUpScreen(),
+        );
+      case verifyOtp:
+        List<dynamic> args = settings.arguments as List<dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => VerifyOTPScreen(
+            name: args[0] as String,
+            email: args[1] as String,
+            password: args[2] as String,
+            isSingUp: args[3] as bool,
+          ),
+        );
+      case forgotPassword:
+        return MaterialPageRoute(
+          builder: (context) =>
+              ForgotPasswordScreen(email: settings.arguments as String),
         );
 
       case addHotel:
@@ -227,17 +246,6 @@ class Routes {
             employee: settings.arguments as Employee,
           ),
         );
-
-      // case todayBookingsRoom:
-      //   return MaterialPageRoute(
-      //     builder: (context) => TodayBookingsScreen(),
-      //   );
-      // case bookingRoom:
-      //   return MaterialPageRoute(
-      //     builder: (context) => RoomBooking(
-      //       roomId: settings.arguments.toString(),
-      //     ),
-      //   );
       case employeeProfile:
         return MaterialPageRoute(builder: (context) => ProfileScreen());
       case hotelInfoScreen:
