@@ -15,8 +15,10 @@ class NewBookingScreen extends ConsumerStatefulWidget {
 }
 
 class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
 
