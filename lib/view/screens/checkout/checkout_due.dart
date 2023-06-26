@@ -266,19 +266,9 @@ class CheckoutDueScreen extends ConsumerWidget {
                                               .id,
                                           true,
                                         );
-                                    ref.read(bookingProvider).allRoom = ref
-                                        .read(bookingProvider)
-                                        .bookingDetails
-                                        .rooms;
                                     ref
-                                            .read(bookingProvider)
-                                            .discountController
-                                            .text =
-                                        ref
-                                            .read(bookingProvider)
-                                            .bookingDetails
-                                            .discount
-                                            .toString();
+                                        .read(bookingProvider)
+                                        .setBookingDetails();
                                     Navigator.pushNamed(
                                       context,
                                       Routes.confirmCheckin,

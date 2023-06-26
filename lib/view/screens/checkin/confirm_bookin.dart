@@ -379,12 +379,18 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
             );
       }
     } else if (isCheckin) {
-      print('update booking status');
       // calling checkin api
       final bookingDetails = bookingState.bookingDetails;
       await bookingState.updateBookingStatus(
         id: bookingDetails.id,
         status: 'checkedIn',
+      );
+    } else {
+      // calling checkin api
+      final bookingDetails = bookingState.bookingDetails;
+      await bookingState.updateBookingStatus(
+        id: bookingDetails.id,
+        status: 'checkedOut',
       );
     }
 

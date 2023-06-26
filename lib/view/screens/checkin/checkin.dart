@@ -249,9 +249,3 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
     );
   }
 }
-  // ref.read(bookingProvider).getBookingsList(
-  //                     checkinDate:
-  //                         fromDate!.subtract(Duration(days: 1)).toUtc(),
-  //                     checkoutDate: toDate!.toUtc(),
-  //                     status: 'booked',
-  //                   );
