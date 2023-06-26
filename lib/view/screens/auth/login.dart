@@ -106,32 +106,35 @@ class LoginScreen extends ConsumerWidget {
                           SizedBox(height: 8),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: InkWell(
-                                onTap: () async {
-                                  if (emailController.text.isNotEmpty) {
-                                    ResponseMessage responseMessage =
-                                        await provider.sendOtp(
-                                            email: emailController.text.trim());
-                                    showSnackBarMethod(
-                                        context,
-                                        responseMessage.message,
-                                        responseMessage.isSuccess);
-                                    if (responseMessage.isSuccess) {
-                                      Navigator.pushNamed(
-                                          context, Routes.verifyOtp,
-                                          arguments: [
-                                            '',
-                                            emailController.text.trim(),
-                                            '',
-                                            false
-                                          ]);
-                                    }
-                                  } else {
-                                    showSnackBarMethod(context,
-                                        'Please enter your email', false);
-                                  }
-                                },
-                                child: Text('Forgot Password?')),
+                            child: provider.isLoading
+                                ? CircularProgressIndicator()
+                                : InkWell(
+                                    onTap: () async {
+                                      if (emailController.text.isNotEmpty) {
+                                        ResponseMessage responseMessage =
+                                            await provider.sendOtp(
+                                                email: emailController.text
+                                                    .trim());
+                                        showSnackBarMethod(
+                                            context,
+                                            responseMessage.message,
+                                            responseMessage.isSuccess);
+                                        if (responseMessage.isSuccess) {
+                                          Navigator.pushNamed(
+                                              context, Routes.verifyOtp,
+                                              arguments: [
+                                                '',
+                                                emailController.text.trim(),
+                                                '',
+                                                false
+                                              ]);
+                                        }
+                                      } else {
+                                        showSnackBarMethod(context,
+                                            'Please enter your email', false);
+                                      }
+                                    },
+                                    child: Text('Forgot Password?')),
                           ),
                           SizedBox(height: 70),
                           CustomButton(
