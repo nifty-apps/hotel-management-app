@@ -46,7 +46,6 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
-
             Container(
               child: SfDateRangePicker(
                 onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
