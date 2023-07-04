@@ -57,94 +57,105 @@ class _AddRoomScreenState extends ConsumerState<AddRoomScreen> {
       ),
       body: GestureDetector(
         onTap: (() => FocusScope.of(context).unfocus()),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
+        child: Center(
+          child: Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
-            color: Theme.of(context).colorScheme.primaryContainer,
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                CustomTextFormField(
-                  controller: numbercontroller,
-                  hintText: 'Room number',
-                  labelText: 'Room number',
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter room number';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 30),
-                CustomTextFormField(
-                  controller: typeController,
-                  hintText: 'Type',
-                  labelText: 'Type',
-                  keyboardType: TextInputType.text,
-                  readOnly: true,
-                  isSuffixIcon: true,
-                  suffixButtonAction: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) => roomTypeDialog(context),
-                    );
-                  },
-                ),
-                SizedBox(height: 30),
-                CustomTextFormField(
-                  controller: rentConteroller,
-                  hintText: 'Rent',
-                  labelText: 'Rent',
-                  keyboardType: TextInputType.number,
-                  readOnly: true,
-                ),
-                SizedBox(height: 30),
-                CustomTextFormField(
-                  controller: descriptionController,
-                  hintText: 'Description',
-                  labelText: 'Description',
-                  keyboardType: TextInputType.text,
-                  readOnly: true,
-                ),
-                Spacer(),
-                CustomButton(
-                  width: double.infinity,
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      if (widget.roomData.id != null) {
-                        await ref.read(roomProvider).updateRoomInfo(
-                            numbercontroller.text.trim(),
-                            roomTypeId,
-                            widget.roomData.id.toString(),
-                            context);
-                        ref.read(roomProvider).getRoomList(null);
-                        clearData();
-                      } else {
-                        await ref.read(roomProvider).addRoom(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextFormField(
+                    controller: numbercontroller,
+                    hintText: 'Room number',
+                    labelText: 'Room number',
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter room number';
+                      } else if (int.tryParse(value) == null) {
+                        return 'Please enter valid room number';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 30),
+                  CustomTextFormField(
+                    controller: typeController,
+                    hintText: 'Type',
+                    labelText: 'Type',
+                    keyboardType: TextInputType.text,
+                    isSuffixIcon: true,
+                    suffixButtonAction: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) => roomTypeDialog(context),
+                      );
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please select room type';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 30),
+                  CustomTextFormField(
+                    controller: rentConteroller,
+                    hintText: 'Rent',
+                    labelText: 'Rent',
+                    keyboardType: TextInputType.number,
+                    readOnly: true,
+                  ),
+                  SizedBox(height: 30),
+                  CustomTextFormField(
+                    controller: descriptionController,
+                    hintText: 'Description',
+                    labelText: 'Description',
+                    keyboardType: TextInputType.text,
+                    readOnly: true,
+                  ),
+                  SizedBox(height: 50),
+                  CustomButton(
+                    width: double.infinity,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        if (widget.roomData.id != null) {
+                          await ref.read(roomProvider).updateRoomInfo(
                               numbercontroller.text.trim(),
                               roomTypeId,
-                              context,
-                            );
-                        clearData();
-                        ref.read(roomProvider).getRoomList(null);
+                              widget.roomData.id.toString(),
+                              context);
+                          ref.read(roomProvider).getRoomList(null);
+                          clearData();
+                        } else {
+                          await ref.read(roomProvider).addRoom(
+                                numbercontroller.text.trim(),
+                                roomTypeId,
+                                context,
+                              );
+                          clearData();
+                          ref.read(roomProvider).getRoomList(null);
+                        }
+                        Navigator.pop(context);
                       }
-                    }
-                    Navigator.pop(context);
-                  },
-                  buttonText:
-                      widget.roomData.id != null ? 'Update' : 'Add Room ',
-                )
-              ],
+                    },
+                    buttonText:
+                        widget.roomData.id != null ? 'Update' : 'Add Room ',
+                  )
+                ],
+              ),
             ),
           ),
         ),

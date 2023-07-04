@@ -144,7 +144,7 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                provider.bookingDetails.status,
+                                bookingStatus(provider.bookingDetails.status),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -339,5 +339,18 @@ class _BookingDetailsScreenState extends ConsumerState<BookingDetailsScreen> {
         ref.read(bookingProvider).bookingDetails.checkOut.toLocal();
     final difference = checkOut.difference(checkIn).inDays;
     return difference;
+  }
+
+  String bookingStatus(String status) {
+    switch (status) {
+      case 'booked':
+        return 'Booked';
+      case 'checkedIn':
+        return 'Checked In';
+      case 'checkedOut':
+        return 'Checked Out';
+      default:
+        return 'unknown';
+    }
   }
 }

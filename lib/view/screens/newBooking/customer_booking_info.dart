@@ -238,7 +238,7 @@ class _CustomerBookingInfoScreenState
                                 Flexible(
                                   flex: 2,
                                   child: Container(
-                                    height: 70,
+                                    height: 50,
                                     width: 220,
                                     child: CustomTextFormField(
                                       controller: ref
@@ -253,6 +253,7 @@ class _CustomerBookingInfoScreenState
                                 Flexible(
                                   flex: 2,
                                   child: Container(
+                                    height: 50,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     decoration: BoxDecoration(

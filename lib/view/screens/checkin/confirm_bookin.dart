@@ -396,6 +396,7 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
 
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => CustomDialog(
         onTap: () {
           Navigator.pushNamed(context, Routes.dashboard);
