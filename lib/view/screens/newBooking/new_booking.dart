@@ -15,10 +15,9 @@ class NewBookingScreen extends ConsumerStatefulWidget {
 }
 
 class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  
+
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
 
@@ -47,7 +46,6 @@ class _NewBookingScreenState extends ConsumerState<NewBookingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
             Container(
               child: SfDateRangePicker(
                 onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {

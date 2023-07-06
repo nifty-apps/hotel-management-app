@@ -10,7 +10,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool isPassword;
   final bool readOnly;
-
+  final bool isPrefixIcon;
   final bool isSuffixIcon;
   final void Function()? suffixButtonAction;
   const CustomTextFormField({
@@ -24,6 +24,7 @@ class CustomTextFormField extends StatefulWidget {
     this.isPassword = false,
     this.readOnly = false,
     this.isSuffixIcon = false,
+    this.isPrefixIcon = false,
     this.suffixButtonAction,
   }) : super(key: key);
 
@@ -35,31 +36,39 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: widget.isPassword ? _obscureText : false,
-      controller: widget.controller,
-      decoration: InputDecoration(
-        hintText: widget.hintText,
-        labelText: widget.labelText,
-        prefixIcon: Icon(widget.prefixIcon),
-        suffixIcon: widget.isSuffixIcon
-            ? IconButton(
-                onPressed: widget.suffixButtonAction,
-                icon: Icon(Icons.arrow_drop_down),
-              )
-            : widget.isPassword
-                ? IconButton(
-                    icon: Icon(
+    return SizedBox(
+      height: 50,
+      child: TextFormField(
+        obscureText: widget.isPassword ? _obscureText : false,
+        controller: widget.controller,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          labelText: widget.labelText,
+          errorStyle: TextStyle(
+            fontSize: 0.01,
+          ),
+          prefixIcon: widget.isPrefixIcon ? Icon(widget.prefixIcon) : null,
+          suffixIcon: widget.isSuffixIcon
+              ? IconButton(
+                  onPressed: widget.suffixButtonAction,
+                  icon: Icon(Icons.arrow_drop_down),
+                )
+              : widget.isPassword
+                  ? IconButton(
+                      icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Theme.of(context).hintColor.withOpacity(0.3)),
-                    onPressed: _toggle,
-                  )
-                : null,
-        border: OutlineInputBorder(),
+                        color: Theme.of(context).hintColor.withOpacity(0.3),
+                      ),
+                      onPressed: _toggle,
+                    )
+                  : null,
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        validator: widget.validator,
+        readOnly: widget.readOnly,
+        enabled: !widget.readOnly,
       ),
-      keyboardType: TextInputType.emailAddress,
-      validator: widget.validator,
-      readOnly: widget.readOnly,
     );
   }
 

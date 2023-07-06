@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/provider/transaction.dart';
-import 'package:hotel_management/view/base/date_picker_button.dart';
-import 'package:hotel_management/view/base/search_button.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class TransactionScreen extends ConsumerStatefulWidget {
   const TransactionScreen({super.key});
@@ -27,6 +25,8 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
     });
   }
 
+  final DateRangePickerController dateRangeController =
+      DateRangePickerController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,89 +36,38 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'From Date',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            InkWell(
-                                onTap: () async {
-                                  final date = await selectDate(context);
-                                  if (date != null) {
-                                    setState(() {
-                                      fromDate = date;
-                                    });
-                                  }
-                                },
-                                child: DatePickerButton(date: fromDate)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 14),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'To Date',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            InkWell(
-                              onTap: () async {
-                                final date = await selectDate(context);
-                                if (date != null) {
-                                  setState(() {
-                                    toDate = date;
-                                  });
-                                }
-                              },
-                              child: DatePickerButton(date: toDate),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                SearchButton(
-                  onPressed: () {
-                    ref.read(transactionProvider).getTransactionHistory(
-                          fromDate:
-                              fromDate!.subtract(Duration(days: 1)).toUtc(),
-                          toDate: toDate!.toUtc(),
-                        );
-                  },
-                ),
-              ],
+            child: SfDateRangePicker(
+              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                if (args.value is PickerDateRange) {
+                  fromDate = args.value.startDate;
+                  toDate = args.value.endDate;
+                }
+              },
+              selectionMode: DateRangePickerSelectionMode.range,
+              initialDisplayDate: DateTime.now(),
+              controller: dateRangeController,
+              confirmText: 'Search',
+              cancelText: 'Clear',
+              showActionButtons: true,
+              enablePastDates: true,
+              onSubmit: (args) {
+                ref.read(transactionProvider).getTransactionHistory(
+                      fromDate: fromDate!.toUtc(),
+                      toDate: toDate!.toUtc(),
+                    );
+                print(fromDate);
+                print(toDate);
+              },
+              onCancel: () {
+                fromDate = DateTime.now();
+                toDate = DateTime.now();
+                ref.read(transactionProvider).getTransactionHistory(
+                      fromDate: fromDate!.toUtc(),
+                      toDate: toDate!.toUtc(),
+                    );
+                dateRangeController.selectedRange =
+                    PickerDateRange(fromDate!, toDate!);
+              },
             ),
           ),
           ref.watch(transactionProvider).isLoading

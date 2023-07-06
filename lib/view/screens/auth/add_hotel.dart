@@ -18,29 +18,30 @@ class AddHotelScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(authProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
           child: Container(
             color: Theme.of(context).colorScheme.background,
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                Container(
-                  height: MediaQuery.of(context).size.height / 4,
-                  child: Center(
-                    child: Text(
-                      'Add Your Hotel & Manage Easily',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 4,
+                    child: Center(
+                      child: Text(
+                        'Add Your Hotel & Manage Easily',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Expanded(
-                  child: Container(
+                  SizedBox(height: 20),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 28),
                     margin: EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
@@ -52,96 +53,90 @@ class AddHotelScreen extends ConsumerWidget {
                     ),
                     child: Form(
                       key: _formKey,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 10),
-                            CustomTextFormField(
-                              controller: hotelNameController,
-                              hintText: 'Enter hotel name',
-                              labelText: 'Hotel Name',
-                              prefixIcon: Icons.hotel,
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter hotel name';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            CustomTextFormField(
-                              controller: ownerNameController,
-                              hintText: 'Enter hotel owner name',
-                              labelText: 'Hotel Owner Name',
-                              prefixIcon: Icons.person,
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter hotel owner name';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            CustomTextFormField(
-                              controller: hotelAddressController,
-                              hintText: 'Enter hotel address',
-                              labelText: 'Hotel Address',
-                              prefixIcon: Icons.contact_page,
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter hotel address';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            CustomTextFormField(
-                              controller: contactNumberConteroller,
-                              hintText: 'Enter contact number',
-                              labelText: 'Contact Number',
-                              prefixIcon: Icons.phone,
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter contact number';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 120),
-                            CustomButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  Hotel? hotel = await provider.addHotel(
-                                    name: hotelNameController.text,
-                                    ownerName: ownerNameController.text,
-                                    address: hotelAddressController.text,
-                                    contactNumber:
-                                        contactNumberConteroller.text.trim(),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          CustomTextFormField(
+                            controller: hotelNameController,
+                            hintText: 'Enter hotel name',
+                            labelText: 'Hotel Name',
+                            keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter hotel name';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: ownerNameController,
+                            hintText: 'Enter hotel owner name',
+                            labelText: 'Hotel Owner Name',
+                            keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter hotel owner name';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: hotelAddressController,
+                            hintText: 'Enter hotel address',
+                            labelText: 'Hotel Address',
+                            keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter hotel address';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: contactNumberConteroller,
+                            hintText: 'Enter contact number',
+                            labelText: 'Contact Number',
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter contact number';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 120),
+                          CustomButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                Hotel? hotel = await provider.addHotel(
+                                  name: hotelNameController.text,
+                                  ownerName: ownerNameController.text,
+                                  address: hotelAddressController.text,
+                                  contactNumber:
+                                      contactNumberConteroller.text.trim(),
+                                );
+                                if (hotel?.id != null) {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.dashboard,
                                   );
-                                  if (hotel?.id != null) {
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      Routes.dashboard,
-                                    );
-                                  }
                                 }
-                              },
-                              buttonText: 'Submit',
-                              width: double.infinity,
-                              height: 48,
-                            ),
-                            SizedBox(height: 10)
-                          ],
-                        ),
+                              }
+                            },
+                            buttonText: 'Submit',
+                            width: double.infinity,
+                            height: 48,
+                          ),
+                          SizedBox(height: 10)
+                        ],
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

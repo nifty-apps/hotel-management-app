@@ -32,7 +32,6 @@ class AddRoomTypeScreen extends ConsumerWidget {
     if (roomType.id!.isNotEmpty) {
       setinfo();
     }
-    setinfo();
     final provider = ref.read(roomTypeProvider);
     final authenticationProvider = ref.read(authProvider);
     return Scaffold(
@@ -54,99 +53,109 @@ class AddRoomTypeScreen extends ConsumerWidget {
               : SizedBox(),
         ],
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-          color: Theme.of(context).colorScheme.primaryContainer,
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              CustomTextFormField(
-                controller: typeController,
-                hintText: 'Room type',
-                labelText: 'Room Type',
-                keyboardType: TextInputType.text,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter room type';
-                  }
-                  return null;
-                },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 100),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                color: Theme.of(context).colorScheme.primaryContainer,
               ),
-              SizedBox(height: 30),
-              CustomTextFormField(
-                controller: rentController,
-                hintText: 'rent',
-                labelText: 'rent',
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter rent';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 30),
-              CustomTextFormField(
-                controller: descriptionController,
-                hintText: 'Description',
-                labelText: 'Description',
-                keyboardType: TextInputType.text,
-              ),
-              Spacer(),
-              CustomButton(
-                width: double.infinity,
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    late bool isSuccess;
-                    if (roomType.id!.isNotEmpty) {
-                      isSuccess = await provider.updateRoomType(
-                          roomType.id.toString(),
-                          context,
-                          typeController.text,
-                          int.parse(rentController.text),
-                          descriptionController.text);
-                    } else {
-                      isSuccess = await provider.addRoomType(
-                        typeController.text,
-                        int.parse(rentController.text),
-                        descriptionController.text,
-                        context,
-                      );
-                    }
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomTextFormField(
+                      controller: typeController,
+                      hintText: 'Room type',
+                      labelText: 'Room Type',
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter room type';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    CustomTextFormField(
+                      controller: rentController,
+                      hintText: 'rent',
+                      labelText: 'rent',
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter rent';
+                        } else if (int.tryParse(value) == null) {
+                          return 'Please enter valid rent';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    CustomTextFormField(
+                      controller: descriptionController,
+                      hintText: 'Description',
+                      labelText: 'Description',
+                      keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(height: 30),
+                    CustomButton(
+                      width: double.infinity,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          late bool isSuccess;
+                          if (roomType.id!.isNotEmpty) {
+                            isSuccess = await provider.updateRoomType(
+                                roomType.id.toString(),
+                                context,
+                                typeController.text,
+                                int.parse(rentController.text),
+                                descriptionController.text);
+                          } else {
+                            isSuccess = await provider.addRoomType(
+                              typeController.text,
+                              int.parse(rentController.text),
+                              descriptionController.text,
+                              context,
+                            );
+                          }
 
-                    if (isSuccess) {
-                      Navigator.pop(context, true);
-                      showDialog(
-                        context: context,
-                        builder: (context) => CustomDialog(
-                          title: roomType.id!.isNotEmpty
-                              ? 'The room type has been updated successfully!'
-                              : 'The room type has been added successfully !',
-                          buttonText: 'Back',
-                          imagePath: 'assets/icons/successful.png',
-                          onTap: () {
+                          if (isSuccess) {
                             Navigator.pop(context, true);
-                          },
-                        ),
-                      );
-                    }
-                  }
-                },
-                buttonText:
-                    roomType.id!.isNotEmpty ? 'Update' : 'Add Room Type',
-              )
-            ],
-          ),
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => CustomDialog(
+                                title: roomType.id!.isNotEmpty
+                                    ? 'The room type has been updated successfully!'
+                                    : 'The room type has been added successfully !',
+                                buttonText: 'Back',
+                                imagePath: 'assets/icons/successful.png',
+                                onTap: () {
+                                  Navigator.pop(context, true);
+                                },
+                              ),
+                            );
+                          }
+                        }
+                      },
+                      buttonText:
+                          roomType.id!.isNotEmpty ? 'Update' : 'Add Room Type',
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

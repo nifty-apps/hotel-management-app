@@ -41,14 +41,20 @@ class BookingProvider extends ChangeNotifier {
   // Booking
   Future<String?> roomBooking(
       RoomBooking bookingInfo, BuildContext context) async {
+    _isLoading = true;
+    notifyListeners();
     final response = await ref.read(apiClientProvider).post(
           AppConstants.roomBooking,
           data: bookingInfo.toMap(),
         );
     if (response.statusCode == 201) {
       final String bookingId = response.data['data']['_id'];
+      _isLoading = false;
+      notifyListeners();
       return bookingId;
     }
+    _isLoading = false;
+    notifyListeners();
     return null;
   }
 

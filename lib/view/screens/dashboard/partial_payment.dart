@@ -19,6 +19,7 @@ class PartialPaymentScreen extends ConsumerStatefulWidget {
 }
 
 class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
+  
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
@@ -80,7 +81,7 @@ class _PartialPaymentScreenState extends ConsumerState<PartialPaymentScreen> {
                   SizedBox(height: 16),
                   CustomTextFormField(
                     controller: nameController,
-                    readOnly: true,
+                    readOnly: false,
                     hintText: 'Name',
                     labelText: 'Name',
                     keyboardType: TextInputType.text,

@@ -151,7 +151,8 @@ class _RoomsViewScreenState extends ConsumerState<RoomsViewScreen> {
       ),
       child: Text(
         label == 'available' ? 'Available' : '',
-        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black54),
+        style: TextStyle(
+            fontWeight: FontWeight.w600, color: Colors.black54, fontSize: 10),
       ),
     );
   }
