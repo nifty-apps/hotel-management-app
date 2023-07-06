@@ -5,10 +5,10 @@ import 'package:hotel_management/models/room_booking.dart' as booking;
 import 'package:hotel_management/models/room_booking.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/transaction.dart';
-import 'package:hotel_management/routes.dart';
 import 'package:hotel_management/util/app_constants.dart';
 import 'package:hotel_management/view/base/custom_button.dart';
 import 'package:hotel_management/view/base/custom_dialog.dart';
+import 'package:hotel_management/view/screens/dashboard/dashboard.dart';
 
 class ConfirmBookin extends ConsumerStatefulWidget {
   final PageType bookingStatus;
@@ -63,14 +63,22 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: SizedBox(
-          height: 45,
-          child: CustomButton(
-            onPressed: () => handleConfirmation(),
-            buttonText: getAppBarTitle(),
-            width: double.infinity,
-          ),
-        ),
+        child: ref.watch(bookingProvider).isLoading
+            ? SizedBox(
+                height: 45,
+                width: 45,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : SizedBox(
+                height: 45,
+                child: CustomButton(
+                  onPressed: () => handleConfirmation(),
+                  buttonText: getAppBarTitle(),
+                  width: double.infinity,
+                ),
+              ),
       ),
     );
   }
@@ -399,7 +407,12 @@ class _ConfirmBookinState extends ConsumerState<ConfirmBookin> {
       barrierDismissible: false,
       builder: (context) => CustomDialog(
         onTap: () {
-          Navigator.pushNamed(context, Routes.dashboard);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DashboardScreen(),
+              ),
+              (route) => false);
           clearData();
         },
         title: isConfirmBooking

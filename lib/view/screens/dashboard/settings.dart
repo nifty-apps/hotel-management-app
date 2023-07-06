@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_management/helper/snacbar.dart';
 import 'package:hotel_management/provider/auth_provider.dart';
 import 'package:hotel_management/provider/bookings.dart';
 import 'package:hotel_management/provider/room.dart';
@@ -146,7 +147,12 @@ class SettingsScreen extends ConsumerWidget {
                     icon: 'assets/icons/employee.png',
                     title: 'Employee',
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.manageEmployee);
+                      ref.read(authProvider).userData!.role == 'admin'
+                          ? Navigator.pushNamed(context, Routes.manageEmployee)
+                          : showSnackBarMethod(
+                              context,
+                              'This service not available for employees',
+                              false);
                     },
                   ),
                   SizedBox(width: 20),
